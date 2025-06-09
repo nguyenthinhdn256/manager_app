@@ -1,0 +1,19 @@
+# Core Flask dependencies (compatible with Python 3.13)
+Flask>=2.3.0,<3.0.0
+Flask-CORS>=4.0.0
+Flask-SocketIO>=5.3.0
+Flask-JWT-Extended>=4.5.0
+
+# Database with Python 3.13 compatibility
+SQLAlchemy>=1.4.0,<2.0.0
+Flask-SQLAlchemy>=2.5.0,<3.0.0
+
+# Utilities
+python-dotenv>=1.0.0
+bcrypt>=4.0.0
+
+# Socket.IO (using threading mode instead of eventlet for Python 3.13)
+python-socketio>=5.8.0
+
+# Note: eventlet removed due to Python 3.13 compatibility issues
+# Using threading mode for SocketIO instead

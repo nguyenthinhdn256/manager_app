@@ -1,0 +1,674 @@
+=== app.py ===
+# File chính khởi tạo app
+from flask import Flask, jsonify
+from flask_cors import CORS
+from flask_socketio import SocketIO
+from flask_jwt_extended import JWTManager
+
+# Import config
+from config.env import Config
+from config.db import db, init_db
+
+# Import routes
+from routes.sync import sync_bp
+from routes.user import user_bp
+from routes.data import data_bp
+
+# Import middlewares
+from middlewares.error_handler import register_error_handlers
+
+# Import utils
+from utils.logger import logger
+
+def create_app():
+    """Tạo và cấu hình Flask app"""
+    app = Flask(__name__)
+    
+    # Load configuration
+    app.config.from_object(Config)
+    
+    # Initialize extensions
+    CORS(app, origins=app.config['CORS_ORIGINS'])
+    db.init_app(app)
+    jwt = JWTManager(app)
+    
+    # Initialize SocketIO with threading mode (compatible with Python 3.13)
+    socketio = SocketIO(
+        app, 
+        cors_allowed_origins="*",
+        async_mode='threading'  # Changed from 'eventlet' to 'threading'
+    )
+    
+    # Initialize database
+    with app.app_context():
+        init_db()
+    
+    # Register blueprints (routes)
+    app.register_blueprint(sync_bp, url_prefix='/api/sync')
+    app.register_blueprint(user_bp, url_prefix='/api/user')
+    app.register_blueprint(data_bp, url_prefix='/api/data')
+    
+    # Health check endpoint
+    @app.route('/')
+    def health_check():
+        return jsonify({
+            'message': 'Backend API is running',
+            'status': 'OK',
+            'framework': 'Flask + Python'
+        })
+    
+    # Socket.IO events
+    @socketio.on('connect')
+    def handle_connect():
+        logger.info(f'Client connected')
+    
+    @socketio.on('disconnect')
+    def handle_disconnect():
+        logger.info(f'Client disconnected')
+    
+    # Register error handlers
+    register_error_handlers(app)
+    
+    # Store socketio instance in app for use in other modules
+    app.socketio = socketio
+    
+    return app, socketio
+
+# Create app instance
+app, socketio = create_app()
+
+=== server.py ===
+# Khởi chạy server
+import os
+from app import app, socketio
+from utils.logger import logger
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    debug = os.environ.get('FLASK_DEBUG', 'True').lower() == 'true'
+    
+    logger.info(f"🚀 Server đang khởi động tại http://localhost:{port}")
+    logger.info(f"📱 Environment: {os.environ.get('FLASK_ENV', 'development')}")
+    logger.info(f"🔗 API Base URL: http://localhost:{port}/api")
+    
+    # Chạy với SocketIO
+    socketio.run(
+        app, 
+        host='0.0.0.0', 
+        port=port, 
+        debug=debug
+    )
+
+=== config/env.py ===
+# Cấu hình kết nối DB, môi trường, v.v.
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+class Config:
+    """Base configuration class"""
+    
+    # Flask configuration
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
+    
+    # Database configuration
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///./database.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_pre_ping': True,
+        'pool_recycle': 300,
+    }
+    
+    # JWT configuration
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or 'jwt-secret-change-in-production'
+    JWT_ACCESS_TOKEN_EXPIRES = int(os.environ.get('JWT_ACCESS_TOKEN_EXPIRES', 86400))  # 24 hours
+    JWT_ALGORITHM = 'HS256'
+    
+    # CORS configuration
+    CORS_ORIGINS = os.environ.get('CORS_ORIGINS', '*').split(',')
+    
+    # Server configuration
+    HOST = os.environ.get('HOST', '0.0.0.0')
+    PORT = int(os.environ.get('PORT', 5000))
+    DEBUG = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    
+    # Logging configuration
+    LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO').upper()
+    LOG_TO_FILE = os.environ.get('LOG_TO_FILE', 'False').lower() == 'true'
+    
+    # Firebase configuration (optional)
+    FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID')
+    FIREBASE_PRIVATE_KEY = os.environ.get('FIREBASE_PRIVATE_KEY')
+    FIREBASE_CLIENT_EMAIL = os.environ.get('FIREBASE_CLIENT_EMAIL')
+    
+    # Rate limiting
+    RATE_LIMIT_ENABLED = os.environ.get('RATE_LIMIT_ENABLED', 'True').lower() == 'true'
+    RATE_LIMIT_DEFAULT = os.environ.get('RATE_LIMIT_DEFAULT', '100 per hour')
+    
+    # File upload (nếu cần)
+    MAX_CONTENT_LENGTH = int(os.environ.get('MAX_CONTENT_LENGTH', 16 * 1024 * 1024))  # 16MB
+    UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', 'uploads')
+    
+    # Email configuration (nếu cần)
+    MAIL_SERVER = os.environ.get('MAIL_SERVER')
+    MAIL_PORT = int(os.environ.get('MAIL_PORT', 587))
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'True').lower() == 'true'
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    
+    # Sync configuration
+    SYNC_BATCH_SIZE = int(os.environ.get('SYNC_BATCH_SIZE', 100))
+    SYNC_TIMEOUT = int(os.environ.get('SYNC_TIMEOUT', 30))  # seconds
+    
+    # Security headers
+    SECURITY_HEADERS = {
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'X-XSS-Protection': '1; mode=block',
+        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+    }
+
+class DevelopmentConfig(Config):
+    """Development configuration"""
+    DEBUG = True
+    TESTING = False
+    
+    # Development specific settings
+    SQLALCHEMY_ECHO = True  # Log SQL queries
+    LOG_LEVEL = 'DEBUG'
+    
+    # Relaxed security for development
+    CORS_ORIGINS = ['*']
+    RATE_LIMIT_ENABLED = False
+
+class ProductionConfig(Config):
+    """Production configuration"""
+    DEBUG = False
+    TESTING = False
+    
+    # Production specific settings
+    SQLALCHEMY_ECHO = False
+    LOG_TO_FILE = True
+    
+    # Stricter security for production
+    CORS_ORIGINS = os.environ.get('CORS_ORIGINS', 'https://yourdomain.com').split(',')
+    RATE_LIMIT_ENABLED = True
+    
+    def __init__(self):
+        super().__init__()
+        # Override with production values only if they exist
+        if os.environ.get('SECRET_KEY'):
+            self.SECRET_KEY = os.environ.get('SECRET_KEY')
+        elif os.environ.get('FLASK_ENV') == 'production':
+            raise ValueError("SECRET_KEY environment variable must be set in production")
+        
+        if os.environ.get('JWT_SECRET_KEY'):
+            self.JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+        elif os.environ.get('FLASK_ENV') == 'production':
+            raise ValueError("JWT_SECRET_KEY environment variable must be set in production")
+
+class TestingConfig(Config):
+    """Testing configuration"""
+    DEBUG = True
+    TESTING = True
+    
+    # Use in-memory database for testing
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    
+    # Disable features that slow down tests
+    WTF_CSRF_ENABLED = False
+    RATE_LIMIT_ENABLED = False
+    
+    # Test specific settings
+    JWT_ACCESS_TOKEN_EXPIRES = 3600  # 1 hour for tests
+
+# Configuration mapping
+config = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig,
+    'testing': TestingConfig,
+    'default': DevelopmentConfig
+}
+
+def get_config():
+    """Get configuration based on environment"""
+    env = os.environ.get('FLASK_ENV', 'development')
+    return config.get(env, config['default'])
+
+# Current configuration
+Config = get_config()
+
+# Validation functions
+def validate_config():
+    """Validate required configuration"""
+    required_vars = []
+    
+    # Check database
+    if not Config.SQLALCHEMY_DATABASE_URI:
+        required_vars.append('DATABASE_URL')
+    
+    # Check JWT secret in production
+    if os.environ.get('FLASK_ENV') == 'production':
+        if not Config.JWT_SECRET_KEY or Config.JWT_SECRET_KEY == 'jwt-secret-change-in-production':
+            required_vars.append('JWT_SECRET_KEY')
+        
+        if not Config.SECRET_KEY or Config.SECRET_KEY == 'dev-secret-key-change-in-production':
+            required_vars.append('SECRET_KEY')
+    
+    if required_vars:
+        raise ValueError(f"Missing required environment variables: {', '.join(required_vars)}")
+    
+    return True
+
+def get_database_url():
+    """Get database URL with fallbacks"""
+    # Priority: DATABASE_URL > DB_URI > default SQLite
+    return (
+        os.environ.get('DATABASE_URL') or 
+        os.environ.get('DB_URI') or 
+        'sqlite:///database.db'
+    )
+
+def is_production():
+    """Check if running in production"""
+    return os.environ.get('FLASK_ENV') == 'production'
+
+def is_development():
+    """Check if running in development"""
+    return os.environ.get('FLASK_ENV', 'development') == 'development'
+
+def is_testing():
+    """Check if running tests"""
+    return os.environ.get('FLASK_ENV') == 'testing'
+
+def get_cors_origins():
+    """Get CORS origins as list"""
+    origins = os.environ.get('CORS_ORIGINS', '*')
+    if origins == '*':
+        return ['*']
+    return [origin.strip() for origin in origins.split(',')]
+
+def get_log_level():
+    """Get logging level"""
+    level = os.environ.get('LOG_LEVEL', 'INFO').upper()
+    valid_levels = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
+    return level if level in valid_levels else 'INFO'
+
+# Environment info
+ENV_INFO = {
+    'flask_env': os.environ.get('FLASK_ENV', 'development'),
+    'debug': Config.DEBUG,
+    'testing': getattr(Config, 'TESTING', False),
+    'database_type': 'sqlite' if 'sqlite' in Config.SQLALCHEMY_DATABASE_URI else 'other',
+    'cors_origins': len(Config.CORS_ORIGINS),
+    'rate_limit_enabled': Config.RATE_LIMIT_ENABLED,
+    'log_to_file': Config.LOG_TO_FILE,
+    'firebase_enabled': bool(Config.FIREBASE_PROJECT_ID)
+}
+
+def print_config_info():
+    """Print configuration info for debugging"""
+    print("=" * 50)
+    print("BACKEND CONFIGURATION")
+    print("=" * 50)
+    for key, value in ENV_INFO.items():
+        print(f"{key.replace('_', ' ').title()}: {value}")
+    print("=" * 50)
+
+# Auto validate on import (except in testing)
+if not is_testing():
+    try:
+        validate_config()
+    except ValueError as e:
+        print(f"Configuration Error: {e}")
+        if is_production():
+            raise
+
+
+=== config/db.py ===
+# Kết nối và cấu hình database
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import event, text
+from sqlalchemy.engine import Engine
+import sqlite3
+import os
+from utils.logger import logger
+
+# Khởi tạo SQLAlchemy instance
+db = SQLAlchemy()
+
+def init_db():
+    """Khởi tạo database và tạo các bảng"""
+    try:
+        # Debug: in ra database URI
+        from flask import current_app
+        logger.info(f"Database URI: {current_app.config['SQLALCHEMY_DATABASE_URI']}")
+        
+        # Tạo tất cả bảng
+        db.create_all()
+        logger.info("✅ Database tables created successfully")
+        
+        # Tạo dữ liệu mẫu nếu cần
+        create_sample_data()
+        
+    except Exception as e:
+        logger.error(f"❌ Error initializing database: {str(e)}")
+        raise
+
+def create_sample_data():
+    """Tạo dữ liệu mẫu cho development"""
+    from config.env import is_development
+    
+    if not is_development():
+        return
+    
+    try:
+        from models.User import User
+        from models.AppData import AppData
+        import bcrypt
+        
+        # Kiểm tra xem đã có dữ liệu chưa
+        if User.query.first():
+            logger.info("Sample data already exists")
+            return
+        
+        # Tạo admin user
+        admin_password = bcrypt.hashpw('admin123'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        admin_user = User(
+            username='admin',
+            email='admin@example.com',
+            password=admin_password
+        )
+        admin_user.save()
+        
+        # Tạo test user
+        test_password = bcrypt.hashpw('test123'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        test_user = User(
+            username='testuser',
+            email='test@example.com',
+            password=test_password
+        )
+        test_user.save()
+        
+        # Tạo sample data cho test user
+        sample_data = [
+            {
+                'type': 'note',
+                'title': 'Welcome Note',
+                'content': 'This is a sample note to test the app'
+            },
+            {
+                'type': 'task',
+                'title': 'Sample Task',
+                'content': 'Complete the backend development'
+            },
+            {
+                'type': 'memo',
+                'title': 'Important Memo',
+                'content': 'Remember to test all API endpoints'
+            }
+        ]
+        
+        for data in sample_data:
+            app_data = AppData(
+                user_id=test_user.id,
+                type=data['type'],
+                title=data['title'],
+                content=data['content']
+            )
+            app_data.save()
+        
+        logger.info("✅ Sample data created successfully")
+        logger.info("📝 Admin user: admin / admin123")
+        logger.info("📝 Test user: testuser / test123")
+        
+    except Exception as e:
+        logger.error(f"❌ Error creating sample data: {str(e)}")
+
+def configure_sqlite():
+    """Cấu hình đặc biệt cho SQLite"""
+    
+    @event.listens_for(Engine, "connect")
+    def set_sqlite_pragma(dbapi_connection, connection_record):
+        """Set SQLite pragmas for better performance"""
+        if 'sqlite' in str(dbapi_connection):
+            cursor = dbapi_connection.cursor()
+            
+            # Enable foreign key constraints
+            cursor.execute("PRAGMA foreign_keys=ON")
+            
+            # Set journal mode to WAL for better concurrency
+            cursor.execute("PRAGMA journal_mode=WAL")
+            
+            # Set synchronous mode
+            cursor.execute("PRAGMA synchronous=NORMAL")
+            
+            # Set cache size (negative value = KB)
+            cursor.execute("PRAGMA cache_size=-64000")  # 64MB
+            
+            # Set temp store to memory
+            cursor.execute("PRAGMA temp_store=MEMORY")
+            
+            cursor.close()
+
+def backup_database(backup_path=None):
+    """Backup SQLite database"""
+    from config.env import Config
+    
+    if 'sqlite' not in Config.SQLALCHEMY_DATABASE_URI:
+        logger.warning("Database backup only supported for SQLite")
+        return False
+    
+    try:
+        # Extract database path from URI
+        db_path = Config.SQLALCHEMY_DATABASE_URI.replace('sqlite:///', '')
+        
+        if not os.path.exists(db_path):
+            logger.error(f"Database file not found: {db_path}")
+            return False
+        
+        # Generate backup filename if not provided
+        if not backup_path:
+            from datetime import datetime
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            backup_path = f"backup_database_{timestamp}.db"
+        
+        # Create backup directory if needed
+        backup_dir = os.path.dirname(backup_path)
+        if backup_dir and not os.path.exists(backup_dir):
+            os.makedirs(backup_dir)
+        
+        # Perform backup
+        import shutil
+        shutil.copy2(db_path, backup_path)
+        
+        logger.info(f"✅ Database backed up to: {backup_path}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"❌ Database backup failed: {str(e)}")
+        return False
+
+def restore_database(backup_path):
+    """Restore SQLite database from backup"""
+    from config.env import Config
+    
+    if 'sqlite' not in Config.SQLALCHEMY_DATABASE_URI:
+        logger.warning("Database restore only supported for SQLite")
+        return False
+    
+    try:
+        if not os.path.exists(backup_path):
+            logger.error(f"Backup file not found: {backup_path}")
+            return False
+        
+        # Extract database path from URI
+        db_path = Config.SQLALCHEMY_DATABASE_URI.replace('sqlite:///', '')
+        
+        # Backup current database before restore
+        if os.path.exists(db_path):
+            backup_current = f"{db_path}.backup_before_restore"
+            import shutil
+            shutil.copy2(db_path, backup_current)
+            logger.info(f"Current database backed up to: {backup_current}")
+        
+        # Restore from backup
+        import shutil
+        shutil.copy2(backup_path, db_path)
+        
+        logger.info(f"✅ Database restored from: {backup_path}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"❌ Database restore failed: {str(e)}")
+        return False
+
+def get_database_info():
+    """Get database information"""
+    try:
+        from config.env import Config
+        
+        # Basic info
+        info = {
+            'database_uri': Config.SQLALCHEMY_DATABASE_URI,
+            'database_type': 'sqlite' if 'sqlite' in Config.SQLALCHEMY_DATABASE_URI else 'other',
+            'track_modifications': Config.SQLALCHEMY_TRACK_MODIFICATIONS
+        }
+        
+        # SQLite specific info
+        if 'sqlite' in Config.SQLALCHEMY_DATABASE_URI:
+            db_path = Config.SQLALCHEMY_DATABASE_URI.replace('sqlite:///', '')
+            if os.path.exists(db_path):
+                stat = os.stat(db_path)
+                info.update({
+                    'database_size_mb': round(stat.st_size / (1024 * 1024), 2),
+                    'last_modified': stat.st_mtime
+                })
+        
+        # Table info
+        try:
+            with db.engine.connect() as conn:
+                if 'sqlite' in Config.SQLALCHEMY_DATABASE_URI:
+                    result = conn.execute(text("SELECT name FROM sqlite_master WHERE type='table'"))
+                    tables = [row[0] for row in result]
+                    info['tables'] = tables
+                    info['table_count'] = len(tables)
+        except Exception:
+            pass
+        
+        return info
+        
+    except Exception as e:
+        logger.error(f"Error getting database info: {str(e)}")
+        return {}
+
+def check_database_health():
+    """Check database health"""
+    try:
+        # Test connection
+        with db.engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+        
+        # Check if tables exist
+        from models.User import User
+        from models.AppData import AppData
+        
+        user_count = User.query.count()
+        data_count = AppData.query.count()
+        
+        health_info = {
+            'status': 'healthy',
+            'connection': 'ok',
+            'tables_exist': True,
+            'user_count': user_count,
+            'data_count': data_count
+        }
+        
+        logger.info(f"Database health check: {health_info}")
+        return health_info
+        
+    except Exception as e:
+        logger.error(f"Database health check failed: {str(e)}")
+        return {
+            'status': 'unhealthy',
+            'connection': 'failed',
+            'error': str(e)
+        }
+
+def cleanup_old_data(days=30):
+    """Cleanup dữ liệu cũ (có thể chạy định kỳ)"""
+    try:
+        from datetime import datetime, timedelta
+        from models.AppData import AppData
+        
+        cutoff_date = datetime.utcnow() - timedelta(days=days)
+        
+        # Query old data
+        old_data = AppData.query.filter(AppData.created_at < cutoff_date).all()
+        
+        deleted_count = 0
+        for item in old_data:
+            db.session.delete(item)
+            deleted_count += 1
+        
+        db.session.commit()
+        
+        logger.info(f"Cleaned up {deleted_count} old data items (older than {days} days)")
+        return deleted_count
+        
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Error cleaning up old data: {str(e)}")
+        return 0
+
+def optimize_database():
+    """Optimize database performance"""
+    try:
+        from config.env import Config
+        
+        if 'sqlite' in Config.SQLALCHEMY_DATABASE_URI:
+            with db.engine.connect() as conn:
+                # Run VACUUM to optimize SQLite
+                conn.execute(text("VACUUM"))
+                
+                # Analyze tables for better query planning
+                conn.execute(text("ANALYZE"))
+            
+            logger.info("✅ Database optimized successfully")
+            return True
+        else:
+            logger.info("Database optimization only supported for SQLite")
+            return False
+            
+    except Exception as e:
+        logger.error(f"❌ Database optimization failed: {str(e)}")
+        return False
+
+# Configure SQLite on import
+configure_sqlite()
+
+# Export functions
+__all__ = [
+    'db', 'init_db', 'backup_database', 'restore_database', 
+    'get_database_info', 'check_database_health', 'cleanup_old_data', 'optimize_database'
+]
+
+=== .env ===
+
+# Server configuration
+FLASK_ENV=development
+FLASK_DEBUG=True
+PORT=5000
+
+# Database - Force SQLite for development (override any system DATABASE_URL)
+DATABASE_URL=sqlite:///./database.db
+SQLALCHEMY_DATABASE_URI=sqlite:///./database.db
+
+# JWT Secret (for development only - change in production)
+JWT_SECRET_KEY=dev-jwt-secret-key-change-in-production
+SECRET_KEY=dev-secret-key-change-in-production
+
+# CORS
+CORS_ORIGINS=*
