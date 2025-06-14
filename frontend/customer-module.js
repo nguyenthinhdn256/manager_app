@@ -308,7 +308,12 @@ Tạo lúc: ${formatTimeDetailed(customer.createdAt)}</div>
         const phone = document.getElementById('customerPhone').value.trim();
         
         if (!name) {
-            showAlert('Vui lòng nhập tên khách hàng!', 'Lỗi', '⚠️');
+            // Use global showAlert function
+            if (typeof showAlert === 'function') {
+                showAlert('Vui lòng nhập tên khách hàng!', 'Lỗi', '⚠️');
+            } else {
+                alert('Vui lòng nhập tên khách hàng!');
+            }
             return;
         }
         
@@ -337,7 +342,11 @@ Tạo lúc: ${formatTimeDetailed(customer.createdAt)}</div>
         
         // Show success message
         setTimeout(() => {
-            showAlert(`Đã thêm thành công khách hàng: ${name}`, 'Thành công', '✅');
+            if (typeof showAlert === 'function') {
+                showAlert(`Đã thêm thành công khách hàng: ${name}`, 'Thành công', '✅');
+            } else {
+                alert(`Đã thêm thành công khách hàng: ${name}`);
+            }
         }, 300);
     }
 
@@ -350,17 +359,29 @@ Tạo lúc: ${formatTimeDetailed(customer.createdAt)}</div>
 
     function addService(customerId) {
         closeCustomerInfoModal();
-        showAlert('Chức năng "Thêm dịch vụ" đang được phát triển...', 'Thêm dịch vụ', '💆‍♀️');
+        if (typeof showAlert === 'function') {
+            showAlert('Chức năng "Thêm dịch vụ" đang được phát triển...', 'Thêm dịch vụ', '💆‍♀️');
+        } else {
+            alert('Chức năng "Thêm dịch vụ" đang được phát triển...');
+        }
     }
 
     function makePayment(customerId) {
         closeCustomerInfoModal();
-        showAlert('Chức năng "Thanh toán" đang được phát triển...', 'Thanh toán', '💳');
+        if (typeof showAlert === 'function') {
+            showAlert('Chức năng "Thanh toán" đang được phát triển...', 'Thanh toán', '💳');
+        } else {
+            alert('Chức năng "Thanh toán" đang được phát triển...');
+        }
     }
 
     function editCustomer(customerId) {
         closeCustomerInfoModal();
-        showAlert('Chức năng "Sửa thông tin" đang được phát triển...', 'Sửa thông tin', '✏️');
+        if (typeof showAlert === 'function') {
+            showAlert('Chức năng "Sửa thông tin" đang được phát triển...', 'Sửa thông tin', '✏️');
+        } else {
+            alert('Chức năng "Sửa thông tin" đang được phát triển...');
+        }
     }
 
     function deleteCustomer(customerId) {
@@ -368,18 +389,32 @@ Tạo lúc: ${formatTimeDetailed(customer.createdAt)}</div>
         if (customer) {
             closeCustomerInfoModal();
             // Show custom confirm dialog
-            showConfirmDialog(
-                `Bạn có chắc muốn xóa khách hàng "${customer.name}"?`,
-                'Xác nhận xóa',
-                '🗑️',
-                function() {
-                    // Confirm delete
+            if (typeof showConfirmDialog === 'function') {
+                showConfirmDialog(
+                    `Bạn có chắc muốn xóa khách hàng "${customer.name}"?`,
+                    'Xác nhận xóa',
+                    '🗑️',
+                    function() {
+                        // Confirm delete
+                        customers = customers.filter(c => c.id != customerId);
+                        saveCustomers();
+                        showCustomerPage();
+                        if (typeof showAlert === 'function') {
+                            showAlert(`Đã xóa khách hàng "${customer.name}"`, 'Xóa thành công', '✅');
+                        } else {
+                            alert(`Đã xóa khách hàng "${customer.name}"`);
+                        }
+                    }
+                );
+            } else {
+                // Fallback to browser confirm
+                if (confirm(`Bạn có chắc muốn xóa khách hàng "${customer.name}"?`)) {
                     customers = customers.filter(c => c.id != customerId);
                     saveCustomers();
                     showCustomerPage();
-                    showAlert(`Đã xóa khách hàng "${customer.name}"`, 'Xóa thành công', '✅');
+                    alert(`Đã xóa khách hàng "${customer.name}"`);
                 }
-            );
+            }
         }
     }
 
@@ -387,6 +422,11 @@ Tạo lúc: ${formatTimeDetailed(customer.createdAt)}</div>
     function init() {
         customers = loadCustomers();
         console.log('🎯 Customer Module initialized with', customers.length, 'customers');
+        
+        // Check if running in standalone mode (without main app)
+        if (typeof showAlert !== 'function') {
+            console.warn('⚠️ Customer Module running without main app utilities');
+        }
     }
 
     // ===== PUBLIC API =====
@@ -412,10 +452,59 @@ Tạo lúc: ${formatTimeDetailed(customer.createdAt)}</div>
         // Data access (if needed)
         getCustomers: () => [...customers], // Return copy
         getCustomerById: findCustomerById,
-        getCustomerCount: () => customers.length
+        getCustomerCount: () => customers.length,
+        
+        // Direct data manipulation (for API integration later)
+        addCustomer: (customerData) => {
+            const newCustomer = {
+                id: generateNewId(),
+                ...customerData,
+                createdAt: new Date().toISOString()
+            };
+            customers.unshift(newCustomer);
+            saveCustomers();
+            return newCustomer;
+        },
+        
+        updateCustomer: (customerId, updates) => {
+            const customerIndex = customers.findIndex(c => c.id == customerId);
+            if (customerIndex !== -1) {
+                customers[customerIndex] = { ...customers[customerIndex], ...updates };
+                saveCustomers();
+                return customers[customerIndex];
+            }
+            return null;
+        },
+        
+        removeCustomer: (customerId) => {
+            const initialLength = customers.length;
+            customers = customers.filter(c => c.id != customerId);
+            saveCustomers();
+            return customers.length < initialLength;
+        }
     };
 })();
 
 // ===== AUTO INITIALIZATION =====
 // Initialize module when loaded
-CustomerModule.init();
+document.addEventListener('DOMContentLoaded', function() {
+    // Only initialize if not already initialized
+    if (!CustomerModule._initialized) {
+        CustomerModule.init();
+        CustomerModule._initialized = true;
+    }
+});
+
+// Also initialize immediately if DOM already loaded
+if (document.readyState === 'loading') {
+    // DOM hasn't finished loading yet
+    console.log('🔄 CustomerModule: Waiting for DOM...');
+} else {
+    // DOM is already loaded
+    if (!CustomerModule._initialized) {
+        CustomerModule.init();
+        CustomerModule._initialized = true;
+    }
+}
+
+console.log('📦 CustomerModule loaded successfully');
