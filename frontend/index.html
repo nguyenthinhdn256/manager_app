@@ -121,13 +121,6 @@
             transform: none;
         }
 
-        /* Dashboard Styles */
-        .dashboard {
-            min-height: 100vh;
-            background: #f5f5f5;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        }
-
         /* Header */
         .header {
             background: white;
@@ -184,147 +177,6 @@
             background-color: #f3f4f6;
         }
 
-        /* Date selector */
-        .date-selector {
-            margin: 10px 0 10px 15px;
-            padding: 5px 8px;
-            background: white;
-            border-radius: 6px;
-            border: 1px solid #e5e7eb;
-            font-size: 12px;
-            color: #6b7280;
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        /* Stats card */
-        .stats-card {
-            margin: 20px;
-            padding: 20px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .stats-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .stat-item h3 {
-            font-size: 12px;
-            color: #6b7280;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2563eb;
-        }
-
-        .stat-unit {
-            font-size: 14px;
-            color: #6b7280;
-            margin-left: 4px;
-        }
-
-        .profit-section {
-            text-align: right;
-        }
-
-        .profit-value {
-            font-size: 16px;
-            color: #10b981;
-            font-weight: 600;
-        }
-
-        .returns-section {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #f3f4f6;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .returns-icon {
-            width: 16px;
-            height: 16px;
-            color: #6b7280;
-        }
-
-        .returns-text {
-            font-size: 14px;
-            color: #6b7280;
-        }
-
-        /* Revenue section */
-        .revenue-section {
-            margin: 20px;
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .revenue-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .revenue-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1f2937;
-        }
-
-        .chart-container {
-            height: 200px;
-            display: flex;
-            align-items: end;
-            justify-content: center;
-            gap: 10px;
-            padding: 20px 0;
-        }
-
-        .chart-bar {
-            width: 40px;
-            background: #2563eb;
-            border-radius: 4px 4px 0 0;
-            position: relative;
-        }
-
-        .chart-bar.today {
-            height: 160px;
-        }
-
-        .chart-label {
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        .chart-scale {
-            position: absolute;
-            left: 10px;
-            top: 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #9ca3af;
-        }
-
         /* Bottom navigation */
         .bottom-nav {
             position: fixed;
@@ -342,7 +194,6 @@
             text-align: center;
             padding: 4px;
             color: #6b7280;
-            text-decoration: none;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -361,152 +212,7 @@
             font-size: 18px;
         }
 
-        /* Popup Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            animation: modalSlideIn 0.3s ease-out;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .btn-cancel {
-            flex: 1;
-            padding: 12px;
-            background: #f3f4f6;
-            color: #6b7280;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-cancel:hover {
-            background: #e5e7eb;
-        }
-
-        .btn-add {
-            flex: 1;
-            padding: 12px;
-            background: linear-gradient(135deg, #4F46E5, #7C3AED);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-add:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-        }
-
-        /* Customer List Styles */
-        .customer-item {
-            padding: 16px 20px;
-            border-bottom: 1px solid #f3f4f6;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .customer-item:hover {
-            background-color: #f8f9fa;
-        }
-
-        .customer-item:last-child {
-            border-bottom: none;
-        }
-
-        .customer-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #4F46E5, #7C3AED);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .customer-info {
-            flex: 1;
-        }
-
-        .customer-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 2px;
-        }
-
-        .customer-details {
-            font-size: 13px;
-            color: #6b7280;
-            margin-bottom: 2px;
-        }
-
-        .customer-phone {
-            font-size: 13px;
-            color: #6b7280;
-        }
-
-        .customer-time {
-            font-size: 12px;
-            color: #9ca3af;
-            text-align: right;
-        }
-
-        /* Custom Alert Modal */
+        /* Alert Modal */
         .alert-overlay {
             position: fixed;
             top: 0;
@@ -580,116 +286,6 @@
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
 
-        /* Customer Info Modal Buttons */
-        .customer-modal-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: 20px;
-        }
-
-        .customer-btn {
-            flex: 1;
-            padding: 10px 8px;
-            border: none;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        .btn-add-service {
-            background: #ffffff;
-            color: #2563eb;
-            border: 2px solid #2563eb;
-        }
-
-        .btn-add-service:hover {
-            background: #eff6ff;
-        }
-
-        .btn-payment {
-            background: #2563eb;
-            color: white;
-        }
-
-        .btn-payment:hover {
-            background: #1d4ed8;
-        }
-
-        .btn-edit {
-            background: #ffffff;
-            color: #2563eb;
-            border: 2px solid #2563eb;
-        }
-
-        .btn-edit:hover {
-            background: #eff6ff;
-        }
-
-        .btn-delete {
-            background: #ffffff;
-            color: #2563eb;
-            border: 2px solid #2563eb;
-        }
-
-        .btn-delete:hover {
-            background: #eff6ff;
-        }
-
-        /* Close button X */
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #f3f4f6;
-            border: none;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 16px;
-            color: #6b7280;
-            transition: all 0.2s ease;
-        }
-
-        .modal-close:hover {
-            background: #e5e7eb;
-            color: #374151;
-        }
-
-        .customer-info-modal {
-            position: relative;
-        }
-
-        /* Flash animation for service group buttons */
-        @keyframes flash {
-            0% { 
-                background: white; 
-                border-color: #3b82f6; 
-                color: #3b82f6; 
-            }
-            50% { 
-                background: #3b82f6; 
-                border-color: #3b82f6; 
-                color: white; 
-                transform: scale(1.05);
-                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-            }
-            100% { 
-                background: white; 
-                border-color: #3b82f6; 
-                color: #3b82f6; 
-                transform: scale(1);
-                box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
-            }
-        }
-
         @media (max-width: 480px) {
             .login-container {
                 padding: 30px 20px;
@@ -704,11 +300,6 @@
                 width: 60px;
                 height: 60px;
                 font-size: 24px;
-            }
-
-            .modal {
-                padding: 20px;
-                margin: 10px;
             }
         }
     </style>
@@ -754,18 +345,12 @@
         </form>
     </div>
 
-    <!-- Load Customer Module -->
-    <script src="customer-module.js"></script>
-    <!-- Load Service Module -->
-    <script src="service-module.js"></script>
-
     <script>
-        // ===== MAIN APPLICATION LOGIC =====
+        // ===== MAIN APPLICATION =====
         const API_BASE_URL = 'https://manager-app-744c.onrender.com/api';
         
         // Custom Alert Function
         function showAlert(message, title = 'Thông báo', icon = '💬') {
-            // Remove existing alert if any
             const existingAlert = document.querySelector('.alert-overlay');
             if (existingAlert) {
                 existingAlert.remove();
@@ -784,7 +369,6 @@
             
             document.body.appendChild(alertOverlay);
             
-            // Close alert when clicking overlay
             alertOverlay.addEventListener('click', function(e) {
                 if (e.target === alertOverlay) {
                     closeAlert();
@@ -799,58 +383,7 @@
             }
         }
 
-        // Custom Confirm Dialog
-        function showConfirmDialog(message, title = 'Xác nhận', icon = '❓', onConfirm = null) {
-            // Remove existing alert if any
-            const existingAlert = document.querySelector('.alert-overlay');
-            if (existingAlert) {
-                existingAlert.remove();
-            }
-
-            const alertOverlay = document.createElement('div');
-            alertOverlay.className = 'alert-overlay';
-            alertOverlay.innerHTML = `
-                <div class="alert-modal">
-                    <div class="alert-icon">${icon}</div>
-                    <div class="alert-title">${title}</div>
-                    <div class="alert-message">${message}</div>
-                    <div style="display: flex; gap: 12px; margin-top: 20px;">
-                        <button class="btn-cancel" onclick="closeAlert()" style="flex: 1; padding: 12px; background: #f3f4f6; color: #6b7280; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;">Hủy</button>
-                        <button class="btn-confirm" onclick="confirmAction()" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;">Xác nhận</button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(alertOverlay);
-            
-            // Store the confirm callback
-            window.currentConfirmCallback = onConfirm;
-            
-            // Close alert when clicking overlay
-            alertOverlay.addEventListener('click', function(e) {
-                if (e.target === alertOverlay) {
-                    closeAlert();
-                }
-            });
-        }
-
-        function confirmAction() {
-            if (window.currentConfirmCallback) {
-                window.currentConfirmCallback();
-                window.currentConfirmCallback = null;
-            }
-            closeAlert();
-        }
-
-        // Make global functions
-        window.closeAlert = closeAlert;
-        window.showConfirmDialog = showConfirmDialog;
-        window.confirmAction = confirmAction;
-
-        // ===== CUSTOMER MODULE INTEGRATION =====
-        // All customer-related functions are handled by CustomerModule
-
-        // Simple login function
+        // Login Logic
         document.addEventListener('DOMContentLoaded', function() {
             console.log('✅ DOM loaded');
             
@@ -939,7 +472,7 @@
             console.log('🏠 Showing dashboard for:', user.username);
             
             document.body.innerHTML = `
-                <div class="dashboard">
+                <div style="min-height: 100vh; background: #f5f5f5;">
                     <!-- Header -->
                     <div class="header">
                         <div class="logo-section">
@@ -952,9 +485,14 @@
                         </div>
                     </div>
 
-                    <!-- Date Selector -->
-                    <div class="date-selector" onclick="showDatePicker()">
-                        Hôm nay, 14/06/2025 ▼
+                    <!-- Content Area -->
+                    <div style="padding: 20px; padding-bottom: 80px; text-align: center; margin-top: 50px;">
+                        <h1 style="font-size: 24px; color: #1f2937; margin-bottom: 10px;">Chào mừng, ${user.username}!</h1>
+                        <p style="color: #6b7280; margin-bottom: 30px;">Hệ thống quản lý spa chuyên nghiệp</p>
+                        
+                        <div style="background: white; border-radius: 16px; padding: 30px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); margin: 20px 0;">
+                            <p style="color: #6b7280; font-size: 16px;">Chọn một mục từ menu bên dưới để bắt đầu</p>
+                        </div>
                     </div>
 
                     <!-- Bottom Navigation -->
@@ -984,7 +522,428 @@
             `;
         }
 
-        // Global functions
+        // Show Service Page
+        function showServicePage() {
+            console.log('💆‍♀️ Showing service page');
+            
+            document.body.innerHTML = `
+                <div style="min-height: 100vh; background: #f5f5f5;">
+                    <!-- Header -->
+                    <div class="header">
+                        <div class="logo-section">
+                            <div class="logo">S</div>
+                            <div class="app-name">SpaViet</div>
+                        </div>
+                        <div class="header-right">
+                            <button class="notification-btn" onclick="showNotifications()">🔔</button>
+                            <button class="message-btn" onclick="showMessages()">✉️</button>
+                        </div>
+                    </div>
+
+                    <!-- Service Page Content -->
+                    <div style="padding: 20px; padding-bottom: 80px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                            <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Dịch vụ</h1>
+                            
+                            <!-- Service Actions Buttons -->
+                            <div style="display: flex; gap: 15px;">
+                                <button onclick="createServiceGroup()" style="
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    color: white;
+                                    border: none;
+                                    border-radius: 12px;
+                                    padding: 12px 20px;
+                                    font-size: 14px;
+                                    font-weight: 600;
+                                    cursor: pointer;
+                                    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+                                    transition: all 0.3s ease;
+                                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(79, 70, 229, 0.3)'" 
+                                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(79, 70, 229, 0.2)'">
+                                    Tạo Nhóm DV
+                                </button>
+                                <button onclick="createService()" style="
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    color: white;
+                                    border: none;
+                                    border-radius: 12px;
+                                    padding: 12px 20px;
+                                    font-size: 14px;
+                                    font-weight: 600;
+                                    cursor: pointer;
+                                    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+                                    transition: all 0.3s ease;
+                                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(79, 70, 229, 0.3)'" 
+                                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(79, 70, 229, 0.2)'">
+                                    Tạo DV
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Service Groups Grid với Auto-Size Buttons -->
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start; margin-top: 20px;">
+                            <button onclick="selectServiceGroup('GỘI ĐẦU')" style="
+                                background: white;
+                                color: #3b82f6;
+                                border: 1px solid #3b82f6;
+                                border-radius: 15px;
+                                padding: 6px 12px;
+                                font-size: 12px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+                                margin: 6px;
+                                height: auto;
+                                width: auto;
+                                min-width: auto;
+                                max-width: none;
+                                display: inline-block;
+                                white-space: nowrap;
+                                box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+                            " onmouseover="this.style.background='#eff6ff'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 2px 8px rgba(59, 130, 246, 0.2)'" 
+                               onmouseout="this.style.background='white'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(59, 130, 246, 0.1)'"
+                               onmousedown="this.style.transform='scale(0.98)'"
+                               onmouseup="this.style.transform='scale(1)'">
+                                GỘI ĐẦU
+                            </button>
+                            
+                            <button onclick="selectServiceGroup('SỨC KHỎE')" style="
+                                background: white;
+                                color: #3b82f6;
+                                border: 1px solid #3b82f6;
+                                border-radius: 15px;
+                                padding: 6px 12px;
+                                font-size: 12px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+                                margin: 6px;
+                                height: auto;
+                                width: auto;
+                                min-width: auto;
+                                max-width: none;
+                                display: inline-block;
+                                white-space: nowrap;
+                                box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+                            " onmouseover="this.style.background='#eff6ff'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 2px 8px rgba(59, 130, 246, 0.2)'" 
+                               onmouseout="this.style.background='white'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(59, 130, 246, 0.1)'"
+                               onmousedown="this.style.transform='scale(0.98)'"
+                               onmouseup="this.style.transform='scale(1)'">
+                                SỨC KHỎE
+                            </button>
+                            
+                            <button onclick="selectServiceGroup('CHĂM SÓC MẶT')" style="
+                                background: white;
+                                color: #3b82f6;
+                                border: 1px solid #3b82f6;
+                                border-radius: 15px;
+                                padding: 6px 12px;
+                                font-size: 12px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+                                margin: 6px;
+                                height: auto;
+                                width: auto;
+                                min-width: auto;
+                                max-width: none;
+                                display: inline-block;
+                                white-space: nowrap;
+                                box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+                            " onmouseover="this.style.background='#eff6ff'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 2px 8px rgba(59, 130, 246, 0.2)'" 
+                               onmouseout="this.style.background='white'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(59, 130, 246, 0.1)'"
+                               onmousedown="this.style.transform='scale(0.98)'"
+                               onmouseup="this.style.transform='scale(1)'">
+                                CHĂM SÓC MẶT
+                            </button>
+                            
+                            <button onclick="selectServiceGroup('CHĂM SÓC TÓC')" style="
+                                background: white;
+                                color: #3b82f6;
+                                border: 1px solid #3b82f6;
+                                border-radius: 15px;
+                                padding: 6px 12px;
+                                font-size: 12px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+                                margin: 6px;
+                                height: auto;
+                                width: auto;
+                                min-width: auto;
+                                max-width: none;
+                                display: inline-block;
+                                white-space: nowrap;
+                                box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+                            " onmouseover="this.style.background='#eff6ff'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 2px 8px rgba(59, 130, 246, 0.2)'" 
+                               onmouseout="this.style.background='white'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(59, 130, 246, 0.1)'"
+                               onmousedown="this.style.transform='scale(0.98)'"
+                               onmouseup="this.style.transform='scale(1)'">
+                                CHĂM SÓC TÓC
+                            </button>
+                            
+                            <button onclick="selectServiceGroup('COMBO PH SỨC KHỎE')" style="
+                                background: white;
+                                color: #3b82f6;
+                                border: 1px solid #3b82f6;
+                                border-radius: 15px;
+                                padding: 6px 12px;
+                                font-size: 12px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+                                margin: 6px;
+                                height: auto;
+                                width: auto;
+                                min-width: auto;
+                                max-width: none;
+                                display: inline-block;
+                                white-space: nowrap;
+                                box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+                            " onmouseover="this.style.background='#eff6ff'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 2px 8px rgba(59, 130, 246, 0.2)'" 
+                               onmouseout="this.style.background='white'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(59, 130, 246, 0.1)'"
+                               onmousedown="this.style.transform='scale(0.98)'"
+                               onmouseup="this.style.transform='scale(1)'">
+                                COMBO PH SỨC KHỎE
+                            </button>
+                        </div>
+
+                        <!-- Description -->
+                        <div style="text-align: center; margin-top: 40px; color: #6b7280; font-size: 14px; line-height: 1.6;">
+                            <p><strong>Tạo Nhóm DV:</strong> Tạo nhóm dịch vụ mới</p>
+                            <p><strong>Tạo DV:</strong> Thêm dịch vụ mới vào hệ thống</p>
+                            <p style="margin-top: 10px;"><em>Click vào nhóm dịch vụ để xem chi tiết</em></p>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Navigation -->
+                    <div class="bottom-nav">
+                        <div onclick="showSection('overview')" class="nav-item">
+                            <div class="nav-icon">🏠</div>
+                            <div>Tổng quan</div>
+                        </div>
+                        <div onclick="showSection('customers')" class="nav-item">
+                            <div class="nav-icon">👥</div>
+                            <div>Khách hàng</div>
+                        </div>
+                        <div onclick="showSection('services')" class="nav-item active">
+                            <div class="nav-icon">💆‍♀️</div>
+                            <div>Dịch vụ</div>
+                        </div>
+                        <div onclick="showSection('orders')" class="nav-item">
+                            <div class="nav-icon">📋</div>
+                            <div>Hóa đơn</div>
+                        </div>
+                        <div onclick="showSection('more')" class="nav-item">
+                            <div class="nav-icon">☰</div>
+                            <div>Nhiều hơn</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show Customer Page
+        function showCustomerPage() {
+            console.log('👥 Showing customer page');
+            
+            document.body.innerHTML = `
+                <div style="min-height: 100vh; background: #f5f5f5;">
+                    <!-- Header -->
+                    <div class="header">
+                        <div class="logo-section">
+                            <div class="logo">S</div>
+                            <div class="app-name">SpaViet</div>
+                        </div>
+                        <div class="header-right">
+                            <button class="notification-btn" onclick="showNotifications()">🔔</button>
+                            <button class="message-btn" onclick="showMessages()">✉️</button>
+                        </div>
+                    </div>
+
+                    <!-- Customer Page Content -->
+                    <div style="padding: 20px; padding-bottom: 80px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Khách hàng</h1>
+                            <button onclick="addNewCustomer()" style="
+                                background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                color: white;
+                                border: none;
+                                border-radius: 12px;
+                                padding: 12px 20px;
+                                font-size: 14px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+                            ">Thêm khách hàng mới</button>
+                        </div>
+
+                        <!-- Customer List -->
+                        <div style="background: white; border-radius: 16px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                            <div onclick="viewCustomer('1')" style="
+                                padding: 16px 20px;
+                                border-bottom: 1px solid #f3f4f6;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                cursor: pointer;
+                            ">
+                                <div style="
+                                    width: 40px;
+                                    height: 40px;
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-weight: 600;
+                                    font-size: 16px;
+                                ">N</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Nguyễn Văn An</div>
+                                    <div style="font-size: 14px; color: #6b7280;">0901234567</div>
+                                </div>
+                                <div style="color: #6b7280; font-size: 18px;">›</div>
+                            </div>
+                            
+                            <div onclick="viewCustomer('2')" style="
+                                padding: 16px 20px;
+                                border-bottom: 1px solid #f3f4f6;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                cursor: pointer;
+                            ">
+                                <div style="
+                                    width: 40px;
+                                    height: 40px;
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-weight: 600;
+                                    font-size: 16px;
+                                ">T</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Trần Thị Bình</div>
+                                    <div style="font-size: 14px; color: #6b7280;">0912345678</div>
+                                </div>
+                                <div style="color: #6b7280; font-size: 18px;">›</div>
+                            </div>
+                            
+                            <div onclick="viewCustomer('3')" style="
+                                padding: 16px 20px;
+                                border-bottom: 1px solid #f3f4f6;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                cursor: pointer;
+                            ">
+                                <div style="
+                                    width: 40px;
+                                    height: 40px;
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-weight: 600;
+                                    font-size: 16px;
+                                ">L</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Lê Hoàng Cường</div>
+                                    <div style="font-size: 14px; color: #6b7280;">0923456789</div>
+                                </div>
+                                <div style="color: #6b7280; font-size: 18px;">›</div>
+                            </div>
+                            
+                            <div onclick="viewCustomer('4')" style="
+                                padding: 16px 20px;
+                                border-bottom: 1px solid #f3f4f6;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                cursor: pointer;
+                            ">
+                                <div style="
+                                    width: 40px;
+                                    height: 40px;
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-weight: 600;
+                                    font-size: 16px;
+                                ">P</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Phạm Thị Dung</div>
+                                    <div style="font-size: 14px; color: #6b7280;">0934567890</div>
+                                </div>
+                                <div style="color: #6b7280; font-size: 18px;">›</div>
+                            </div>
+                            
+                            <div onclick="viewCustomer('5')" style="
+                                padding: 16px 20px;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                cursor: pointer;
+                            ">
+                                <div style="
+                                    width: 40px;
+                                    height: 40px;
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-weight: 600;
+                                    font-size: 16px;
+                                ">H</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Hoàng Văn Em</div>
+                                    <div style="font-size: 14px; color: #6b7280;">0945678901</div>
+                                </div>
+                                <div style="color: #6b7280; font-size: 18px;">›</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Navigation -->
+                    <div class="bottom-nav">
+                        <div onclick="showSection('overview')" class="nav-item">
+                            <div class="nav-icon">🏠</div>
+                            <div>Tổng quan</div>
+                        </div>
+                        <div onclick="showSection('customers')" class="nav-item active">
+                            <div class="nav-icon">👥</div>
+                            <div>Khách hàng</div>
+                        </div>
+                        <div onclick="showSection('services')" class="nav-item">
+                            <div class="nav-icon">💆‍♀️</div>
+                            <div>Dịch vụ</div>
+                        </div>
+                        <div onclick="showSection('orders')" class="nav-item">
+                            <div class="nav-icon">📋</div>
+                            <div>Hóa đơn</div>
+                        </div>
+                        <div onclick="showSection('more')" class="nav-item">
+                            <div class="nav-icon">☰</div>
+                            <div>Nhiều hơn</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Global Functions
         window.showNotifications = function() {
             showAlert('Hiện tại chưa có thông báo mới nào!', 'Thông báo', '🔔');
         }
@@ -1001,11 +960,9 @@
             console.log('🔄 Switching to section:', section);
             
             if (section === 'customers') {
-                // Use Customer Module
-                CustomerModule.showCustomerPage();
+                showCustomerPage();
             } else if (section === 'services') {
-                // Use Service Module
-                ServiceModule.showServicePage();
+                showServicePage();
             } else if (section === 'overview') {
                 // Return to main dashboard
                 const token = localStorage.getItem('accessToken');
@@ -1025,6 +982,43 @@
                 showAlert(`Chức năng "${sections[section] || section}" đang được phát triển...`, 'Thông báo', '🚧');
             }
         }
+
+        // Service page functions
+        window.createServiceGroup = function() {
+            showAlert('Chức năng "Tạo Nhóm DV" đang được phát triển...', 'Tạo Nhóm Dịch vụ', '📋');
+        }
+
+        window.createService = function() {
+            showAlert('Chức năng "Tạo DV" đang được phát triển...', 'Tạo Dịch vụ', '➕');
+        }
+
+        window.selectServiceGroup = function(groupName) {
+            console.log('🎯 Service group selected:', groupName);
+            
+            // Add visual feedback
+            const button = event.target;
+            const originalBg = button.style.background;
+            button.style.background = '#dbeafe';
+            
+            setTimeout(() => {
+                button.style.background = originalBg;
+            }, 200);
+            
+            showAlert(`Đã chọn nhóm dịch vụ: "${groupName}"\n\nChức năng xem chi tiết nhóm đang được phát triển...`, 'Nhóm Dịch vụ', '💆‍♀️');
+        }
+
+        // Customer page functions
+        window.addNewCustomer = function() {
+            showAlert('Chức năng "Thêm khách hàng mới" đang được phát triển...', 'Thêm khách hàng', '👤');
+        }
+
+        window.viewCustomer = function(customerId) {
+            showAlert(`Xem thông tin khách hàng ID: ${customerId}\n\nChức năng đang được phát triển...`, 'Thông tin khách hàng', '👤');
+        }
+
+        // Make functions global
+        window.showAlert = showAlert;
+        window.closeAlert = closeAlert;
         
         // Check existing login
         window.addEventListener('load', () => {
@@ -1044,7 +1038,7 @@
             }
         });
         
-        console.log('📄 Main App loaded - Customer & Service Modules integrated');
+        console.log('📄 Spa Software - Complete App loaded');
     </script>
 </body>
 </html>
