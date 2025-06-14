@@ -207,7 +207,7 @@
         <h1 class="app-title">Spa Software</h1>
         <p class="app-subtitle">Quản lý spa chuyên nghiệp</p>
         
-        <!-- Login Form - QUAN TRỌNG: Loại bỏ action và method để tránh submit truyền thống -->
+        <!-- Login Form -->
         <form id="loginForm">
             <div class="form-group">
                 <label for="userId" class="form-label">ID</label>
@@ -278,8 +278,115 @@
             }
         });
 
-        // ===== PHẦN SỬA CHÍNH: LOGIN LOGIC =====
-        // Đảm bảo DOM đã loaded hoàn toàn
+        // ===== GLOBAL FUNCTIONS (PHẢI ĐẶT TRƯỚC) =====
+        // Toggle Menu Function
+        window.toggleMenu = function() {
+            console.log('Toggle menu called');
+            const menu = document.getElementById('dropdownMenu');
+            if (menu) {
+                menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'block' : 'none';
+            }
+        }
+
+        // Navigation Function
+        window.navigateTo = function(section) {
+            console.log('Navigate to:', section);
+            const menu = document.getElementById('dropdownMenu');
+            if (menu) {
+                menu.style.display = 'none';
+            }
+            
+            // Update main content based on selection
+            const mainContent = document.querySelector('[style*="padding: 20px"][style*="text-align: center"]');
+            
+            if (!mainContent) {
+                console.error('Main content not found');
+                return;
+            }
+            
+            let content = '';
+            switch(section) {
+                case 'customers':
+                    content = `
+                        <h2 style="color: #1f2937; margin-bottom: 20px;">👥 Quản Lý Khách Hàng</h2>
+                        <p style="color: #6b7280; margin-bottom: 30px;">Danh sách và thông tin khách hàng</p>
+                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <p style="color: #6b7280;">🚧 Chức năng quản lý khách hàng đang được phát triển...</p>
+                        </div>
+                    `;
+                    break;
+                case 'services':
+                    content = `
+                        <h2 style="color: #1f2937; margin-bottom: 20px;">💆‍♀️ Quản Lý Dịch Vụ</h2>
+                        <p style="color: #6b7280; margin-bottom: 30px;">Danh sách các dịch vụ spa</p>
+                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <p style="color: #6b7280;">🚧 Chức năng quản lý dịch vụ đang được phát triển...</p>
+                        </div>
+                    `;
+                    break;
+                case 'appointments':
+                    content = `
+                        <h2 style="color: #1f2937; margin-bottom: 20px;">📅 Quản Lý Lịch Hẹn</h2>
+                        <p style="color: #6b7280; margin-bottom: 30px;">Lịch hẹn và đặt chỗ</p>
+                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <p style="color: #6b7280;">🚧 Chức năng quản lý lịch hẹn đang được phát triển...</p>
+                        </div>
+                    `;
+                    break;
+                case 'staff':
+                    content = `
+                        <h2 style="color: #1f2937; margin-bottom: 20px;">👨‍💼 Quản Lý Nhân Viên</h2>
+                        <p style="color: #6b7280; margin-bottom: 30px;">Thông tin và lịch làm việc nhân viên</p>
+                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <p style="color: #6b7280;">🚧 Chức năng quản lý nhân viên đang được phát triển...</p>
+                        </div>
+                    `;
+                    break;
+                case 'reports':
+                    content = `
+                        <h2 style="color: #1f2937; margin-bottom: 20px;">📊 Báo Cáo & Thống Kê</h2>
+                        <p style="color: #6b7280; margin-bottom: 30px;">Doanh thu và hiệu suất hoạt động</p>
+                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <p style="color: #6b7280;">🚧 Chức năng báo cáo đang được phát triển...</p>
+                        </div>
+                    `;
+                    break;
+                case 'settings':
+                    content = `
+                        <h2 style="color: #1f2937; margin-bottom: 20px;">⚙️ Cài Đặt Hệ Thống</h2>
+                        <p style="color: #6b7280; margin-bottom: 30px;">Cấu hình và tùy chỉnh hệ thống</p>
+                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <p style="color: #6b7280;">🚧 Chức năng cài đặt đang được phát triển...</p>
+                        </div>
+                    `;
+                    break;
+                default:
+                    content = `
+                        <h2 style="color: #1f2937; margin-bottom: 20px;">Dashboard Chính</h2>
+                        <p style="color: #6b7280; margin-bottom: 30px;">Chào mừng bạn đến với hệ thống quản lý spa!</p>
+                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                            <p style="color: #6b7280; font-style: italic;">🚧 Các chức năng đang được phát triển. Sử dụng menu để điều hướng!</p>
+                        </div>
+                    `;
+            }
+            
+            mainContent.innerHTML = content;
+        }
+
+        // Show Notifications Function
+        window.showNotifications = function() {
+            alert('🔔 Thông báo:\n\n• Bạn có 2 lịch hẹn mới\n• Khách hàng vừa đánh giá 5 sao\n• Nhân viên A đã hoàn thành ca làm');
+        }
+
+        // Logout function
+        window.logout = function() {
+            console.log('Logout called');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('userInfo');
+            location.reload();
+        }
+
+        // ===== LOGIN LOGIC =====
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM fully loaded');
             
@@ -296,7 +403,7 @@
 
             console.log('Login form found, attaching event listener');
 
-            // Attach event listener với both submit và click
+            // Attach event listener
             loginForm.addEventListener('submit', handleLogin);
             
             // Function xử lý login
@@ -375,12 +482,14 @@
                     alert(error.message || 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối!');
                 }
                 
-                return false; // Đảm bảo không submit form truyền thống
+                return false;
             }
         });
 
         // Show Main App Interface
         function showMainApp(user) {
+            console.log('Showing main app for user:', user);
+            
             document.body.innerHTML = `
                 <div style="
                     min-height: 100vh;
@@ -570,7 +679,7 @@
                         text-align: center;
                     ">
                         <h2 style="color: #1f2937; margin-bottom: 20px;">Dashboard Chính</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Chào mừng bạn đến với hệ thống quản lý spa!</p>
+                        <p style="color: #6b7280; margin-bottom: 30px;">Chào mừng ${user.username} đến với hệ thống quản lý spa!</p>
                         
                         <div style="margin-top: 40px; padding: 20px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
                             <p style="margin: 0; color: #6b7280; font-style: italic;">
@@ -592,102 +701,6 @@
             });
         }
 
-        // Toggle Menu Function
-        function toggleMenu() {
-            const menu = document.getElementById('dropdownMenu');
-            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-        }
-
-        // Navigation Function
-        function navigateTo(section) {
-            const menu = document.getElementById('dropdownMenu');
-            menu.style.display = 'none';
-            
-            // Update main content based on selection
-            const mainContent = document.querySelector('[style*="padding: 20px"][style*="text-align: center"]');
-            
-            let content = '';
-            switch(section) {
-                case 'customers':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">👥 Quản Lý Khách Hàng</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Danh sách và thông tin khách hàng</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý khách hàng đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'services':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">💆‍♀️ Quản Lý Dịch Vụ</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Danh sách các dịch vụ spa</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý dịch vụ đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'appointments':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">📅 Quản Lý Lịch Hẹn</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Lịch hẹn và đặt chỗ</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý lịch hẹn đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'staff':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">👨‍💼 Quản Lý Nhân Viên</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Thông tin và lịch làm việc nhân viên</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý nhân viên đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'reports':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">📊 Báo Cáo & Thống Kê</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Doanh thu và hiệu suất hoạt động</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng báo cáo đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'settings':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">⚙️ Cài Đặt Hệ Thống</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Cấu hình và tùy chỉnh hệ thống</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng cài đặt đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                default:
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">Dashboard Chính</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Chào mừng bạn đến với hệ thống quản lý spa!</p>
-                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280; font-style: italic;">🚧 Các chức năng đang được phát triển. Sử dụng menu để điều hướng!</p>
-                        </div>
-                    `;
-            }
-            
-            mainContent.innerHTML = content;
-        }
-
-        // Show Notifications Function
-        function showNotifications() {
-            alert('🔔 Thông báo:\n\n• Bạn có 2 lịch hẹn mới\n• Khách hàng vừa đánh giá 5 sao\n• Nhân viên A đã hoàn thành ca làm');
-        }
-        }
-
-        // Logout function
-        function logout() {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('userInfo');
-            location.reload();
-        }
-
         // Check if user is already logged in
         window.addEventListener('load', () => {
             const token = localStorage.getItem('accessToken');
@@ -696,12 +709,16 @@
             if (token && userInfo) {
                 try {
                     const user = JSON.parse(userInfo);
+                    console.log('User already logged in:', user);
                     showMainApp(user);
                 } catch (error) {
+                    console.error('Invalid stored user data:', error);
                     // Invalid stored data, clear it
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('userInfo');
                 }
+            } else {
+                console.log('No existing login found');
             }
         });
 
@@ -717,6 +734,3 @@
                 });
             });
         }
-    </script>
-</body>
-</html>
