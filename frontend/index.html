@@ -187,9 +187,14 @@
 
         /* Sửa app-name để không dùng absolute positioning */
         .app-name {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             font-size: 18px;
             font-weight: 600;
             color: white;
+            white-space: nowrap;  /* ← Đảm bảo "Spa Software" trên 1 hàng */
         }
 
         .notification-btn {
