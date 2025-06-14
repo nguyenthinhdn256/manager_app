@@ -156,7 +156,7 @@
             border-radius: 6px;
             transition: background-color 0.2s;
             color: white;
-            margin-right: 6px;
+            margin-right: 10px;
         }
 
         .menu-btn:hover {
@@ -176,13 +176,13 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-left: 6px;
+            margin-left: 10px;
         }
 
         .notification-btn {
             background: none;
             border: none;
-            font-size: 10px;
+            font-size: 16px;
             cursor: pointer;
             padding: 8px;
             border-radius: 6px;
@@ -491,8 +491,12 @@
                 <div class="dashboard">
                     <!-- Navigation Bar -->
                     <div class="header">
-                        <button class="menu-btn" onclick="toggleMenu()">☰</button>
-                        <div class="app-name">Spa Software</div>
+                        <div class="header-left">
+                            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+                        </div>
+                        <div class="header-center">
+                            <div class="app-name">Spa Software</div>
+                        </div>
                         <div class="header-right">
                             <button class="notification-btn" onclick="showNotifications()">
                                 🔔
