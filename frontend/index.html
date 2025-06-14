@@ -733,6 +733,8 @@
 
     <!-- Load Customer Module -->
     <script src="customer-module.js"></script>
+    <!-- Load Service Module -->
+    <script src="service-module.js"></script>
 
     <script>
         // ===== MAIN APPLICATION LOGIC =====
@@ -978,6 +980,9 @@
             if (section === 'customers') {
                 // Use Customer Module
                 CustomerModule.showCustomerPage();
+            } else if (section === 'services') {
+                // Use Service Module
+                ServiceModule.showServicePage();
             } else if (section === 'overview') {
                 // Return to main dashboard
                 const token = localStorage.getItem('accessToken');
@@ -1016,7 +1021,7 @@
             }
         });
         
-        console.log('📄 Main App loaded - Customer Module integrated');
+        console.log('📄 Main App loaded - Customer & Service Modules integrated');
     </script>
 </body>
 </html>
