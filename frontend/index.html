@@ -1304,18 +1304,63 @@ Tạo lúc: ${formatTimeDetailed(customer.createdAt)}</div>
             const customer = customers.find(c => c.id == customerId);
             if (customer) {
                 closeCustomerInfoModal();
-                // Confirm delete
-                if (confirm(`Bạn có chắc muốn xóa khách hàng "${customer.name}"?`)) {
-                    // Remove from array
-                    customers = customers.filter(c => c.id != customerId);
-                    // Save to localStorage
-                    saveCustomers();
-                    // Refresh page
-                    showCustomerPage();
-                    // Show success
-                    showAlert(`Đã xóa khách hàng "${customer.name}"`, 'Xóa thành công', '✅');
-                }
+                // Show custom confirm dialog
+                showConfirmDialog(
+                    `Bạn có chắc muốn xóa khách hàng "${customer.name}"?`,
+                    'Xác nhận xóa',
+                    '🗑️',
+                    function() {
+                        // Confirm delete
+                        customers = customers.filter(c => c.id != customerId);
+                        saveCustomers();
+                        showCustomerPage();
+                        showAlert(`Đã xóa khách hàng "${customer.name}"`, 'Xóa thành công', '✅');
+                    }
+                );
             }
+        }
+
+        // Custom Confirm Dialog
+        function showConfirmDialog(message, title = 'Xác nhận', icon = '❓', onConfirm = null) {
+            // Remove existing alert if any
+            const existingAlert = document.querySelector('.alert-overlay');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+
+            const alertOverlay = document.createElement('div');
+            alertOverlay.className = 'alert-overlay';
+            alertOverlay.innerHTML = `
+                <div class="alert-modal">
+                    <div class="alert-icon">${icon}</div>
+                    <div class="alert-title">${title}</div>
+                    <div class="alert-message">${message}</div>
+                    <div style="display: flex; gap: 12px; margin-top: 20px;">
+                        <button class="btn-cancel" onclick="closeAlert()" style="flex: 1; padding: 12px; background: #f3f4f6; color: #6b7280; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;">Hủy</button>
+                        <button class="btn-confirm" onclick="confirmAction()" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;">Xác nhận</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(alertOverlay);
+            
+            // Store the confirm callback
+            window.currentConfirmCallback = onConfirm;
+            
+            // Close alert when clicking overlay
+            alertOverlay.addEventListener('click', function(e) {
+                if (e.target === alertOverlay) {
+                    closeAlert();
+                }
+            });
+        }
+
+        window.confirmAction = function() {
+            if (window.currentConfirmCallback) {
+                window.currentConfirmCallback();
+                window.currentConfirmCallback = null;
+            }
+            closeAlert();
         }
 
         window.closeCustomerInfoModal = closeCustomerInfoModal;
