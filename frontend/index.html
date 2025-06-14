@@ -506,8 +506,78 @@
             text-align: right;
         }
 
-        .login-container {
-            animation: fadeInUp 0.6s ease-out;
+        /* Custom Alert Modal */
+        .alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .alert-modal {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            width: 100%;
+            max-width: 350px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: alertSlideIn 0.2s ease-out;
+            text-align: center;
+        }
+
+        @keyframes alertSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .alert-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .alert-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        .alert-message {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            white-space: pre-line;
+        }
+
+        .alert-button {
+            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 80px;
+        }
+
+        .alert-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
 
         @media (max-width: 480px) {
@@ -662,7 +732,7 @@
                 console.log(`📝 Login attempt: ${username}`);
                 
                 if (!username || !password) {
-                    alert('Vui lòng nhập đầy đủ thông tin!');
+                    showAlert('Vui lòng nhập đầy đủ thông tin!', 'Lỗi', '⚠️');
                     return false;
                 }
                 
@@ -710,7 +780,7 @@
                     
                 } catch (error) {
                     console.error('❌ Login error:', error);
-                    alert(error.message || 'Không thể kết nối đến server!');
+                    showAlert(error.message || 'Không thể kết nối đến server!', 'Lỗi đăng nhập', '❌');
                     
                     // Reset button
                     submitBtn.disabled = false;
@@ -931,7 +1001,7 @@
             const phone = document.getElementById('customerPhone').value.trim();
             
             if (!name) {
-                alert('Vui lòng nhập tên khách hàng!');
+                showAlert('Vui lòng nhập tên khách hàng!', 'Lỗi', '⚠️');
                 return;
             }
             
@@ -957,21 +1027,21 @@
             
             // Show success message
             setTimeout(() => {
-                alert(`✅ Đã thêm khách hàng: ${name}`);
+                showAlert(`Đã thêm thành công khách hàng: ${name}`, 'Thành công', '✅');
             }, 300);
         }
 
         // Global functions
         window.showNotifications = function() {
-            alert('🔔 Thông báo mới!');
+            showAlert('Hiện tại chưa có thông báo mới nào!', 'Thông báo', '🔔');
         }
 
         window.showMessages = function() {
-            alert('✉️ Tin nhắn mới!');
+            showAlert('Hiện tại chưa có tin nhắn mới nào!', 'Tin nhắn', '✉️');
         }
 
         window.showDatePicker = function() {
-            alert('📅 Chọn ngày khác...');
+            showAlert('Chức năng chọn ngày đang được phát triển...', 'Chọn ngày', '📅');
         }
         
         window.showSection = function(section) {
@@ -995,7 +1065,7 @@
                     'orders': 'Hóa đơn',
                     'more': 'Nhiều hơn'
                 };
-                alert(`Chuyển đến: ${sections[section] || section}`);
+                showAlert(`Chức năng "${sections[section] || section}" đang được phát triển...`, 'Thông báo', '🚧');
             }
         }
 
@@ -1006,7 +1076,8 @@
         window.viewCustomer = function(customerId) {
             const customer = customers.find(c => c.id == customerId);
             if (customer) {
-                alert(`👤 Thông tin khách hàng:\n\nTên: ${customer.name}\nĐặc điểm: ${customer.features}\nPhone: ${customer.phone}\nTạo lúc: ${formatTime(customer.createdAt)}\n\nChức năng xem chi tiết đang được phát triển...`);
+                const customerInfo = `Tên: ${customer.name}\nĐặc điểm: ${customer.features}\nPhone: ${customer.phone}\nTạo lúc: ${formatTime(customer.createdAt)}\n\nChức năng xem chi tiết đang được phát triển...`;
+                showAlert(customerInfo, 'Thông tin khách hàng', '👤');
             }
         }
         
