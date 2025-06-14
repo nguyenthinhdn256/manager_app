@@ -22,13 +22,13 @@ const ServiceModule = (function() {
                 color: #3b82f6;
                 border: 2px solid #3b82f6;
                 border-radius: 12px;
-                padding: 20px 24px;
-                font-size: 16px;
+                padding: 5px 6px;
+                font-size: 4px;
                 font-weight: 600;
                 cursor: pointer;
                 transition: all 0.2s ease;
                 margin: 8px;
-                min-width: 140px;
+                min-width: 35px;
                 box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
             " onmouseover="this.style.background='#eff6ff'; this.style.transform='translateY(-1px)'" 
                onmouseout="this.style.background='white'; this.style.transform='translateY(0)'"
