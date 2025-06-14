@@ -580,6 +580,93 @@
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
 
+        /* Customer Info Modal Buttons */
+        .customer-modal-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .customer-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn-add-service {
+            background: #ffffff;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+
+        .btn-add-service:hover {
+            background: #eff6ff;
+        }
+
+        .btn-payment {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-payment:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-edit {
+            background: #ffffff;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+
+        .btn-edit:hover {
+            background: #eff6ff;
+        }
+
+        .btn-delete {
+            background: #ffffff;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+
+        .btn-delete:hover {
+            background: #eff6ff;
+        }
+
+        /* Close button X */
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: #6b7280;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .customer-info-modal {
+            position: relative;
+        }
+
         @media (max-width: 480px) {
             .login-container {
                 padding: 30px 20px;
@@ -1148,10 +1235,90 @@
         window.viewCustomer = function(customerId) {
             const customer = customers.find(c => c.id == customerId);
             if (customer) {
-                const customerInfo = `Tên: ${customer.name}\nĐặc điểm: ${customer.features}\nPhone: ${customer.phone}\nTạo lúc: ${formatTimeDetailed(customer.createdAt)}\n\nChức năng xem chi tiết đang được phát triển...`;
-                showAlert(customerInfo, 'Thông tin khách hàng', '👤');
+                showCustomerInfoModal(customer);
             }
         }
+
+        // Show Customer Info Modal
+        function showCustomerInfoModal(customer) {
+            // Remove existing modal if any
+            const existingModal = document.querySelector('.alert-overlay');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            const modalOverlay = document.createElement('div');
+            modalOverlay.className = 'alert-overlay';
+            modalOverlay.innerHTML = `
+                <div class="alert-modal customer-info-modal">
+                    <button class="modal-close" onclick="closeCustomerInfoModal()">×</button>
+                    <div class="alert-icon">👤</div>
+                    <div class="alert-title">Thông tin khách hàng</div>
+                    <div class="alert-message">Tên: ${customer.name}
+Đặc điểm: ${customer.features}
+Phone: ${customer.phone}
+Tạo lúc: ${formatTimeDetailed(customer.createdAt)}</div>
+                    <div class="customer-modal-buttons">
+                        <button class="customer-btn btn-add-service" onclick="addService(${customer.id})">Thêm DV</button>
+                        <button class="customer-btn btn-payment" onclick="makePayment(${customer.id})">Thanh toán</button>
+                        <button class="customer-btn btn-edit" onclick="editCustomer(${customer.id})">Sửa</button>
+                        <button class="customer-btn btn-delete" onclick="deleteCustomer(${customer.id})">Xóa</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modalOverlay);
+            
+            // Close modal when clicking overlay
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    closeCustomerInfoModal();
+                }
+            });
+        }
+
+        function closeCustomerInfoModal() {
+            const modalOverlay = document.querySelector('.alert-overlay');
+            if (modalOverlay) {
+                modalOverlay.remove();
+            }
+        }
+
+        // Customer action functions
+        window.addService = function(customerId) {
+            closeCustomerInfoModal();
+            showAlert('Chức năng "Thêm dịch vụ" đang được phát triển...', 'Thêm dịch vụ', '💆‍♀️');
+        }
+
+        window.makePayment = function(customerId) {
+            closeCustomerInfoModal();
+            showAlert('Chức năng "Thanh toán" đang được phát triển...', 'Thanh toán', '💳');
+        }
+
+        window.editCustomer = function(customerId) {
+            closeCustomerInfoModal();
+            showAlert('Chức năng "Sửa thông tin" đang được phát triển...', 'Sửa thông tin', '✏️');
+        }
+
+        window.deleteCustomer = function(customerId) {
+            const customer = customers.find(c => c.id == customerId);
+            if (customer) {
+                closeCustomerInfoModal();
+                // Confirm delete
+                if (confirm(`Bạn có chắc muốn xóa khách hàng "${customer.name}"?`)) {
+                    // Remove from array
+                    customers = customers.filter(c => c.id != customerId);
+                    // Save to localStorage
+                    saveCustomers();
+                    // Refresh page
+                    showCustomerPage();
+                    // Show success
+                    showAlert(`Đã xóa khách hàng "${customer.name}"`, 'Xóa thành công', '✅');
+                }
+            }
+        }
+
+        window.closeCustomerInfoModal = closeCustomerInfoModal;
         
         // Check existing login
         window.addEventListener('load', () => {
