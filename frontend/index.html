@@ -15,12 +15,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: #ffffff;
+            background: #f5f5f5;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
         }
 
         .login-container {
@@ -33,6 +29,10 @@
             max-width: 400px;
             text-align: center;
             border: 1px solid rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .app-logo {
@@ -124,224 +124,274 @@
         /* Dashboard Styles */
         .dashboard {
             min-height: 100vh;
-            background: #ffffff;
+            background: #f5f5f5;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
         }
 
-        /* Fixed: Navigation Bar full màn hình với padding 10px */
+        /* Header */
         .header {
-            background: linear-gradient(135deg, #4F46E5, #5b6bc0);
-            padding: 10px 0;
+            background: white;
+            padding: 15px 20px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            position: fixed;
-            width: 100vw;
-            top: 0;
-            left: 0;
-            right: 0;
-            margin: 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            z-index: 999;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        /* CSS cho structure mới trong JavaScript */
-        .header-left {
+        .logo-section {
             display: flex;
             align-items: center;
-            flex: 1;
-            padding-left: 10px;
-            height: 100%;
+            gap: 10px;
         }
 
-        .header-center {
+        .logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
             display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            flex: 1;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .app-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
         }
 
         .header-right {
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: flex-end;
-            flex: 1;
-            padding-right: 10px;
-            height: 100%;
+            align-items: center;
+            gap: 15px;
         }
 
-        .menu-btn {
+        .notification-btn, .message-btn {
             background: none;
             border: none;
             font-size: 20px;
+            color: #6b7280;
             cursor: pointer;
             padding: 8px;
-            border-radius: 6px;
+            border-radius: 8px;
             transition: background-color 0.2s;
-            color: white;
         }
 
-        .menu-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        .notification-btn:hover, .message-btn:hover {
+            background-color: #f3f4f6;
         }
 
-        /* App name căn giữa tuyệt đối từ 4 cạnh Navigation Bar */
-        .app-name {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 18px;
-            font-weight: 600;
-            color: white;
-            white-space: nowrap;
-        }
-
-        .notification-btn {
-            background: none;
-            border: none;
-            font-size: 12px;
+        /* Date selector */
+        .date-selector {
+            margin: 20px;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #6b7280;
             cursor: pointer;
-            padding: 4px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-            position: relative;
-            color: white;
-            margin-top: 3px;
+            display: inline-block;
         }
 
-        .notification-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        /* Stats card */
+        .stats-card {
+            margin: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .notification-badge {
-            position: absolute;
-            top: 1px;
-            right: 1px;
-            background: #ef4444;
-            color: white;
-            border-radius: 50%;
-            width: 8px;
-            height: 8px;
-            font-size: 6px;
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .stat-item h3 {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .stat-unit {
+            font-size: 14px;
+            color: #6b7280;
+            margin-left: 4px;
+        }
+
+        .profit-section {
+            text-align: right;
+        }
+
+        .profit-value {
+            font-size: 16px;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .returns-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f3f4f6;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: bold;
+            gap: 8px;
         }
 
-        .logout-btn {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            padding: 4px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 500;
-            transition: background-color 0.2s;
-            white-space: nowrap;
-            margin-bottom: 3px;
+        .returns-icon {
+            width: 16px;
+            height: 16px;
+            color: #6b7280;
         }
 
-        .logout-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        .returns-text {
+            font-size: 14px;
+            color: #6b7280;
         }
 
-        /* Side Menu Overlay */
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        /* Quick actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 20px;
         }
 
-        .menu-overlay.show {
-            display: block;
-            opacity: 1;
-        }
-
-        /* Side Menu */
-        .side-menu {
-            position: fixed;
-            top: 0;
-            left: -187px;
-            width: 187px;
-            height: 100%;
+        .action-btn {
             background: white;
-            z-index: 1001;
-            transition: left 0.3s ease;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 16px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .side-menu.show {
-            left: 0;
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .menu-header {
-            background: linear-gradient(135deg, #4F46E5, #5b6bc0);
+        .action-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .action-text {
+            font-size: 12px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        /* Revenue section */
+        .revenue-section {
+            margin: 20px;
+            background: white;
+            border-radius: 16px;
             padding: 20px;
-            color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .menu-header h3 {
-            margin: 0;
+        .revenue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .revenue-title {
             font-size: 18px;
             font-weight: 600;
+            color: #1f2937;
         }
 
-        .menu-header p {
-            margin: 5px 0 0 0;
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .menu-items {
+        .chart-container {
+            height: 200px;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            gap: 10px;
             padding: 20px 0;
         }
 
-        /* Fixed: Main content với padding-top để tránh che khuất bởi header fixed */
-        .main-content {
-            padding: 80px 20px 20px 20px; /* 80px top để tránh header */
-            text-align: center;
+        .chart-bar {
+            width: 40px;
+            background: #2563eb;
+            border-radius: 4px 4px 0 0;
+            position: relative;
         }
 
-        .menu-item {
-            padding: 15px 20px;
-            cursor: pointer;
-            transition: background-color 0.2s;
+        .chart-bar.today {
+            height: 160px;
+        }
+
+        .chart-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .chart-scale {
+            position: absolute;
+            left: 10px;
+            top: 0;
+            height: 100%;
             display: flex;
-            align-items: center;
-            gap: 15px;
-            color: #374151;
-            border-bottom: 1px solid #f3f4f6;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #9ca3af;
         }
 
-        .menu-item:hover {
-            background-color: #f8f9fa;
+        /* Bottom navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            padding: 10px 0;
         }
 
-        .menu-item:last-child {
-            border-bottom: none;
-        }
-
-        .menu-item span:first-child {
-            font-size: 20px;
-            width: 24px;
+        .nav-item {
             text-align: center;
+            padding: 8px;
+            color: #6b7280;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            cursor: pointer;
         }
 
-        .menu-item span:last-child {
-            font-size: 16px;
-            font-weight: 500;
+        .nav-item.active {
+            color: #2563eb;
+        }
+
+        .nav-icon {
+            font-size: 20px;
         }
 
         @keyframes fadeInUp {
@@ -421,7 +471,7 @@
     <script>
         const API_BASE_URL = 'https://manager-app-744c.onrender.com/api';
         
-        // Simple login function - DỰA TRÊN CODE DEBUG THÀNH CÔNG
+        // Simple login function
         document.addEventListener('DOMContentLoaded', function() {
             console.log('✅ DOM loaded');
             
@@ -505,146 +555,143 @@
             console.log('✅ Login form ready');
         });
         
-        // Show dashboard - ĐƠN GIẢN HÓA
+        // Show dashboard
         function showDashboard(user) {
             console.log('🏠 Showing dashboard for:', user.username);
             
             document.body.innerHTML = `
                 <div class="dashboard">
-                    <!-- Navigation Bar -->
+                    <!-- Header -->
                     <div class="header">
-                        <div class="header-left">
-                            <button class="menu-btn" onclick="toggleMenu()">☰</button>
-                        </div>
-                        <div class="header-center">
-                            <div class="app-name">Spa Software</div>
+                        <div class="logo-section">
+                            <div class="logo">S</div>
+                            <div class="app-name">SpaViet</div>
                         </div>
                         <div class="header-right">
-                            <button class="logout-btn" onclick="logout()">Đăng xuất</button>
-                            <button class="notification-btn" onclick="showNotifications()">
-                                🔔
-                                <span class="notification-badge">3</span>
-                            </button>
+                            <button class="notification-btn" onclick="showNotifications()">🔔</button>
+                            <button class="message-btn" onclick="showMessages()">✉️</button>
                         </div>
                     </div>
 
-                    <!-- Menu Overlay -->
-                    <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+                    <!-- Date Selector -->
+                    <div class="date-selector" onclick="showDatePicker()">
+                        Hôm nay, 14/06/2025 ▼
+                    </div>
 
-                    <!-- Side Menu -->
-                    <div class="side-menu" id="sideMenu">
-                        <div class="menu-header">
-                            <h3>Menu Chính</h3>
-                            <p>Chọn chức năng bạn muốn sử dụng</p>
+                    <!-- Stats Card -->
+                    <div class="stats-card">
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <h3>1 hóa đơn</h3>
+                                <div>
+                                    <span class="stat-value">29.19</span>
+                                    <span class="stat-unit">triệu</span>
+                                </div>
+                            </div>
+                            <div class="profit-section">
+                                <h3>Lợi nhuận 🚫</h3>
+                                <div class="profit-value">*** ***</div>
+                            </div>
                         </div>
-                        <div class="menu-items">
-                            <div class="menu-item" onclick="showSection('customers')">
-                                <span>👥</span>
-                                <span>Khách Hàng</span>
+                        <div class="returns-section">
+                            <span class="returns-icon">📦</span>
+                            <span class="returns-text">0 đơn trả hàng - 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <button class="action-btn" onclick="showSection('loan')">
+                            <div class="action-icon" style="color: #2563eb;">💰</div>
+                            <div class="action-text">Vay vốn</div>
+                        </button>
+                        <button class="action-btn" onclick="showSection('delivery')">
+                            <div class="action-icon" style="color: #2563eb;">🚚</div>
+                            <div class="action-text">Giao hàng</div>
+                        </button>
+                        <button class="action-btn" onclick="showSection('payment')">
+                            <div class="action-icon" style="color: #10b981;">💳</div>
+                            <div class="action-text">Thanh toán</div>
+                        </button>
+                        <button class="action-btn" onclick="showSection('staff')">
+                            <div class="action-icon" style="color: #2563eb;">👤</div>
+                            <div class="action-text">Nhân viên</div>
+                        </button>
+                    </div>
+
+                    <!-- Revenue Section -->
+                    <div class="revenue-section">
+                        <div class="revenue-header">
+                            <h2 class="revenue-title">Doanh thu</h2>
+                            <span style="color: #6b7280;">></span>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-scale">
+                                <div>30Tr</div>
+                                <div>20Tr</div>
+                                <div>10Tr</div>
+                                <div>0</div>
                             </div>
-                            <div class="menu-item" onclick="showSection('services')">
-                                <span>💆‍♀️</span>
-                                <span>Dịch Vụ</span>
-                            </div>
-                            <div class="menu-item" onclick="showSection('appointments')">
-                                <span>📅</span>
-                                <span>Lịch Hẹn</span>
-                            </div>
-                            <div class="menu-item" onclick="showSection('staff')">
-                                <span>👨‍💼</span>
-                                <span>Nhân Viên</span>
-                            </div>
-                            <div class="menu-item" onclick="showSection('reports')">
-                                <span>📊</span>
-                                <span>Báo Cáo</span>
-                            </div>
-                            <div class="menu-item" onclick="showSection('settings')">
-                                <span>⚙️</span>
-                                <span>Cài Đặt</span>
+                            <div class="chart-bar today">
+                                <div class="chart-label">21h</div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Main Content -->
-                    <div class="main-content" id="mainContent">
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">Dashboard Chính</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Chào mừng ${user.username} đến với hệ thống quản lý spa!</p>
-                        
-                        <div style="margin-top: 40px; padding: 20px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="margin: 0; color: #6b7280; font-style: italic;">
-                                🚧 Các chức năng đang được phát triển. Sử dụng menu để điều hướng!
-                            </p>
+
+                    <!-- Bottom Navigation -->
+                    <div class="bottom-nav">
+                        <div class="nav-item active" onclick="showSection('overview')">
+                            <div class="nav-icon">🏠</div>
+                            <div>Tổng quan</div>
+                        </div>
+                        <div class="nav-item" onclick="showSection('products')">
+                            <div class="nav-icon">📦</div>
+                            <div>Hàng hóa</div>
+                        </div>
+                        <div class="nav-item" onclick="showSection('sales')">
+                            <div class="nav-icon">🛍️</div>
+                            <div>Bán hàng</div>
+                        </div>
+                        <div class="nav-item" onclick="showSection('orders')">
+                            <div class="nav-icon">📋</div>
+                            <div>Hóa đơn</div>
+                        </div>
+                        <div class="nav-item" onclick="showSection('more')">
+                            <div class="nav-icon">☰</div>
+                            <div>Nhiều hơn</div>
                         </div>
                     </div>
                 </div>
             `;
-            
-            // Setup menu handlers - UPDATED
-            document.addEventListener('click', function(event) {
-                // No need for dropdown menu click outside handler anymore
-                // Side menu is handled by overlay click
-            });
         }
         
-        // GLOBAL FUNCTIONS - UPDATED FOR SIDE MENU
-        window.toggleMenu = function() {
-            const menu = document.getElementById('sideMenu');
-            const overlay = document.getElementById('menuOverlay');
-            
-            if (menu && overlay) {
-                if (menu.classList.contains('show')) {
-                    closeMenu();
-                } else {
-                    menu.classList.add('show');
-                    overlay.classList.add('show');
-                }
-            }
+        // Global functions
+        window.showNotifications = function() {
+            alert('🔔 Thông báo mới!');
         }
 
-        window.closeMenu = function() {
-            const menu = document.getElementById('sideMenu');
-            const overlay = document.getElementById('menuOverlay');
-            
-            if (menu && overlay) {
-                menu.classList.remove('show');
-                overlay.classList.remove('show');
-            }
+        window.showMessages = function() {
+            alert('✉️ Tin nhắn mới!');
+        }
+
+        window.showDatePicker = function() {
+            alert('📅 Chọn ngày khác...');
         }
         
         window.showSection = function(section) {
-            closeMenu(); // Close side menu first
-            
-            const content = document.getElementById('mainContent');
-            if (!content) return;
-            
             const sections = {
-                'customers': { title: '👥 Quản Lý Khách Hàng', desc: 'Danh sách và thông tin khách hàng' },
-                'services': { title: '💆‍♀️ Quản Lý Dịch Vụ', desc: 'Danh sách các dịch vụ spa' },
-                'appointments': { title: '📅 Quản Lý Lịch Hẹn', desc: 'Lịch hẹn và đặt chỗ' },
-                'staff': { title: '👨‍💼 Quản Lý Nhân Viên', desc: 'Thông tin và lịch làm việc nhân viên' },
-                'reports': { title: '📊 Báo Cáo & Thống Kê', desc: 'Doanh thu và hiệu suất hoạt động' },
-                'settings': { title: '⚙️ Cài Đặt Hệ Thống', desc: 'Cấu hình và tùy chỉnh hệ thống' }
+                'overview': 'Tổng quan',
+                'products': 'Hàng hóa', 
+                'sales': 'Bán hàng',
+                'orders': 'Hóa đơn',
+                'more': 'Nhiều hơn',
+                'loan': 'Vay vốn',
+                'delivery': 'Giao hàng',
+                'payment': 'Thanh toán',
+                'staff': 'Nhân viên'
             };
             
-            const sectionData = sections[section] || { title: 'Dashboard Chính', desc: 'Chào mừng bạn đến với hệ thống quản lý spa!' };
-            
-            content.innerHTML = `
-                <h2 style="color: #1f2937; margin-bottom: 20px;">${sectionData.title}</h2>
-                <p style="color: #6b7280; margin-bottom: 30px;">${sectionData.desc}</p>
-                <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                    <p style="color: #6b7280;">🚧 Chức năng ${sectionData.title.toLowerCase()} đang được phát triển...</p>
-                </div>
-            `;
-        }
-        
-        window.showNotifications = function() {
-            alert('🔔 Thông báo:\n\n• Bạn có 2 lịch hẹn mới\n• Khách hàng vừa đánh giá 5 sao\n• Nhân viên A đã hoàn thành ca làm');
-        }
-        
-        window.logout = function() {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('userInfo');
-            location.reload();
+            alert(`Chuyển đến: ${sections[section] || section}`);
         }
         
         // Check existing login
