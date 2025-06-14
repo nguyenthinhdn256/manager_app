@@ -647,44 +647,97 @@
     <script>
         const API_BASE_URL = 'https://manager-app-744c.onrender.com/api';
         
-        // Customer data storage
-        let customers = [
-            {
-                id: 1,
-                name: 'Nguyễn Văn An',
-                phone: '0901234567',
-                features: 'Khách VIP, thích massage',
-                createdAt: new Date('2025-06-10T10:30:00').toISOString()
-            },
-            {
-                id: 2,
-                name: 'Trần Thị Bình',
-                phone: '0912345678',
-                features: 'Da nhạy cảm',
-                createdAt: new Date('2025-06-11T14:15:00').toISOString()
-            },
-            {
-                id: 3,
-                name: 'Lê Hoàng Cường',
-                phone: '0923456789',
-                features: 'Thể thao, cần thư giãn',
-                createdAt: new Date('2025-06-12T09:45:00').toISOString()
-            },
-            {
-                id: 4,
-                name: 'Phạm Thị Dung',
-                phone: '0934567890',
-                features: 'Chăm sóc da mặt',
-                createdAt: new Date('2025-06-13T16:20:00').toISOString()
-            },
-            {
-                id: 5,
-                name: 'Hoàng Văn Em',
-                phone: '0945678901',
-                features: 'Khách thường xuyên',
-                createdAt: new Date('2025-06-14T11:00:00').toISOString()
+        // Custom Alert Function
+        function showAlert(message, title = 'Thông báo', icon = '💬') {
+            // Remove existing alert if any
+            const existingAlert = document.querySelector('.alert-overlay');
+            if (existingAlert) {
+                existingAlert.remove();
             }
-        ];
+
+            const alertOverlay = document.createElement('div');
+            alertOverlay.className = 'alert-overlay';
+            alertOverlay.innerHTML = `
+                <div class="alert-modal">
+                    <div class="alert-icon">${icon}</div>
+                    <div class="alert-title">${title}</div>
+                    <div class="alert-message">${message}</div>
+                    <button class="alert-button" onclick="closeAlert()">OK</button>
+                </div>
+            `;
+            
+            document.body.appendChild(alertOverlay);
+            
+            // Close alert when clicking overlay
+            alertOverlay.addEventListener('click', function(e) {
+                if (e.target === alertOverlay) {
+                    closeAlert();
+                }
+            });
+        }
+
+        function closeAlert() {
+            const alertOverlay = document.querySelector('.alert-overlay');
+            if (alertOverlay) {
+                alertOverlay.remove();
+            }
+        }
+
+        // Make closeAlert global
+        window.closeAlert = closeAlert;
+
+        // Customer data storage with localStorage
+        function loadCustomers() {
+            const saved = localStorage.getItem('customers');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            // Default customers if no saved data
+            return [
+                {
+                    id: 1,
+                    name: 'Nguyễn Văn An',
+                    phone: '0901234567',
+                    features: 'Khách VIP, thích massage',
+                    createdAt: new Date('2025-06-10T10:30:00').toISOString()
+                },
+                {
+                    id: 2,
+                    name: 'Trần Thị Bình',
+                    phone: '0912345678',
+                    features: 'Da nhạy cảm',
+                    createdAt: new Date('2025-06-11T14:15:00').toISOString()
+                },
+                {
+                    id: 3,
+                    name: 'Lê Hoàng Cường',
+                    phone: '0923456789',
+                    features: 'Thể thao, cần thư giãn',
+                    createdAt: new Date('2025-06-12T09:45:00').toISOString()
+                },
+                {
+                    id: 4,
+                    name: 'Phạm Thị Dung',
+                    phone: '0934567890',
+                    features: 'Chăm sóc da mặt',
+                    createdAt: new Date('2025-06-13T16:20:00').toISOString()
+                },
+                {
+                    id: 5,
+                    name: 'Hoàng Văn Em',
+                    phone: '0945678901',
+                    features: 'Khách thường xuyên',
+                    createdAt: new Date('2025-06-14T11:00:00').toISOString()
+                }
+            ];
+        }
+
+        function saveCustomers() {
+            localStorage.setItem('customers', JSON.stringify(customers));
+        }
+
+        // Load customers from localStorage
+        let customers = loadCustomers();
 
         // Utility functions
         function formatTime(isoString) {
@@ -1005,9 +1058,10 @@
                 return;
             }
             
-            // Create new customer
+            // Create new customer with unique ID
+            const maxId = customers.length > 0 ? Math.max(...customers.map(c => c.id)) : 0;
             const newCustomer = {
-                id: customers.length + 1,
+                id: maxId + 1,
                 name: name,
                 phone: phone || 'Chưa có SĐT',
                 features: features || 'Khách hàng mới',
@@ -1016,6 +1070,9 @@
             
             // Add to customers array
             customers.unshift(newCustomer); // Add to beginning of array
+            
+            // Save to localStorage
+            saveCustomers();
             
             console.log('✅ New customer added:', newCustomer);
             
