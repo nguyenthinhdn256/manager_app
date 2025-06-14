@@ -50,11 +50,7 @@ const ServiceModule = (function() {
         const serviceGroupsHTML = renderServiceGroups();
         
         document.body.innerHTML = `
-            <div style="
-                min-height: 100vh;
-                background: #f5f5f5;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            ">
+            <div style="min-height: 100vh; background: #f5f5f5;">
                 <!-- Header -->
                 <div class="header">
                     <div class="logo-section">
@@ -69,17 +65,10 @@ const ServiceModule = (function() {
 
                 <!-- Service Page Content -->
                 <div style="padding: 20px; padding-bottom: 80px;">
-                    <div style="
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-bottom: 30px;
-                    ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
                         <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Dịch vụ</h1>
                         
-                        <!-- Service Actions Buttons -->
-                        <div style="display: flex; gap: 15px; margin-left: auto;">
-                            <!-- Tạo Nhóm DV Button -->
+                        <div style="display: flex; gap: 15px;">
                             <button onclick="ServiceModule.showCreateGroupModal()" style="
                                 background: linear-gradient(135deg, #4F46E5, #7C3AED);
                                 color: white;
@@ -91,12 +80,7 @@ const ServiceModule = (function() {
                                 cursor: pointer;
                                 box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
                                 transition: all 0.3s ease;
-                            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(79, 70, 229, 0.3)'" 
-                               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(79, 70, 229, 0.2)'">
-                                Tạo Nhóm DV
-                            </button>
-
-                            <!-- Tạo DV Button -->
+                            ">Tạo Nhóm DV</button>
                             <button onclick="ServiceModule.showCreateDV()" style="
                                 background: linear-gradient(135deg, #4F46E5, #7C3AED);
                                 color: white;
@@ -108,32 +92,17 @@ const ServiceModule = (function() {
                                 cursor: pointer;
                                 box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
                                 transition: all 0.3s ease;
-                            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(79, 70, 229, 0.3)'" 
-                               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(79, 70, 229, 0.2)'">
-                                Tạo DV
-                            </button>
+                            ">Tạo DV</button>
                         </div>
                     </div>
 
                     <!-- Service Groups Grid -->
-                    <div style="
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 12px;
-                        justify-content: flex-start;
-                        margin-top: 20px;
-                    ">
+                    <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-start; margin-top: 20px;">
                         ${serviceGroupsHTML}
                     </div>
 
                     <!-- Description -->
-                    <div style="
-                        text-align: center;
-                        margin-top: 40px;
-                        color: #6b7280;
-                        font-size: 14px;
-                        line-height: 1.6;
-                    ">
+                    <div style="text-align: center; margin-top: 40px; color: #6b7280; font-size: 14px; line-height: 1.6;">
                         <p><strong>Tạo Nhóm DV:</strong> Tạo nhóm dịch vụ mới</p>
                         <p><strong>Tạo DV:</strong> Thêm dịch vụ mới vào hệ thống</p>
                         <p style="margin-top: 10px;"><em>Click vào nhóm dịch vụ để xem chi tiết</em></p>
@@ -170,70 +139,46 @@ const ServiceModule = (function() {
     // ===== SERVICE ACTIONS =====
     function showCreateGroupModal() {
         console.log('📋 Tạo Nhóm DV clicked');
-        // Placeholder for future implementation
-        if (typeof showAlert !== 'undefined') {
-            showAlert('Chức năng "Tạo Nhóm DV" đang được phát triển...', 'Tạo Nhóm Dịch vụ', '📋');
-        } else {
-            alert('Chức năng "Tạo Nhóm DV" đang được phát triển...');
-        }
+        showAlert('Chức năng "Tạo Nhóm DV" đang được phát triển...', 'Tạo Nhóm Dịch vụ', '📋');
     }
 
     function showCreateDV() {
         console.log('➕ Tạo DV clicked');
-        // Placeholder for future implementation
-        if (typeof showAlert !== 'undefined') {
-            showAlert('Chức năng "Tạo DV" đang được phát triển...', 'Tạo Dịch vụ', '➕');
-        } else {
-            alert('Chức năng "Tạo DV" đang được phát triển...');
-        }
+        showAlert('Chức năng "Tạo DV" đang được phát triển...', 'Tạo Dịch vụ', '➕');
     }
 
     function selectServiceGroup(groupId) {
         const group = serviceGroups.find(g => g.id === groupId);
         console.log('🎯 Service group selected:', group.name);
         
-        // Add flash effect
+        // Add visual feedback
         const buttonElement = event.target;
-        buttonElement.style.animation = 'flash 0.3s ease-in-out';
+        buttonElement.style.background = '#dbeafe';
         
-        // Remove animation after it completes
         setTimeout(() => {
-            buttonElement.style.animation = '';
-        }, 300);
+            buttonElement.style.background = 'white';
+        }, 200);
         
-        // Show group details
-        if (typeof showAlert !== 'undefined') {
-            showAlert(`Đã chọn nhóm dịch vụ: "${group.name}"\n\nChức năng xem chi tiết nhóm đang được phát triển...`, 'Nhóm Dịch vụ', '💆‍♀️');
-        } else {
-            alert(`Đã chọn nhóm: ${group.name}`);
-        }
+        showAlert(`Đã chọn nhóm dịch vụ: "${group.name}"\n\nChức năng xem chi tiết nhóm đang được phát triển...`, 'Nhóm Dịch vụ', '💆‍♀️');
     }
 
     // ===== INITIALIZATION =====
     function init() {
-        services = []; // Initialize empty services array
+        services = [];
         console.log('🎯 Service Module initialized');
     }
 
     // ===== PUBLIC API =====
     return {
-        // Initialization
         init: init,
-        
-        // Main functions
         showServicePage: showServicePage,
-        
-        // Service actions
         showCreateGroupModal: showCreateGroupModal,
         showCreateDV: showCreateDV,
         selectServiceGroup: selectServiceGroup,
-        
-        // Data access (for future use)
-        getServices: () => [...services], // Return copy
+        getServices: () => [...services],
         getServiceCount: () => services.length
     };
 })();
 
 // ===== AUTO INITIALIZATION =====
-// Initialize module when loaded
 ServiceModule.init();
