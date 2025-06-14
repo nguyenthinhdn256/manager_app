@@ -126,26 +126,33 @@
             min-height: 100vh;
             background: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
         .header {
             background: rgba(255, 255, 255, 0.95);
-            padding: 15px 20px;
+            padding: 12px 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
+            width: 100%;
+            margin: 0;
+            left: 0;
+            right: 0;
+            top: 0;
         }
 
         .menu-btn {
             background: none;
             border: none;
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
+            padding: 6px;
+            border-radius: 6px;
             transition: background-color 0.2s;
         }
 
@@ -157,7 +164,7 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             color: #1f2937;
         }
@@ -165,16 +172,16 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         .notification-btn {
             background: none;
             border: none;
-            font-size: 20px;
+            font-size: 16px;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
+            padding: 6px;
+            border-radius: 6px;
             transition: background-color 0.2s;
             position: relative;
         }
@@ -185,14 +192,14 @@
 
         .notification-badge {
             position: absolute;
-            top: 0;
-            right: 0;
+            top: -2px;
+            right: -2px;
             background: #ef4444;
             color: white;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 11px;
+            width: 16px;
+            height: 16px;
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -204,11 +211,12 @@
             border: none;
             color: #374151;
             cursor: pointer;
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             transition: background-color 0.2s;
+            white-space: nowrap;
         }
 
         .logout-btn:hover {
@@ -421,28 +429,28 @@
                             <button class="menu-btn" onclick="toggleMenu()">☰</button>
                             <div class="dropdown-menu" id="dropdownMenu">
                                 <div class="menu-item" onclick="showSection('customers')">
-                                    <span style="font-size: 18px;">👥</span>
+                                    <span style="font-size: 16px;">👥</span>
                                     <span>Khách Hàng</span>
                                 </div>
                                 <div class="menu-item" onclick="showSection('services')">
-                                    <span style="font-size: 18px;">💆‍♀️</span>
+                                    <span style="font-size: 16px;">💆‍♀️</span>
                                     <span>Dịch Vụ</span>
                                 </div>
                                 <div class="menu-item" onclick="showSection('appointments')">
-                                    <span style="font-size: 18px;">📅</span>
+                                    <span style="font-size: 16px;">📅</span>
                                     <span>Lịch Hẹn</span>
                                 </div>
                                 <div class="menu-item" onclick="showSection('staff')">
-                                    <span style="font-size: 18px;">👨‍💼</span>
+                                    <span style="font-size: 16px;">👨‍💼</span>
                                     <span>Nhân Viên</span>
                                 </div>
                                 <div class="menu-item" onclick="showSection('reports')">
-                                    <span style="font-size: 18px;">📊</span>
+                                    <span style="font-size: 16px;">📊</span>
                                     <span>Báo Cáo</span>
                                 </div>
                                 <hr style="margin: 8px 0; border: none; border-top: 1px solid #e5e7eb;">
                                 <div class="menu-item" onclick="showSection('settings')">
-                                    <span style="font-size: 18px;">⚙️</span>
+                                    <span style="font-size: 16px;">⚙️</span>
                                     <span>Cài Đặt</span>
                                 </div>
                             </div>
