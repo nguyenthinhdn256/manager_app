@@ -55,6 +55,9 @@ def create_app():
             'status': 'OK',
             'framework': 'Flask + Python'
         })
+    @app.route('/favicon.ico')
+    def favicon():
+        return '', 204 
     
     # Socket.IO events
     @socketio.on('connect')
