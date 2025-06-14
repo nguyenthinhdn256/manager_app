@@ -131,19 +131,18 @@
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.95);
+            background: linear-gradient(135deg, #4F46E5, #5b6bc0);
             padding: 12px 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
             width: 100%;
             margin: 0;
             left: 0;
             right: 0;
             top: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .menu-btn {
@@ -151,13 +150,14 @@
             border: none;
             font-size: 20px;
             cursor: pointer;
-            padding: 6px;
+            padding: 8px;
             border-radius: 6px;
             transition: background-color 0.2s;
+            color: white;
         }
 
         .menu-btn:hover {
-            background-color: #f3f4f6;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .app-name {
@@ -166,7 +166,7 @@
             transform: translateX(-50%);
             font-size: 18px;
             font-weight: 600;
-            color: #1f2937;
+            color: white;
         }
 
         .header-right {
@@ -178,22 +178,23 @@
         .notification-btn {
             background: none;
             border: none;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
-            padding: 6px;
+            padding: 8px;
             border-radius: 6px;
             transition: background-color 0.2s;
             position: relative;
+            color: white;
         }
 
         .notification-btn:hover {
-            background-color: #f3f4f6;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .notification-badge {
             position: absolute;
-            top: -2px;
-            right: -2px;
+            top: 2px;
+            right: 2px;
             background: #ef4444;
             color: white;
             border-radius: 50%;
@@ -209,9 +210,9 @@
         .logout-btn {
             background: none;
             border: none;
-            color: #374151;
+            color: white;
             cursor: pointer;
-            padding: 6px 10px;
+            padding: 8px 12px;
             border-radius: 6px;
             font-size: 13px;
             font-weight: 500;
@@ -220,7 +221,65 @@
         }
 
         .logout-btn:hover {
-            background-color: #f3f4f6;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Side Menu Overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Side Menu */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background: white;
+            z-index: 1001;
+            transition: left 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .side-menu.show {
+            left: 0;
+        }
+
+        .menu-header {
+            background: linear-gradient(135deg, #4F46E5, #5b6bc0);
+            padding: 20px;
+            color: white;
+        }
+
+        .menu-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .menu-header p {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .menu-items {
+            padding: 20px 0;
         }
 
         .main-content {
@@ -228,33 +287,34 @@
             text-align: center;
         }
 
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            border-radius: 12px;
-            padding: 8px 0;
-            min-width: 200px;
-            z-index: 1000;
-            display: none;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            margin-top: 5px;
-        }
-
         .menu-item {
-            padding: 12px 20px;
+            padding: 15px 20px;
             cursor: pointer;
             transition: background-color 0.2s;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             color: #374151;
+            border-bottom: 1px solid #f3f4f6;
         }
 
         .menu-item:hover {
-            background-color: #f3f4f6;
+            background-color: #f8f9fa;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item span:first-child {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .menu-item span:last-child {
+            font-size: 16px;
+            font-weight: 500;
         }
 
         @keyframes fadeInUp {
@@ -424,40 +484,10 @@
             
             document.body.innerHTML = `
                 <div class="dashboard">
+                    <!-- Navigation Bar -->
                     <div class="header">
-                        <div style="position: relative;">
-                            <button class="menu-btn" onclick="toggleMenu()">☰</button>
-                            <div class="dropdown-menu" id="dropdownMenu">
-                                <div class="menu-item" onclick="showSection('customers')">
-                                    <span style="font-size: 16px;">👥</span>
-                                    <span>Khách Hàng</span>
-                                </div>
-                                <div class="menu-item" onclick="showSection('services')">
-                                    <span style="font-size: 16px;">💆‍♀️</span>
-                                    <span>Dịch Vụ</span>
-                                </div>
-                                <div class="menu-item" onclick="showSection('appointments')">
-                                    <span style="font-size: 16px;">📅</span>
-                                    <span>Lịch Hẹn</span>
-                                </div>
-                                <div class="menu-item" onclick="showSection('staff')">
-                                    <span style="font-size: 16px;">👨‍💼</span>
-                                    <span>Nhân Viên</span>
-                                </div>
-                                <div class="menu-item" onclick="showSection('reports')">
-                                    <span style="font-size: 16px;">📊</span>
-                                    <span>Báo Cáo</span>
-                                </div>
-                                <hr style="margin: 8px 0; border: none; border-top: 1px solid #e5e7eb;">
-                                <div class="menu-item" onclick="showSection('settings')">
-                                    <span style="font-size: 16px;">⚙️</span>
-                                    <span>Cài Đặt</span>
-                                </div>
-                            </div>
-                        </div>
-                        
+                        <button class="menu-btn" onclick="toggleMenu()">☰</button>
                         <div class="app-name">Spa Software</div>
-                        
                         <div class="header-right">
                             <button class="notification-btn" onclick="showNotifications()">
                                 🔔
@@ -466,7 +496,45 @@
                             <button class="logout-btn" onclick="logout()">Đăng xuất</button>
                         </div>
                     </div>
+
+                    <!-- Menu Overlay -->
+                    <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+
+                    <!-- Side Menu -->
+                    <div class="side-menu" id="sideMenu">
+                        <div class="menu-header">
+                            <h3>Menu Chính</h3>
+                            <p>Chọn chức năng bạn muốn sử dụng</p>
+                        </div>
+                        <div class="menu-items">
+                            <div class="menu-item" onclick="showSection('customers')">
+                                <span>👥</span>
+                                <span>Khách Hàng</span>
+                            </div>
+                            <div class="menu-item" onclick="showSection('services')">
+                                <span>💆‍♀️</span>
+                                <span>Dịch Vụ</span>
+                            </div>
+                            <div class="menu-item" onclick="showSection('appointments')">
+                                <span>📅</span>
+                                <span>Lịch Hẹn</span>
+                            </div>
+                            <div class="menu-item" onclick="showSection('staff')">
+                                <span>👨‍💼</span>
+                                <span>Nhân Viên</span>
+                            </div>
+                            <div class="menu-item" onclick="showSection('reports')">
+                                <span>📊</span>
+                                <span>Báo Cáo</span>
+                            </div>
+                            <div class="menu-item" onclick="showSection('settings')">
+                                <span>⚙️</span>
+                                <span>Cài Đặt</span>
+                            </div>
+                        </div>
+                    </div>
                     
+                    <!-- Main Content -->
                     <div class="main-content" id="mainContent">
                         <h2 style="color: #1f2937; margin-bottom: 20px;">Dashboard Chính</h2>
                         <p style="color: #6b7280; margin-bottom: 30px;">Chào mừng ${user.username} đến với hệ thống quản lý spa!</p>
@@ -480,28 +548,40 @@
                 </div>
             `;
             
-            // Setup menu click outside handler
+            // Setup menu handlers - UPDATED
             document.addEventListener('click', function(event) {
-                const menu = document.getElementById('dropdownMenu');
-                const menuBtn = document.querySelector('.menu-btn');
-                
-                if (menu && menuBtn && !menuBtn.contains(event.target) && !menu.contains(event.target)) {
-                    menu.style.display = 'none';
-                }
+                // No need for dropdown menu click outside handler anymore
+                // Side menu is handled by overlay click
             });
         }
         
-        // GLOBAL FUNCTIONS - SIMPLE & WORKING
+        // GLOBAL FUNCTIONS - UPDATED FOR SIDE MENU
         window.toggleMenu = function() {
-            const menu = document.getElementById('dropdownMenu');
-            if (menu) {
-                menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'block' : 'none';
+            const menu = document.getElementById('sideMenu');
+            const overlay = document.getElementById('menuOverlay');
+            
+            if (menu && overlay) {
+                if (menu.classList.contains('show')) {
+                    closeMenu();
+                } else {
+                    menu.classList.add('show');
+                    overlay.classList.add('show');
+                }
+            }
+        }
+
+        window.closeMenu = function() {
+            const menu = document.getElementById('sideMenu');
+            const overlay = document.getElementById('menuOverlay');
+            
+            if (menu && overlay) {
+                menu.classList.remove('show');
+                overlay.classList.remove('show');
             }
         }
         
         window.showSection = function(section) {
-            const menu = document.getElementById('dropdownMenu');
-            if (menu) menu.style.display = 'none';
+            closeMenu(); // Close side menu first
             
             const content = document.getElementById('mainContent');
             if (!content) return;
