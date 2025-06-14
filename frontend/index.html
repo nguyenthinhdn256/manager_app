@@ -6,9 +6,6 @@
     <meta name="theme-color" content="#4F46E5">
     <title>Spa Software</title>
     
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234F46E5'/><text x='50' y='60' text-anchor='middle' fill='white' font-size='60' font-weight='bold'>S</text></svg>">
-    
     <!-- PWA Manifest -->
     <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiU3BhIFNvZnR3YXJlIiwic2hvcnRfbmFtZSI6IlNwYSIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjZmZmZmZmIiwidGhlbWVfY29sb3IiOiIjNEY0NkU1IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1UQXdJaUJvWldsbmFIUTlJakV3TUNJU2VIQnNibk05SW1oMGRIQTZMeTkzZDNjdWR6TXViM0puTHpJd01EQXZjM1puSWo0OGNtVmpkQ0IzYVdSMGFEMGlNVEF3SWlCb1pXbG5hSFE5SWpFd01DSWdabWxzYkQwaVl6QXdOVEE0TWlJdlBqeDBaWGgwSUhnOUlqVXdJaUI1UFNJMk1DSWdkR1Y0ZEMxaGJtTm9iM0k5SW0xcFpHUnNaU0lnWm1sc2JEMGlJMlptWmlJZ1ptOXVkQzF6YVhwbFBTSXhOQ0lnWm05dWRDMTNaV2xuYUhROUltSnZiR1FpUGxOUVFUd3ZkR1Y0ZEQ0OEwzTjJaejQ9IiwidHlwZSI6ImltYWdlL3N2Zyt4bWwiLCJzaXplcyI6IjEwMHgxMDAifV19">
     
@@ -21,7 +18,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: #ffffff; /* Chuyển sang màu trắng */
+            background: #ffffff;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -38,7 +35,7 @@
             width: 100%;
             max-width: 400px;
             text-align: center;
-            border: 1px solid rgba(0, 0, 0, 0.1); /* Thay đổi border để phù hợp với nền trắng */
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .app-logo {
@@ -153,7 +150,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Animation cho tải trang */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -169,7 +165,6 @@
             animation: fadeInUp 0.6s ease-out;
         }
 
-        /* Responsive design */
         @media (max-width: 480px) {
             .login-container {
                 padding: 30px 20px;
@@ -187,7 +182,6 @@
             }
         }
 
-        /* PWA installation hint */
         .install-hint {
             position: fixed;
             bottom: 20px;
@@ -213,7 +207,7 @@
         <h1 class="app-title">Spa Software</h1>
         <p class="app-subtitle">Quản lý spa chuyên nghiệp</p>
         
-        <!-- Login Form -->
+        <!-- Login Form - QUAN TRỌNG: Loại bỏ action và method để tránh submit truyền thống -->
         <form id="loginForm">
             <div class="form-group">
                 <label for="userId" class="form-label">ID</label>
@@ -241,7 +235,7 @@
                 >
             </div>
             
-            <button type="submit" class="login-btn">
+            <button type="submit" class="login-btn" id="loginButton">
                 <span class="btn-text">Đăng Nhập</span>
                 <span class="btn-loading" style="display: none;">
                     <span class="spinner"></span>
@@ -284,25 +278,43 @@
             }
         });
 
-        // Login Logic - ĐÂY LÀ PHẦN QUAN TRỌNG
-        const loginForm = document.getElementById('loginForm');
-        const loginBtn = document.querySelector('.login-btn');
-        const btnText = document.querySelector('.btn-text');
-        const btnLoading = document.querySelector('.btn-loading');
+        // ===== PHẦN SỬA CHÍNH: LOGIN LOGIC =====
+        // Đảm bảo DOM đã loaded hoàn toàn
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded');
+            
+            const loginForm = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginButton');
+            const btnText = document.querySelector('.btn-text');
+            const btnLoading = document.querySelector('.btn-loading');
 
-        // Đảm bảo form event listener được add
-        if (loginForm) {
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault(); // QUAN TRỌNG: Ngăn form reload trang
+            // Kiểm tra các elements có tồn tại không
+            if (!loginForm) {
+                console.error('Login form not found!');
+                return;
+            }
+
+            console.log('Login form found, attaching event listener');
+
+            // Attach event listener với both submit và click
+            loginForm.addEventListener('submit', handleLogin);
+            
+            // Function xử lý login
+            async function handleLogin(e) {
+                console.log('Login function called');
+                
+                // QUAN TRỌNG: Ngăn form submit truyền thống
+                e.preventDefault();
+                e.stopPropagation();
                 
                 const userId = document.getElementById('userId').value.trim();
                 const password = document.getElementById('password').value.trim();
                 
-                console.log('Login attempt:', { userId, password: '***' }); // Debug log
+                console.log('Form data:', { userId, password: '***' });
                 
                 if (!userId || !password) {
                     alert('Vui lòng nhập đầy đủ thông tin!');
-                    return;
+                    return false;
                 }
                 
                 // Show loading state
@@ -311,7 +323,7 @@
                 btnLoading.style.display = 'flex';
                 
                 try {
-                    console.log('Sending request to:', `${API_BASE_URL}/user/login`); // Debug log
+                    console.log('Sending request to:', `${API_BASE_URL}/user/login`);
                     
                     const response = await fetch(`${API_BASE_URL}/user/login`, {
                         method: 'POST',
@@ -324,10 +336,10 @@
                         })
                     });
                     
-                    console.log('Response status:', response.status); // Debug log
+                    console.log('Response status:', response.status);
                     
                     const data = await response.json();
-                    console.log('Response data:', data); // Debug log
+                    console.log('Response data:', data);
                     
                     if (data.success) {
                         // Save token and user info
@@ -362,10 +374,10 @@
                     // Show error message
                     alert(error.message || 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối!');
                 }
-            });
-        } else {
-            console.error('Login form not found!'); // Debug log
-        }
+                
+                return false; // Đảm bảo không submit form truyền thống
+            }
+        });
 
         // Show Main App Interface
         function showMainApp(user) {
@@ -373,300 +385,156 @@
                 <div style="
                     min-height: 100vh;
                     background: #ffffff;
+                    padding: 20px;
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
                 ">
                     <!-- Header -->
                     <div style="
                         background: rgba(255, 255, 255, 0.95);
-                        padding: 15px 20px;
-                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                        border-radius: 15px;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
-                        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-                        position: relative;
+                        border: 1px solid rgba(0, 0, 0, 0.05);
                     ">
-                        <!-- Menu Button (Left) -->
-                        <div style="position: relative;">
-                            <button id="menuBtn" onclick="toggleMenu()" style="
-                                background: none;
-                                border: none;
-                                font-size: 24px;
-                                cursor: pointer;
-                                padding: 8px;
-                                border-radius: 8px;
-                                transition: background-color 0.2s;
-                            " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">
-                                ☰
-                            </button>
-                            
-                            <!-- Dropdown Menu -->
-                            <div id="dropdownMenu" style="
-                                position: absolute;
-                                top: 100%;
-                                left: 0;
-                                background: white;
-                                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="
+                                width: 50px;
+                                height: 50px;
+                                background: linear-gradient(135deg, #4F46E5, #7C3AED);
                                 border-radius: 12px;
-                                padding: 8px 0;
-                                min-width: 200px;
-                                z-index: 1000;
-                                display: none;
-                                border: 1px solid rgba(0, 0, 0, 0.1);
-                                margin-top: 5px;
-                            ">
-                                <div onclick="navigateTo('customers')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">👥</span>
-                                    <span>Khách Hàng</span>
-                                </div>
-                                <div onclick="navigateTo('services')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">💆‍♀️</span>
-                                    <span>Dịch Vụ</span>
-                                </div>
-                                <div onclick="navigateTo('appointments')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">📅</span>
-                                    <span>Lịch Hẹn</span>
-                                </div>
-                                <div onclick="navigateTo('staff')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">👨‍💼</span>
-                                    <span>Nhân Viên</span>
-                                </div>
-                                <div onclick="navigateTo('reports')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">📊</span>
-                                    <span>Báo Cáo</span>
-                                </div>
-                                <hr style="margin: 8px 0; border: none; border-top: 1px solid #e5e7eb;">
-                                <div onclick="navigateTo('settings')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">⚙️</span>
-                                    <span>Cài Đặt</span>
-                                </div>
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                color: white;
+                                font-size: 20px;
+                                font-weight: bold;
+                            ">S</div>
+                            <div>
+                                <h1 style="margin: 0; font-size: 24px; color: #1f2937;">Spa Software</h1>
+                                <p style="margin: 0; color: #6b7280; font-size: 14px;">Xin chào, ${user.username}!</p>
                             </div>
                         </div>
-                        
-                        <!-- App Name (Center) -->
-                        <div style="
-                            position: absolute;
-                            left: 50%;
-                            transform: translateX(-50%);
-                            font-size: 20px;
-                            font-weight: 600;
-                            color: #1f2937;
-                        ">
-                            Spa Software
-                        </div>
-                        
-                        <!-- Right Side (Notification + Logout) -->
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <!-- Notification Bell -->
-                            <button onclick="showNotifications()" style="
-                                background: none;
-                                border: none;
-                                font-size: 20px;
-                                cursor: pointer;
-                                padding: 8px;
-                                border-radius: 8px;
-                                transition: background-color 0.2s;
-                                position: relative;
-                            " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">
-                                🔔
-                                <!-- Notification Badge -->
-                                <span style="
-                                    position: absolute;
-                                    top: 0;
-                                    right: 0;
-                                    background: #ef4444;
-                                    color: white;
-                                    border-radius: 50%;
-                                    width: 18px;
-                                    height: 18px;
-                                    font-size: 11px;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    font-weight: bold;
-                                ">3</span>
-                            </button>
-                            
-                            <!-- Logout Button -->
-                            <button onclick="logout()" style="
-                                background: none;
-                                border: none;
-                                color: #374151;
-                                cursor: pointer;
-                                padding: 8px 12px;
-                                border-radius: 6px;
-                                font-size: 14px;
-                                font-weight: 500;
-                                transition: background-color 0.2s;
-                            " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">
-                                Đăng xuất
-                            </button>
-                        </div>
+                        <button onclick="logout()" style="
+                            background: #ef4444;
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-weight: 500;
+                        ">Đăng xuất</button>
                     </div>
 
                     <!-- Main Content -->
                     <div style="
-                        padding: 20px;
+                        background: rgba(255, 255, 255, 0.95);
+                        border-radius: 15px;
+                        padding: 30px;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
                         text-align: center;
+                        border: 1px solid rgba(0, 0, 0, 0.05);
                     ">
                         <h2 style="color: #1f2937; margin-bottom: 20px;">Dashboard Chính</h2>
                         <p style="color: #6b7280; margin-bottom: 30px;">Chào mừng bạn đến với hệ thống quản lý spa!</p>
                         
-                        <div style="margin-top: 40px; padding: 20px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
+                        <!-- Feature Grid -->
+                        <div style="
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                            gap: 20px;
+                            margin-top: 30px;
+                        ">
+                            <div style="
+                                background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                                color: white;
+                                padding: 30px 20px;
+                                border-radius: 12px;
+                                cursor: pointer;
+                                transition: transform 0.2s;
+                            " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <div style="font-size: 32px; margin-bottom: 10px;">👥</div>
+                                <h3 style="margin: 0 0 10px 0;">Khách Hàng</h3>
+                                <p style="margin: 0; opacity: 0.9; font-size: 14px;">Quản lý thông tin khách hàng</p>
+                            </div>
+                            
+                            <div style="
+                                background: linear-gradient(135deg, #10b981, #047857);
+                                color: white;
+                                padding: 30px 20px;
+                                border-radius: 12px;
+                                cursor: pointer;
+                                transition: transform 0.2s;
+                            " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <div style="font-size: 32px; margin-bottom: 10px;">📅</div>
+                                <h3 style="margin: 0 0 10px 0;">Lịch Hẹn</h3>
+                                <p style="margin: 0; opacity: 0.9; font-size: 14px;">Đặt lịch và quản lý appointments</p>
+                            </div>
+                            
+                            <div style="
+                                background: linear-gradient(135deg, #f59e0b, #d97706);
+                                color: white;
+                                padding: 30px 20px;
+                                border-radius: 12px;
+                                cursor: pointer;
+                                transition: transform 0.2s;
+                            " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <div style="font-size: 32px; margin-bottom: 10px;">💆‍♀️</div>
+                                <h3 style="margin: 0 0 10px 0;">Dịch Vụ</h3>
+                                <p style="margin: 0; opacity: 0.9; font-size: 14px;">Quản lý các dịch vụ spa</p>
+                            </div>
+                            
+                            <div style="
+                                background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                                color: white;
+                                padding: 30px 20px;
+                                border-radius: 12px;
+                                cursor: pointer;
+                                transition: transform 0.2s;
+                            " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <div style="font-size: 32px; margin-bottom: 10px;">👨‍💼</div>
+                                <h3 style="margin: 0 0 10px 0;">Nhân Viên</h3>
+                                <p style="margin: 0; opacity: 0.9; font-size: 14px;">Quản lý đội ngũ nhân viên</p>
+                            </div>
+                            
+                            <div style="
+                                background: linear-gradient(135deg, #ef4444, #dc2626);
+                                color: white;
+                                padding: 30px 20px;
+                                border-radius: 12px;
+                                cursor: pointer;
+                                transition: transform 0.2s;
+                            " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <div style="font-size: 32px; margin-bottom: 10px;">📊</div>
+                                <h3 style="margin: 0 0 10px 0;">Báo Cáo</h3>
+                                <p style="margin: 0; opacity: 0.9; font-size: 14px;">Thống kê doanh thu và hiệu suất</p>
+                            </div>
+                            
+                            <div style="
+                                background: linear-gradient(135deg, #6b7280, #4b5563);
+                                color: white;
+                                padding: 30px 20px;
+                                border-radius: 12px;
+                                cursor: pointer;
+                                transition: transform 0.2s;
+                            " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <div style="font-size: 32px; margin-bottom: 10px;">⚙️</div>
+                                <h3 style="margin: 0 0 10px 0;">Cài Đặt</h3>
+                                <p style="margin: 0; opacity: 0.9; font-size: 14px;">Cấu hình hệ thống</p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 40px; padding: 20px; background: #f3f4f6; border-radius: 8px;">
                             <p style="margin: 0; color: #6b7280; font-style: italic;">
-                                🚧 Các chức năng đang được phát triển. Sử dụng menu để điều hướng!
+                                🚧 Các chức năng đang được phát triển. Sẽ cập nhật trong phiên bản tiếp theo!
                             </p>
                         </div>
                     </div>
                 </div>
             `;
-            
-            // Close menu when clicking outside
-            document.addEventListener('click', function(event) {
-                const menu = document.getElementById('dropdownMenu');
-                const menuBtn = document.getElementById('menuBtn');
-                
-                if (!menuBtn.contains(event.target) && !menu.contains(event.target)) {
-                    menu.style.display = 'none';
-                }
-            });
-        }
-
-        // Toggle Menu Function
-        function toggleMenu() {
-            const menu = document.getElementById('dropdownMenu');
-            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-        }
-
-        // Navigation Function
-        function navigateTo(section) {
-            const menu = document.getElementById('dropdownMenu');
-            menu.style.display = 'none';
-            
-            // Update main content based on selection
-            const mainContent = document.querySelector('[style*="padding: 20px"][style*="text-align: center"]');
-            
-            let content = '';
-            switch(section) {
-                case 'customers':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">👥 Quản Lý Khách Hàng</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Danh sách và thông tin khách hàng</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý khách hàng đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'services':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">💆‍♀️ Quản Lý Dịch Vụ</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Danh sách các dịch vụ spa</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý dịch vụ đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'appointments':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">📅 Quản Lý Lịch Hẹn</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Lịch hẹn và đặt chỗ</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý lịch hẹn đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'staff':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">👨‍💼 Quản Lý Nhân Viên</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Thông tin và lịch làm việc nhân viên</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý nhân viên đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'reports':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">📊 Báo Cáo & Thống Kê</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Doanh thu và hiệu suất hoạt động</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng báo cáo đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'settings':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">⚙️ Cài Đặt Hệ Thống</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Cấu hình và tùy chỉnh hệ thống</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng cài đặt đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                default:
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">Dashboard Chính</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Chào mừng bạn đến với hệ thống quản lý spa!</p>
-                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280; font-style: italic;">🚧 Các chức năng đang được phát triển. Sử dụng menu để điều hướng!</p>
-                        </div>
-                    `;
-            }
-            
-            mainContent.innerHTML = content;
-        }
-
-        // Show Notifications Function
-        function showNotifications() {
-            alert('🔔 Thông báo:\n\n• Bạn có 2 lịch hẹn mới\n• Khách hàng vừa đánh giá 5 sao\n• Nhân viên A đã hoàn thành ca làm');
-        }
         }
 
         // Logout function
