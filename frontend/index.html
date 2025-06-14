@@ -586,7 +586,7 @@
                 const menu = document.getElementById('dropdownMenu');
                 const menuBtn = document.getElementById('menuBtn');
                 
-                if (!menuBtn.contains(event.target) && !menu.contains(event.target)) {
+                if (menu && menuBtn && !menuBtn.contains(event.target) && !menu.contains(event.target)) {
                     menu.style.display = 'none';
                 }
             });
