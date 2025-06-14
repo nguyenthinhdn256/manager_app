@@ -657,7 +657,6 @@
                 </div>
             `;
         }
-        
         // Global functions
         window.showNotifications = function() {
             alert('🔔 Thông báo mới!');
@@ -672,13 +671,7 @@
         }
         
         window.showSection = function(section) {
-            const sections = {
-                'overview': 'Tổng quan',
-                'customers': 'Khách hàng', 
-                'services': 'Dịch vụ',
-                'orders': 'Hóa đơn',
-                'more': 'Nhiều hơn'
-            };
+            console.log('🔄 Switching to section:', section);
             
             if (section === 'customers') {
                 showCustomerPage();
@@ -691,6 +684,13 @@
                     showDashboard(user);
                 }
             } else {
+                const sections = {
+                    'overview': 'Tổng quan',
+                    'customers': 'Khách hàng', 
+                    'services': 'Dịch vụ',
+                    'orders': 'Hóa đơn',
+                    'more': 'Nhiều hơn'
+                };
                 alert(`Chuyển đến: ${sections[section] || section}`);
             }
         }
