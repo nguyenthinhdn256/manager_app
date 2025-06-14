@@ -197,136 +197,6 @@
             display: inline-block;
         }
 
-        /* Stats card */
-        .stats-card {
-            margin: 20px;
-            padding: 20px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .stats-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .stat-item h3 {
-            font-size: 12px;
-            color: #6b7280;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2563eb;
-        }
-
-        .stat-unit {
-            font-size: 14px;
-            color: #6b7280;
-            margin-left: 4px;
-        }
-
-        .profit-section {
-            text-align: right;
-        }
-
-        .profit-value {
-            font-size: 16px;
-            color: #10b981;
-            font-weight: 600;
-        }
-
-        .returns-section {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #f3f4f6;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .returns-icon {
-            width: 16px;
-            height: 16px;
-            color: #6b7280;
-        }
-
-        .returns-text {
-            font-size: 14px;
-            color: #6b7280;
-        }
-
-
-
-        /* Revenue section */
-        .revenue-section {
-            margin: 20px;
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .revenue-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .revenue-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1f2937;
-        }
-
-        .chart-container {
-            height: 200px;
-            display: flex;
-            align-items: end;
-            justify-content: center;
-            gap: 10px;
-            padding: 20px 0;
-        }
-
-        .chart-bar {
-            width: 40px;
-            background: #2563eb;
-            border-radius: 4px 4px 0 0;
-            position: relative;
-        }
-
-        .chart-bar.today {
-            height: 160px;
-        }
-
-        .chart-label {
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        .chart-scale {
-            position: absolute;
-            left: 10px;
-            top: 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #9ca3af;
-        }
-
         /* Bottom navigation */
         .bottom-nav {
             position: fixed;
@@ -669,29 +539,6 @@
             position: relative;
         }
 
-        /* Flash animation for service group buttons */
-        @keyframes flash {
-            0% { 
-                background: white; 
-                border-color: #3b82f6; 
-                color: #3b82f6; 
-            }
-            50% { 
-                background: #3b82f6; 
-                border-color: #3b82f6; 
-                color: white; 
-                transform: scale(1.05);
-                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-            }
-            100% { 
-                background: white; 
-                border-color: #3b82f6; 
-                color: #3b82f6; 
-                transform: scale(1);
-                box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
-            }
-        }
-
         @media (max-width: 480px) {
             .login-container {
                 padding: 30px 20px;
@@ -756,186 +603,9 @@
         </form>
     </div>
 
-    <!-- Load modules inline to avoid loading issues -->
-    <script>
-        // ===== SERVICE MODULE INLINE =====
-        const ServiceModule = (function() {
-            'use strict';
-
-            let services = [];
-            let serviceGroups = [
-                { id: 1, name: 'GỘI ĐẦU' },
-                { id: 2, name: 'SỨC KHỎE' },
-                { id: 3, name: 'CHĂM SÓC MẶT' },
-                { id: 4, name: 'CHĂM SÓC TÓC' },
-                { id: 5, name: 'COMBO PH SỨC KHỎE' }
-            ];
-
-            function renderServiceGroups() {
-                return serviceGroups.map(group => `
-                    <button onclick="ServiceModule.selectServiceGroup(${group.id})" style="
-                        background: white;
-                        color: #3b82f6;
-                        border: 1px solid #3b82f6;
-                        border-radius: 15px;
-                        padding: 6px 12px;
-                        font-size: 12px;
-                        font-weight: 600;
-                        cursor: pointer;
-                        transition: all 0.2s ease;
-                        margin: 6px;
-                        height: auto;
-                        width: auto;
-                        min-width: auto;
-                        max-width: none;
-                        display: inline-block;
-                        white-space: nowrap;
-                        box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
-                    " onmouseover="this.style.background='#eff6ff'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 2px 8px rgba(59, 130, 246, 0.2)'" 
-                       onmouseout="this.style.background='white'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(59, 130, 246, 0.1)'"
-                       onmousedown="this.style.transform='scale(0.98)'"
-                       onmouseup="this.style.transform='scale(1)'">
-                        ${group.name}
-                    </button>
-                `).join('');
-            }
-
-            function showServicePage() {
-                console.log('💆‍♀️ Showing service page');
-                
-                const serviceGroupsHTML = renderServiceGroups();
-                
-                document.body.innerHTML = `
-                    <div style="min-height: 100vh; background: #f5f5f5;">
-                        <!-- Header -->
-                        <div class="header">
-                            <div class="logo-section">
-                                <div class="logo">S</div>
-                                <div class="app-name">SpaViet</div>
-                            </div>
-                            <div class="header-right">
-                                <button class="notification-btn" onclick="showNotifications()">🔔</button>
-                                <button class="message-btn" onclick="showMessages()">✉️</button>
-                            </div>
-                        </div>
-
-                        <!-- Service Page Content -->
-                        <div style="padding: 20px; padding-bottom: 80px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                                <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Dịch vụ</h1>
-                                
-                                <div style="display: flex; gap: 15px;">
-                                    <button onclick="ServiceModule.showCreateGroupModal()" style="
-                                        background: linear-gradient(135deg, #4F46E5, #7C3AED);
-                                        color: white;
-                                        border: none;
-                                        border-radius: 12px;
-                                        padding: 12px 20px;
-                                        font-size: 14px;
-                                        font-weight: 600;
-                                        cursor: pointer;
-                                        box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
-                                        transition: all 0.3s ease;
-                                    ">Tạo Nhóm DV</button>
-                                    <button onclick="ServiceModule.showCreateDV()" style="
-                                        background: linear-gradient(135deg, #4F46E5, #7C3AED);
-                                        color: white;
-                                        border: none;
-                                        border-radius: 12px;
-                                        padding: 12px 20px;
-                                        font-size: 14px;
-                                        font-weight: 600;
-                                        cursor: pointer;
-                                        box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
-                                        transition: all 0.3s ease;
-                                    ">Tạo DV</button>
-                                </div>
-                            </div>
-
-                            <!-- Service Groups Grid -->
-                            <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-start; margin-top: 20px;">
-                                ${serviceGroupsHTML}
-                            </div>
-
-                            <!-- Description -->
-                            <div style="text-align: center; margin-top: 40px; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                                <p><strong>Tạo Nhóm DV:</strong> Tạo nhóm dịch vụ mới</p>
-                                <p><strong>Tạo DV:</strong> Thêm dịch vụ mới vào hệ thống</p>
-                                <p style="margin-top: 10px;"><em>Click vào nhóm dịch vụ để xem chi tiết</em></p>
-                            </div>
-                        </div>
-
-                        <!-- Bottom Navigation -->
-                        <div class="bottom-nav">
-                            <div class="nav-item" onclick="showSection('overview')">
-                                <div class="nav-icon">🏠</div>
-                                <div>Tổng quan</div>
-                            </div>
-                            <div class="nav-item" onclick="showSection('customers')">
-                                <div class="nav-icon">👥</div>
-                                <div>Khách hàng</div>
-                            </div>
-                            <div class="nav-item active" onclick="showSection('services')">
-                                <div class="nav-icon">💆‍♀️</div>
-                                <div>Dịch vụ</div>
-                            </div>
-                            <div class="nav-item" onclick="showSection('orders')">
-                                <div class="nav-icon">📋</div>
-                                <div>Hóa đơn</div>
-                            </div>
-                            <div class="nav-item" onclick="showSection('more')">
-                                <div class="nav-icon">☰</div>
-                                <div>Nhiều hơn</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            function showCreateGroupModal() {
-                console.log('📋 Tạo Nhóm DV clicked');
-                showAlert('Chức năng "Tạo Nhóm DV" đang được phát triển...', 'Tạo Nhóm Dịch vụ', '📋');
-            }
-
-            function showCreateDV() {
-                console.log('➕ Tạo DV clicked');
-                showAlert('Chức năng "Tạo DV" đang được phát triển...', 'Tạo Dịch vụ', '➕');
-            }
-
-            function selectServiceGroup(groupId) {
-                const group = serviceGroups.find(g => g.id === groupId);
-                console.log('🎯 Service group selected:', group.name);
-                
-                // Add flash effect
-                const buttonElement = event.target;
-                buttonElement.style.background = '#dbeafe';
-                
-                setTimeout(() => {
-                    buttonElement.style.background = 'white';
-                }, 200);
-                
-                showAlert(`Đã chọn nhóm dịch vụ: "${group.name}"\n\nChức năng xem chi tiết nhóm đang được phát triển...`, 'Nhóm Dịch vụ', '💆‍♀️');
-            }
-
-            function init() {
-                services = [];
-                console.log('🎯 Service Module initialized');
-            }
-
-            return {
-                init: init,
-                showServicePage: showServicePage,
-                showCreateGroupModal: showCreateGroupModal,
-                showCreateDV: showCreateDV,
-                selectServiceGroup: selectServiceGroup,
-                getServices: () => [...services],
-                getServiceCount: () => services.length
-            };
-        })();
-
-        // Initialize Service Module
-        ServiceModule.init();
-    </script>
+    <!-- Load External Modules -->
+    <script src="customer-module.js"></script>
+    <script src="service-module.js"></script>
 
     <script>
         // ===== MAIN APPLICATION LOGIC =====
@@ -1022,15 +692,15 @@
 
         // Make global functions
         window.closeAlert = closeAlert;
+        window.showAlert = showAlert;
         window.showConfirmDialog = showConfirmDialog;
         window.confirmAction = confirmAction;
-
-        // ===== CUSTOMER MODULE INTEGRATION =====
-        // All customer-related functions are handled by CustomerModule
 
         // Simple login function
         document.addEventListener('DOMContentLoaded', function() {
             console.log('✅ DOM loaded');
+            console.log('🎯 CustomerModule available:', typeof CustomerModule !== 'undefined');
+            console.log('🎯 ServiceModule available:', typeof ServiceModule !== 'undefined');
             
             const form = document.getElementById('loginForm');
             const submitBtn = document.getElementById('loginButton');
@@ -1178,29 +848,51 @@
         window.showSection = function(section) {
             console.log('🔄 Switching to section:', section);
             
-            if (section === 'customers') {
-                // Use Customer Module
-                CustomerModule.showCustomerPage();
-            } else if (section === 'services') {
-                // Use Service Module
-                ServiceModule.showServicePage();
-            } else if (section === 'overview') {
-                // Return to main dashboard
-                const token = localStorage.getItem('accessToken');
-                const userInfo = localStorage.getItem('userInfo');
-                if (token && userInfo) {
-                    const user = JSON.parse(userInfo);
-                    showDashboard(user);
-                }
-            } else {
-                const sections = {
-                    'overview': 'Tổng quan',
-                    'customers': 'Khách hàng', 
-                    'services': 'Dịch vụ',
-                    'orders': 'Hóa đơn',
-                    'more': 'Nhiều hơn'
-                };
-                showAlert(`Chức năng "${sections[section] || section}" đang được phát triển...`, 'Thông báo', '🚧');
+            // Check if modules are available
+            if (typeof CustomerModule === 'undefined') {
+                console.error('❌ CustomerModule not loaded');
+                showAlert('Lỗi: Module khách hàng chưa được tải', 'Lỗi hệ thống', '❌');
+                return;
+            }
+            
+            if (typeof ServiceModule === 'undefined') {
+                console.error('❌ ServiceModule not loaded');
+                showAlert('Lỗi: Module dịch vụ chưa được tải', 'Lỗi hệ thống', '❌');
+                return;
+            }
+            
+            switch(section) {
+                case 'customers':
+                    console.log('🎯 Loading Customer Module...');
+                    CustomerModule.showCustomerPage();
+                    break;
+                    
+                case 'services':
+                    console.log('🎯 Loading Service Module...');
+                    ServiceModule.showServicePage();
+                    break;
+                    
+                case 'overview':
+                    // Return to main dashboard
+                    const token = localStorage.getItem('accessToken');
+                    const userInfo = localStorage.getItem('userInfo');
+                    if (token && userInfo) {
+                        const user = JSON.parse(userInfo);
+                        showDashboard(user);
+                    }
+                    break;
+                    
+                case 'orders':
+                    showAlert('Chức năng "Hóa đơn" đang được phát triển...', 'Hóa đơn', '📋');
+                    break;
+                    
+                case 'more':
+                    showAlert('Chức năng "Nhiều hơn" đang được phát triển...', 'Nhiều hơn', '☰');
+                    break;
+                    
+                default:
+                    console.warn('Unknown section:', section);
+                    showAlert(`Không tìm thấy chức năng: ${section}`, 'Lỗi', '❌');
             }
         }
         
@@ -1222,7 +914,24 @@
             }
         });
         
-        console.log('📄 Main App loaded - Customer & Service Modules integrated');
+        console.log('📄 Main App loaded - Checking external modules...');
+        
+        // Verify modules are loaded
+        setTimeout(() => {
+            if (typeof CustomerModule !== 'undefined') {
+                console.log('✅ CustomerModule loaded successfully');
+                console.log('📊 Customer count:', CustomerModule.getCustomerCount());
+            } else {
+                console.error('❌ CustomerModule failed to load');
+            }
+            
+            if (typeof ServiceModule !== 'undefined') {
+                console.log('✅ ServiceModule loaded successfully');
+                console.log('📊 Service count:', ServiceModule.getServiceCount());
+            } else {
+                console.error('❌ ServiceModule failed to load');
+            }
+        }, 100);
     </script>
 </body>
 </html>
