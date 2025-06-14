@@ -657,6 +657,323 @@
                 </div>
             `;
         }
+
+        // Show customer page
+        function showCustomerPage() {
+            console.log('👥 Showing customer page');
+            
+            document.body.innerHTML = `
+                <div style="
+                    min-height: 100vh;
+                    background: #f5f5f5;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+                ">
+                    <!-- Header -->
+                    <div style="
+                        background: white;
+                        padding: 10px 20px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    ">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="
+                                width: 24px;
+                                height: 24px;
+                                background: linear-gradient(135deg, #2563eb, #10b981);
+                                border-radius: 6px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                color: white;
+                                font-weight: bold;
+                                font-size: 14px;
+                            ">S</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #1f2937;">SpaViet</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <button onclick="showNotifications()" style="
+                                background: none;
+                                border: none;
+                                font-size: 16px;
+                                color: #6b7280;
+                                cursor: pointer;
+                                padding: 6px;
+                                border-radius: 6px;
+                            ">🔔</button>
+                            <button onclick="showMessages()" style="
+                                background: none;
+                                border: none;
+                                font-size: 16px;
+                                color: #6b7280;
+                                cursor: pointer;
+                                padding: 6px;
+                                border-radius: 6px;
+                            ">✉️</button>
+                        </div>
+                    </div>
+        
+                    <!-- Customer Page Content -->
+                    <div style="padding: 20px; padding-bottom: 80px;">
+                        <div style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-bottom: 20px;
+                        ">
+                            <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Khách hàng</h1>
+                            <button onclick="addNewCustomer()" style="
+                                background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                color: white;
+                                border: none;
+                                border-radius: 12px;
+                                padding: 12px 20px;
+                                font-size: 14px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+                            ">Thêm khách hàng mới</button>
+                        </div>
+        
+                        <!-- Customer List -->
+                        <div style="
+                            background: white;
+                            border-radius: 16px;
+                            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                        ">
+                            <div onclick="viewCustomer('1')" style="
+                                padding: 16px 20px;
+                                border-bottom: 1px solid #f3f4f6;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                cursor: pointer;
+                            ">
+                                <div style="
+                                    width: 40px;
+                                    height: 40px;
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-weight: 600;
+                                    font-size: 16px;
+                                ">N</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Nguyễn Văn An</div>
+                                    <div style="font-size: 14px; color: #6b7280;">0901234567</div>
+                                </div>
+                                <div style="color: #6b7280; font-size: 18px;">›</div>
+                            </div>
+                            
+                            <div onclick="viewCustomer('2')" style="
+                                padding: 16px 20px;
+                                border-bottom: 1px solid #f3f4f6;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                cursor: pointer;
+                            ">
+                                <div style="
+                                    width: 40px;
+                                    height: 40px;
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-weight: 600;
+                                    font-size: 16px;
+                                ">T</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Trần Thị Bình</div>
+                                    <div style="font-size: 14px; color: #6b7280;">0912345678</div>
+                                </div>
+                                <div style="color: #6b7280; font-size: 18px;">›</div>
+                            </div>
+                            
+                            <div onclick="viewCustomer('3')" style="
+                                padding: 16px 20px;
+                                border-bottom: 1px solid #f3f4f6;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                cursor: pointer;
+                            ">
+                                <div style="
+                                    width: 40px;
+                                    height: 40px;
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-weight: 600;
+                                    font-size: 16px;
+                                ">L</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Lê Hoàng Cường</div>
+                                    <div style="font-size: 14px; color: #6b7280;">0923456789</div>
+                                </div>
+                                <div style="color: #6b7280; font-size: 18px;">›</div>
+                            </div>
+                            
+                            <div onclick="viewCustomer('4')" style="
+                                padding: 16px 20px;
+                                border-bottom: 1px solid #f3f4f6;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                cursor: pointer;
+                            ">
+                                <div style="
+                                    width: 40px;
+                                    height: 40px;
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-weight: 600;
+                                    font-size: 16px;
+                                ">P</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Phạm Thị Dung</div>
+                                    <div style="font-size: 14px; color: #6b7280;">0934567890</div>
+                                </div>
+                                <div style="color: #6b7280; font-size: 18px;">›</div>
+                            </div>
+                            
+                            <div onclick="viewCustomer('5')" style="
+                                padding: 16px 20px;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                cursor: pointer;
+                            ">
+                                <div style="
+                                    width: 40px;
+                                    height: 40px;
+                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-weight: 600;
+                                    font-size: 16px;
+                                ">H</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Hoàng Văn Em</div>
+                                    <div style="font-size: 14px; color: #6b7280;">0945678901</div>
+                                </div>
+                                <div style="color: #6b7280; font-size: 18px;">›</div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Bottom Navigation -->
+                    <div style="
+                        position: fixed;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        background: white;
+                        border-top: 1px solid #e5e7eb;
+                        display: grid;
+                        grid-template-columns: repeat(5, 1fr);
+                        padding: 6px 0;
+                    ">
+                        <div onclick="showSection('overview')" style="
+                            text-align: center;
+                            padding: 4px;
+                            color: #6b7280;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 2px;
+                            font-size: 10px;
+                            cursor: pointer;
+                            height: 50px;
+                        ">
+                            <div style="font-size: 18px;">🏠</div>
+                            <div>Tổng quan</div>
+                        </div>
+                        <div onclick="showSection('customers')" style="
+                            text-align: center;
+                            padding: 4px;
+                            color: #2563eb;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 2px;
+                            font-size: 10px;
+                            cursor: pointer;
+                            height: 50px;
+                        ">
+                            <div style="font-size: 18px;">👥</div>
+                            <div>Khách hàng</div>
+                        </div>
+                        <div onclick="showSection('services')" style="
+                            text-align: center;
+                            padding: 4px;
+                            color: #6b7280;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 2px;
+                            font-size: 10px;
+                            cursor: pointer;
+                            height: 50px;
+                        ">
+                            <div style="font-size: 18px;">💆‍♀️</div>
+                            <div>Dịch vụ</div>
+                        </div>
+                        <div onclick="showSection('orders')" style="
+                            text-align: center;
+                            padding: 4px;
+                            color: #6b7280;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 2px;
+                            font-size: 10px;
+                            cursor: pointer;
+                            height: 50px;
+                        ">
+                            <div style="font-size: 18px;">📋</div>
+                            <div>Hóa đơn</div>
+                        </div>
+                        <div onclick="showSection('more')" style="
+                            text-align: center;
+                            padding: 4px;
+                            color: #6b7280;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 2px;
+                            font-size: 10px;
+                            cursor: pointer;
+                            height: 50px;
+                        ">
+                            <div style="font-size: 18px;">☰</div>
+                            <div>Nhiều hơn</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
         // Global functions
         window.showNotifications = function() {
             alert('🔔 Thông báo mới!');
