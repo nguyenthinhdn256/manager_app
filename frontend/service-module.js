@@ -1,4 +1,3 @@
-
 // ===== SERVICE MODULE =====
 // Module xử lý toàn bộ logic giao diện dịch vụ
 
@@ -39,60 +38,43 @@ const ServiceModule = (function() {
                         margin-bottom: 30px;
                     ">
                         <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Dịch vụ</h1>
-                    </div>
+                        
+                        <!-- Service Actions Buttons -->
+                        <div style="display: flex; gap: 15px; margin-left: auto;">
+                            <!-- Menu DV Button -->
+                            <button onclick="ServiceModule.showMenuDV()" style="
+                                background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                color: white;
+                                border: none;
+                                border-radius: 12px;
+                                padding: 12px 20px;
+                                font-size: 14px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+                                transition: all 0.3s ease;
+                            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(79, 70, 229, 0.3)'" 
+                               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(79, 70, 229, 0.2)'">
+                                Menu DV
+                            </button>
 
-                    <!-- Service Actions -->
-                    <div style="
-                        display: flex;
-                        gap: 15px;
-                        justify-content: center;
-                        margin-top: 50px;
-                    ">
-                        <!-- Menu DV Button -->
-                        <button onclick="ServiceModule.showMenuDV()" style="
-                            background: linear-gradient(135deg, #10b981, #047857);
-                            color: white;
-                            border: none;
-                            border-radius: 16px;
-                            padding: 24px 32px;
-                            font-size: 18px;
-                            font-weight: 600;
-                            cursor: pointer;
-                            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-                            transition: all 0.3s ease;
-                            min-width: 150px;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            gap: 8px;
-                        " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(16, 185, 129, 0.4)'" 
-                           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.3)'">
-                            <div style="font-size: 32px;">📋</div>
-                            <div>Menu DV</div>
-                        </button>
-
-                        <!-- Tạo DV Button -->
-                        <button onclick="ServiceModule.showCreateDV()" style="
-                            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-                            color: white;
-                            border: none;
-                            border-radius: 16px;
-                            padding: 24px 32px;
-                            font-size: 18px;
-                            font-weight: 600;
-                            cursor: pointer;
-                            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-                            transition: all 0.3s ease;
-                            min-width: 150px;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            gap: 8px;
-                        " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.4)'" 
-                           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(59, 130, 246, 0.3)'">
-                            <div style="font-size: 32px;">➕</div>
-                            <div>Tạo DV</div>
-                        </button>
+                            <!-- Tạo DV Button -->
+                            <button onclick="ServiceModule.showCreateDV()" style="
+                                background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                color: white;
+                                border: none;
+                                border-radius: 12px;
+                                padding: 12px 20px;
+                                font-size: 14px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+                                transition: all 0.3s ease;
+                            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(79, 70, 229, 0.3)'" 
+                               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(79, 70, 229, 0.2)'">
+                                Tạo DV
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Description -->
