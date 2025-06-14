@@ -262,8 +262,6 @@
             color: #6b7280;
         }
 
-
-
         /* Revenue section */
         .revenue-section {
             margin: 20px;
@@ -363,49 +361,92 @@
             font-size: 18px;
         }
 
-        /* Customer page styles */
-        .customer-page {
-            padding: 20px;
-            padding-bottom: 80px; /* Space for bottom nav */
-        }
-
-        .page-header {
+        /* Popup Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
         }
 
-        .page-title {
-            font-size: 24px;
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-title {
+            font-size: 20px;
             font-weight: 700;
             color: #1f2937;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .add-customer-btn {
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            padding: 12px;
+            background: #f3f4f6;
+            color: #6b7280;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-add {
+            flex: 1;
+            padding: 12px;
             background: linear-gradient(135deg, #4F46E5, #7C3AED);
             color: white;
             border: none;
             border-radius: 12px;
-            padding: 12px 20px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+            transition: all 0.2s ease;
         }
 
-        .add-customer-btn:hover {
-            transform: translateY(-2px);
+        .btn-add:hover {
+            transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
 
-        .customer-list {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
+        /* Customer List Styles */
         .customer-item {
             padding: 16px 20px;
             border-bottom: 1px solid #f3f4f6;
@@ -445,17 +486,24 @@
             font-size: 16px;
             font-weight: 600;
             color: #1f2937;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+        }
+
+        .customer-details {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 2px;
         }
 
         .customer-phone {
-            font-size: 14px;
+            font-size: 13px;
             color: #6b7280;
         }
 
-        .customer-actions {
-            color: #6b7280;
-            font-size: 18px;
+        .customer-time {
+            font-size: 12px;
+            color: #9ca3af;
+            text-align: right;
         }
 
         .login-container {
@@ -476,6 +524,11 @@
                 width: 60px;
                 height: 60px;
                 font-size: 24px;
+            }
+
+            .modal {
+                padding: 20px;
+                margin: 10px;
             }
         }
     </style>
@@ -524,6 +577,68 @@
     <script>
         const API_BASE_URL = 'https://manager-app-744c.onrender.com/api';
         
+        // Customer data storage
+        let customers = [
+            {
+                id: 1,
+                name: 'Nguyễn Văn An',
+                phone: '0901234567',
+                features: 'Khách VIP, thích massage',
+                createdAt: new Date('2025-06-10T10:30:00').toISOString()
+            },
+            {
+                id: 2,
+                name: 'Trần Thị Bình',
+                phone: '0912345678',
+                features: 'Da nhạy cảm',
+                createdAt: new Date('2025-06-11T14:15:00').toISOString()
+            },
+            {
+                id: 3,
+                name: 'Lê Hoàng Cường',
+                phone: '0923456789',
+                features: 'Thể thao, cần thư giãn',
+                createdAt: new Date('2025-06-12T09:45:00').toISOString()
+            },
+            {
+                id: 4,
+                name: 'Phạm Thị Dung',
+                phone: '0934567890',
+                features: 'Chăm sóc da mặt',
+                createdAt: new Date('2025-06-13T16:20:00').toISOString()
+            },
+            {
+                id: 5,
+                name: 'Hoàng Văn Em',
+                phone: '0945678901',
+                features: 'Khách thường xuyên',
+                createdAt: new Date('2025-06-14T11:00:00').toISOString()
+            }
+        ];
+
+        // Utility functions
+        function formatTime(isoString) {
+            const date = new Date(isoString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffHours / 24);
+
+            if (diffHours < 1) {
+                return 'Vài phút trước';
+            } else if (diffHours < 24) {
+                return `${diffHours}h trước`;
+            } else if (diffDays < 7) {
+                return `${diffDays} ngày trước`;
+            } else {
+                return date.toLocaleDateString('vi-VN');
+            }
+        }
+
+        function getInitials(name) {
+            return name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2);
+        }
+
         // Simple login function
         document.addEventListener('DOMContentLoaded', function() {
             console.log('✅ DOM loaded');
@@ -662,6 +777,18 @@
         function showCustomerPage() {
             console.log('👥 Showing customer page');
             
+            const customerListHTML = customers.map(customer => `
+                <div class="customer-item" onclick="viewCustomer('${customer.id}')">
+                    <div class="customer-avatar">${getInitials(customer.name)}</div>
+                    <div class="customer-info">
+                        <div class="customer-name">${customer.name}</div>
+                        <div class="customer-details">${customer.features}</div>
+                        <div class="customer-phone">${customer.phone}</div>
+                    </div>
+                    <div class="customer-time">${formatTime(customer.createdAt)}</div>
+                </div>
+            `).join('');
+            
             document.body.innerHTML = `
                 <div style="
                     min-height: 100vh;
@@ -669,48 +796,14 @@
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
                 ">
                     <!-- Header -->
-                    <div style="
-                        background: white;
-                        padding: 10px 20px;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                    ">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <div style="
-                                width: 24px;
-                                height: 24px;
-                                background: linear-gradient(135deg, #2563eb, #10b981);
-                                border-radius: 6px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                color: white;
-                                font-weight: bold;
-                                font-size: 14px;
-                            ">S</div>
-                            <div style="font-size: 16px; font-weight: 700; color: #1f2937;">SpaViet</div>
+                    <div class="header">
+                        <div class="logo-section">
+                            <div class="logo">S</div>
+                            <div class="app-name">SpaViet</div>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <button onclick="showNotifications()" style="
-                                background: none;
-                                border: none;
-                                font-size: 16px;
-                                color: #6b7280;
-                                cursor: pointer;
-                                padding: 6px;
-                                border-radius: 6px;
-                            ">🔔</button>
-                            <button onclick="showMessages()" style="
-                                background: none;
-                                border: none;
-                                font-size: 16px;
-                                color: #6b7280;
-                                cursor: pointer;
-                                padding: 6px;
-                                border-radius: 6px;
-                            ">✉️</button>
+                        <div class="header-right">
+                            <button class="notification-btn" onclick="showNotifications()">🔔</button>
+                            <button class="message-btn" onclick="showMessages()">✉️</button>
                         </div>
                     </div>
         
@@ -723,7 +816,7 @@
                             margin-bottom: 20px;
                         ">
                             <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Khách hàng</h1>
-                            <button onclick="addNewCustomer()" style="
+                            <button onclick="showAddCustomerModal()" style="
                                 background: linear-gradient(135deg, #4F46E5, #7C3AED);
                                 color: white;
                                 border: none;
@@ -742,238 +835,131 @@
                             border-radius: 16px;
                             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
                         ">
-                            <div onclick="viewCustomer('1')" style="
-                                padding: 16px 20px;
-                                border-bottom: 1px solid #f3f4f6;
-                                display: flex;
-                                align-items: center;
-                                gap: 12px;
-                                cursor: pointer;
-                            ">
-                                <div style="
-                                    width: 40px;
-                                    height: 40px;
-                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
-                                    border-radius: 50%;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    color: white;
-                                    font-weight: 600;
-                                    font-size: 16px;
-                                ">N</div>
-                                <div style="flex: 1;">
-                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Nguyễn Văn An</div>
-                                    <div style="font-size: 14px; color: #6b7280;">0901234567</div>
-                                </div>
-                                <div style="color: #6b7280; font-size: 18px;">›</div>
-                            </div>
-                            
-                            <div onclick="viewCustomer('2')" style="
-                                padding: 16px 20px;
-                                border-bottom: 1px solid #f3f4f6;
-                                display: flex;
-                                align-items: center;
-                                gap: 12px;
-                                cursor: pointer;
-                            ">
-                                <div style="
-                                    width: 40px;
-                                    height: 40px;
-                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
-                                    border-radius: 50%;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    color: white;
-                                    font-weight: 600;
-                                    font-size: 16px;
-                                ">T</div>
-                                <div style="flex: 1;">
-                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Trần Thị Bình</div>
-                                    <div style="font-size: 14px; color: #6b7280;">0912345678</div>
-                                </div>
-                                <div style="color: #6b7280; font-size: 18px;">›</div>
-                            </div>
-                            
-                            <div onclick="viewCustomer('3')" style="
-                                padding: 16px 20px;
-                                border-bottom: 1px solid #f3f4f6;
-                                display: flex;
-                                align-items: center;
-                                gap: 12px;
-                                cursor: pointer;
-                            ">
-                                <div style="
-                                    width: 40px;
-                                    height: 40px;
-                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
-                                    border-radius: 50%;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    color: white;
-                                    font-weight: 600;
-                                    font-size: 16px;
-                                ">L</div>
-                                <div style="flex: 1;">
-                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Lê Hoàng Cường</div>
-                                    <div style="font-size: 14px; color: #6b7280;">0923456789</div>
-                                </div>
-                                <div style="color: #6b7280; font-size: 18px;">›</div>
-                            </div>
-                            
-                            <div onclick="viewCustomer('4')" style="
-                                padding: 16px 20px;
-                                border-bottom: 1px solid #f3f4f6;
-                                display: flex;
-                                align-items: center;
-                                gap: 12px;
-                                cursor: pointer;
-                            ">
-                                <div style="
-                                    width: 40px;
-                                    height: 40px;
-                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
-                                    border-radius: 50%;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    color: white;
-                                    font-weight: 600;
-                                    font-size: 16px;
-                                ">P</div>
-                                <div style="flex: 1;">
-                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Phạm Thị Dung</div>
-                                    <div style="font-size: 14px; color: #6b7280;">0934567890</div>
-                                </div>
-                                <div style="color: #6b7280; font-size: 18px;">›</div>
-                            </div>
-                            
-                            <div onclick="viewCustomer('5')" style="
-                                padding: 16px 20px;
-                                display: flex;
-                                align-items: center;
-                                gap: 12px;
-                                cursor: pointer;
-                            ">
-                                <div style="
-                                    width: 40px;
-                                    height: 40px;
-                                    background: linear-gradient(135deg, #4F46E5, #7C3AED);
-                                    border-radius: 50%;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    color: white;
-                                    font-weight: 600;
-                                    font-size: 16px;
-                                ">H</div>
-                                <div style="flex: 1;">
-                                    <div style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 4px;">Hoàng Văn Em</div>
-                                    <div style="font-size: 14px; color: #6b7280;">0945678901</div>
-                                </div>
-                                <div style="color: #6b7280; font-size: 18px;">›</div>
-                            </div>
+                            ${customerListHTML}
                         </div>
                     </div>
         
                     <!-- Bottom Navigation -->
-                    <div style="
-                        position: fixed;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        background: white;
-                        border-top: 1px solid #e5e7eb;
-                        display: grid;
-                        grid-template-columns: repeat(5, 1fr);
-                        padding: 6px 0;
-                    ">
-                        <div onclick="showSection('overview')" style="
-                            text-align: center;
-                            padding: 4px;
-                            color: #6b7280;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 2px;
-                            font-size: 10px;
-                            cursor: pointer;
-                            height: 50px;
-                        ">
-                            <div style="font-size: 18px;">🏠</div>
+                    <div class="bottom-nav">
+                        <div class="nav-item" onclick="showSection('overview')">
+                            <div class="nav-icon">🏠</div>
                             <div>Tổng quan</div>
                         </div>
-                        <div onclick="showSection('customers')" style="
-                            text-align: center;
-                            padding: 4px;
-                            color: #2563eb;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 2px;
-                            font-size: 10px;
-                            cursor: pointer;
-                            height: 50px;
-                        ">
-                            <div style="font-size: 18px;">👥</div>
+                        <div class="nav-item active" onclick="showSection('customers')">
+                            <div class="nav-icon">👥</div>
                             <div>Khách hàng</div>
                         </div>
-                        <div onclick="showSection('services')" style="
-                            text-align: center;
-                            padding: 4px;
-                            color: #6b7280;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 2px;
-                            font-size: 10px;
-                            cursor: pointer;
-                            height: 50px;
-                        ">
-                            <div style="font-size: 18px;">💆‍♀️</div>
+                        <div class="nav-item" onclick="showSection('services')">
+                            <div class="nav-icon">💆‍♀️</div>
                             <div>Dịch vụ</div>
                         </div>
-                        <div onclick="showSection('orders')" style="
-                            text-align: center;
-                            padding: 4px;
-                            color: #6b7280;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 2px;
-                            font-size: 10px;
-                            cursor: pointer;
-                            height: 50px;
-                        ">
-                            <div style="font-size: 18px;">📋</div>
+                        <div class="nav-item" onclick="showSection('orders')">
+                            <div class="nav-icon">📋</div>
                             <div>Hóa đơn</div>
                         </div>
-                        <div onclick="showSection('more')" style="
-                            text-align: center;
-                            padding: 4px;
-                            color: #6b7280;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            justify-content: center;
-                            gap: 2px;
-                            font-size: 10px;
-                            cursor: pointer;
-                            height: 50px;
-                        ">
-                            <div style="font-size: 18px;">☰</div>
+                        <div class="nav-item" onclick="showSection('more')">
+                            <div class="nav-icon">☰</div>
                             <div>Nhiều hơn</div>
                         </div>
                     </div>
                 </div>
             `;
         }
+
+        // Show Add Customer Modal
+        function showAddCustomerModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal">
+                    <h2 class="modal-title">Thông tin khách hàng</h2>
+                    <form id="addCustomerForm">
+                        <div class="form-group">
+                            <label class="form-label">Tên KH</label>
+                            <input type="text" id="customerName" class="form-input" placeholder="Nhập tên khách hàng" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Đặc điểm</label>
+                            <input type="text" id="customerFeatures" class="form-input" placeholder="Nhập đặc điểm khách hàng">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" id="customerPhone" class="form-input" placeholder="Nhập số điện thoại" required>
+                        </div>
+                        <div class="modal-buttons">
+                            <button type="button" class="btn-cancel" onclick="closeAddCustomerModal()">Hủy</button>
+                            <button type="submit" class="btn-add">Thêm</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Focus on first input
+            setTimeout(() => {
+                document.getElementById('customerName').focus();
+            }, 100);
+            
+            // Handle form submission
+            document.getElementById('addCustomerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addNewCustomer();
+            });
+            
+            // Close modal when clicking overlay
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeAddCustomerModal();
+                }
+            });
+        }
+
+        // Close Add Customer Modal
+        function closeAddCustomerModal() {
+            const modal = document.querySelector('.modal-overlay');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Add New Customer
+        function addNewCustomer() {
+            const name = document.getElementById('customerName').value.trim();
+            const features = document.getElementById('customerFeatures').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            
+            if (!name || !phone) {
+                alert('Vui lòng nhập tên và số điện thoại!');
+                return;
+            }
+            
+            // Create new customer
+            const newCustomer = {
+                id: customers.length + 1,
+                name: name,
+                phone: phone,
+                features: features || 'Khách hàng mới',
+                createdAt: new Date().toISOString()
+            };
+            
+            // Add to customers array
+            customers.unshift(newCustomer); // Add to beginning of array
+            
+            console.log('✅ New customer added:', newCustomer);
+            
+            // Close modal
+            closeAddCustomerModal();
+            
+            // Refresh customer page
+            showCustomerPage();
+            
+            // Show success message
+            setTimeout(() => {
+                alert(`✅ Đã thêm khách hàng: ${name}`);
+            }, 300);
+        }
+
         // Global functions
         window.showNotifications = function() {
             alert('🔔 Thông báo mới!');
@@ -1012,12 +998,19 @@
             }
         }
 
-        window.addNewCustomer = function() {
-            alert('🆕 Thêm khách hàng mới\n\nChức năng đang được phát triển...');
+        window.showAddCustomerModal = function() {
+            showAddCustomerModal();
+        }
+
+        window.closeAddCustomerModal = function() {
+            closeAddCustomerModal();
         }
 
         window.viewCustomer = function(customerId) {
-            alert(`👤 Xem thông tin khách hàng ID: ${customerId}\n\nChức năng đang được phát triển...`);
+            const customer = customers.find(c => c.id == customerId);
+            if (customer) {
+                alert(`👤 Thông tin khách hàng:\n\nTên: ${customer.name}\nĐặc điểm: ${customer.features}\nPhone: ${customer.phone}\nTạo lúc: ${formatTime(customer.createdAt)}\n\nChức năng xem chi tiết đang được phát triển...`);
+            }
         }
         
         // Check existing login
