@@ -667,6 +667,29 @@
             position: relative;
         }
 
+        /* Flash animation for service group buttons */
+        @keyframes flash {
+            0% { 
+                background: white; 
+                border-color: #3b82f6; 
+                color: #3b82f6; 
+            }
+            50% { 
+                background: #3b82f6; 
+                border-color: #3b82f6; 
+                color: white; 
+                transform: scale(1.05);
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            }
+            100% { 
+                background: white; 
+                border-color: #3b82f6; 
+                color: #3b82f6; 
+                transform: scale(1);
+                box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+            }
+        }
+
         @media (max-width: 480px) {
             .login-container {
                 padding: 30px 20px;
