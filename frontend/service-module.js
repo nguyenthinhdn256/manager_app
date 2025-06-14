@@ -20,16 +20,22 @@ const ServiceModule = (function() {
             <button onclick="ServiceModule.selectServiceGroup(${group.id})" style="
                 background: white;
                 color: #3b82f6;
-                border: 2px solid #3b82f6;
-                border-radius: 12px;
-                padding: 5px 6px;
-                font-size: 4px;
+                border: 1px solid #3b82f6;
+                border-radius: 6px;
+                padding: 2px 4px;
+                font-size: 8px;
                 font-weight: 600;
                 cursor: pointer;
                 transition: all 0.2s ease;
-                margin: 8px;
-                min-width: 35px;
-                box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+                margin: 4px;
+                min-width: 20px;
+                max-width: 60px;
+                height: 18px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                white-space: nowrap;
+                box-shadow: 0 1px 2px rgba(59, 130, 246, 0.1);
             " onmouseover="this.style.background='#eff6ff'; this.style.transform='translateY(-1px)'" 
                onmouseout="this.style.background='white'; this.style.transform='translateY(0)'"
                onmousedown="this.style.transform='scale(0.98)'"
