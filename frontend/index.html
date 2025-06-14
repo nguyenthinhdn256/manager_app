@@ -868,6 +868,7 @@
 
         // Show Add Customer Modal
         window.showAddCustomerModal = function() {
+            console.log('🎯 showAddCustomerModal called');
             const modal = document.createElement('div');
             modal.className = 'modal-overlay';
             modal.innerHTML = `
@@ -998,13 +999,9 @@
             }
         }
 
-        window.showAddCustomerModal = function() {
-            showAddCustomerModal();
-        }
+        window.showAddCustomerModal = showAddCustomerModal;
 
-        window.closeAddCustomerModal = function() {
-            closeAddCustomerModal();
-        }
+        window.closeAddCustomerModal = closeAddCustomerModal;
 
         window.viewCustomer = function(customerId) {
             const customer = customers.find(c => c.id == customerId);
