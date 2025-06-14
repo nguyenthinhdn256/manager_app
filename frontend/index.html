@@ -130,12 +130,11 @@
             padding: 0;
         }
 
-        /* Fixed: Navigation Bar full màn hình */
+        /* Fixed: Navigation Bar full màn hình với layout mới */
         .header {
             background: linear-gradient(135deg, #4F46E5, #5b6bc0);
-            padding: 10px 0;  /* ← CHỈ GIỮ PADDING DỌC */
+            padding: 10px 0;
             display: flex;
-            justify-content: space-between;
             align-items: center;
             position: fixed;
             width: 100vw;
@@ -147,6 +146,30 @@
             z-index: 999;
         }
 
+        /* CSS cho structure mới trong JavaScript */
+        .header-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            padding-left: 10px;
+        }
+
+        .header-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+        }
+
+        .header-right {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            padding-right: 10px;
+        }
+
         .menu-btn {
             background: none;
             border: none;
@@ -156,33 +179,23 @@
             border-radius: 6px;
             transition: background-color 0.2s;
             color: white;
-            margin-right: 10px;
         }
 
         .menu-btn:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
 
+        /* Sửa app-name để không dùng absolute positioning */
         .app-name {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
             font-size: 18px;
             font-weight: 600;
             color: white;
         }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-left: 10px;
-        }
-
         .notification-btn {
             background: none;
             border: none;
-            font-size: 10px;
+            font-size: 16px;
             cursor: pointer;
             padding: 8px;
             border-radius: 6px;
@@ -202,8 +215,8 @@
             background: #ef4444;
             color: white;
             border-radius: 50%;
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             font-size: 8px;
             display: flex;
             align-items: center;
