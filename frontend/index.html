@@ -867,7 +867,7 @@
         }
 
         // Show Add Customer Modal
-        function showAddCustomerModal() {
+        window.showAddCustomerModal = function() {
             const modal = document.createElement('div');
             modal.className = 'modal-overlay';
             modal.innerHTML = `
@@ -884,7 +884,7 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Phone</label>
-                            <input type="tel" id="customerPhone" class="form-input" placeholder="Nhập số điện thoại" required>
+                            <input type="tel" id="customerPhone" class="form-input" placeholder="Nhập số điện thoại">
                         </div>
                         <div class="modal-buttons">
                             <button type="button" class="btn-cancel" onclick="closeAddCustomerModal()">Hủy</button>
@@ -916,7 +916,7 @@
         }
 
         // Close Add Customer Modal
-        function closeAddCustomerModal() {
+        window.closeAddCustomerModal = function() {
             const modal = document.querySelector('.modal-overlay');
             if (modal) {
                 modal.remove();
@@ -929,8 +929,8 @@
             const features = document.getElementById('customerFeatures').value.trim();
             const phone = document.getElementById('customerPhone').value.trim();
             
-            if (!name || !phone) {
-                alert('Vui lòng nhập tên và số điện thoại!');
+            if (!name) {
+                alert('Vui lòng nhập tên khách hàng!');
                 return;
             }
             
@@ -938,7 +938,7 @@
             const newCustomer = {
                 id: customers.length + 1,
                 name: name,
-                phone: phone,
+                phone: phone || 'Chưa có SĐT',
                 features: features || 'Khách hàng mới',
                 createdAt: new Date().toISOString()
             };
