@@ -1,245 +1,239 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dịch vụ - SpaViet</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+// ===== SERVICE MODULE =====
+// Module xử lý toàn bộ logic giao diện dịch vụ
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: #f5f5f5;
-            min-height: 100vh;
-        }
+const ServiceModule = (function() {
+    'use strict';
 
-        /* Header styles */
-        .header {
-            background: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    // ===== PRIVATE VARIABLES =====
+    let services = [];
+    let serviceGroups = [
+        { id: 1, name: 'GỘI ĐẦU' },
+        { id: 2, name: 'SỨC KHỎE' },
+        { id: 3, name: 'CHĂM SÓC MẶT' },
+        { id: 4, name: 'CHĂM SÓC TÓC' },
+        { id: 5, name: 'COMBO PH SỨC KHỎE' }
+    ];
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    // ===== UI RENDERING =====
+    function renderServiceGroups() {
+        return serviceGroups.map(group => `
+            <button onclick="ServiceModule.selectServiceGroup(${group.id})" style="
+                background: white;
+                color: #3b82f6;
+                border: 1px solid #3b82f6;
+                border-radius: 15px;
+                padding: 6px 12px;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                margin: 6px;
+                height: auto;
+                width: auto;
+                min-width: auto;
+                max-width: none;
+                display: inline-block;
+                white-space: nowrap;
+                box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+            " onmouseover="this.style.background='#eff6ff'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 2px 8px rgba(59, 130, 246, 0.2)'" 
+               onmouseout="this.style.background='white'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(59, 130, 246, 0.1)'"
+               onmousedown="this.style.transform='scale(0.98)'"
+               onmouseup="this.style.transform='scale(1)'">
+                ${group.name}
+            </button>
+        `).join('');
+    }
 
-        .logo {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, #2563eb, #10b981);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-        }
+    function showServicePage() {
+        console.log('💆‍♀️ Showing service page');
+        
+        const serviceGroupsHTML = renderServiceGroups();
+        
+        document.body.innerHTML = `
+            <div style="
+                min-height: 100vh;
+                background: #f5f5f5;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            ">
+                <!-- Header -->
+                <div class="header">
+                    <div class="logo-section">
+                        <div class="logo">S</div>
+                        <div class="app-name">SpaViet</div>
+                    </div>
+                    <div class="header-right">
+                        <button class="notification-btn" onclick="showNotifications()">🔔</button>
+                        <button class="message-btn" onclick="showMessages()">✉️</button>
+                    </div>
+                </div>
 
-        .app-name {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1f2937;
-        }
+                <!-- Service Page Content -->
+                <div style="padding: 20px; padding-bottom: 80px;">
+                    <div style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 30px;
+                    ">
+                        <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Dịch vụ</h1>
+                        
+                        <!-- Service Actions Buttons -->
+                        <div style="display: flex; gap: 15px; margin-left: auto;">
+                            <!-- Tạo Nhóm DV Button -->
+                            <button onclick="ServiceModule.showCreateGroupModal()" style="
+                                background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                color: white;
+                                border: none;
+                                border-radius: 12px;
+                                padding: 12px 20px;
+                                font-size: 14px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+                                transition: all 0.3s ease;
+                            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(79, 70, 229, 0.3)'" 
+                               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(79, 70, 229, 0.2)'">
+                                Tạo Nhóm DV
+                            </button>
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+                            <!-- Tạo DV Button -->
+                            <button onclick="ServiceModule.showCreateDV()" style="
+                                background: linear-gradient(135deg, #4F46E5, #7C3AED);
+                                color: white;
+                                border: none;
+                                border-radius: 12px;
+                                padding: 12px 20px;
+                                font-size: 14px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+                                transition: all 0.3s ease;
+                            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(79, 70, 229, 0.3)'" 
+                               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(79, 70, 229, 0.2)'">
+                                Tạo DV
+                            </button>
+                        </div>
+                    </div>
 
-        .notification-btn, .message-btn {
-            background: none;
-            border: none;
-            font-size: 16px;
-            color: #6b7280;
-            cursor: pointer;
-            padding: 6px;
-            border-radius: 6px;
-            transition: background-color 0.2s;
-        }
+                    <!-- Service Groups Grid -->
+                    <div style="
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 12px;
+                        justify-content: flex-start;
+                        margin-top: 20px;
+                    ">
+                        ${serviceGroupsHTML}
+                    </div>
 
-        .notification-btn:hover, .message-btn:hover {
-            background-color: #f3f4f6;
-        }
+                    <!-- Description -->
+                    <div style="
+                        text-align: center;
+                        margin-top: 40px;
+                        color: #6b7280;
+                        font-size: 14px;
+                        line-height: 1.6;
+                    ">
+                        <p><strong>Tạo Nhóm DV:</strong> Tạo nhóm dịch vụ mới</p>
+                        <p><strong>Tạo DV:</strong> Thêm dịch vụ mới vào hệ thống</p>
+                        <p style="margin-top: 10px;"><em>Click vào nhóm dịch vụ để xem chi tiết</em></p>
+                    </div>
+                </div>
 
-        /* Service group buttons - AUTO SIZE */
-        .service-group-btn {
-            background: white !important;
-            color: #3b82f6 !important;
-            border: 1px solid #3b82f6 !important;
-            border-radius: 15px !important;
-            padding: 6px 12px !important;
-            font-size: 12px !important;
-            font-weight: 600 !important;
-            cursor: pointer !important;
-            transition: all 0.2s ease !important;
-            margin: 6px !important;
-            height: auto !important;
-            width: auto !important;
-            min-width: auto !important;
-            max-width: none !important;
-            display: inline-block !important;
-            white-space: nowrap !important;
-            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1) !important;
-        }
-
-        .service-group-btn:hover {
-            background: #eff6ff !important;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2) !important;
-        }
-
-        .service-group-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Action buttons */
-        .action-btn {
-            background: linear-gradient(135deg, #4F46E5, #7C3AED);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
-        }
-
-        /* Bottom navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid #e5e7eb;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            padding: 6px 0;
-        }
-
-        .nav-item {
-            text-align: center;
-            padding: 4px;
-            color: #6b7280;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2px;
-            font-size: 10px;
-            cursor: pointer;
-            height: 50px;
-        }
-
-        .nav-item.active {
-            color: #2563eb;
-        }
-
-        .nav-icon {
-            font-size: 18px;
-        }
-    </style>
-</head>
-<body>
-    <div style="min-height: 100vh; background: #f5f5f5;">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo-section">
-                <div class="logo">S</div>
-                <div class="app-name">SpaViet</div>
-            </div>
-            <div class="header-right">
-                <button class="notification-btn" onclick="alert('🔔 Thông báo!')">🔔</button>
-                <button class="message-btn" onclick="alert('✉️ Tin nhắn!')">✉️</button>
-            </div>
-        </div>
-
-        <!-- Service Page Content -->
-        <div style="padding: 20px; padding-bottom: 80px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h1 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0;">Dịch vụ</h1>
-                
-                <!-- Service Actions Buttons -->
-                <div style="display: flex; gap: 15px;">
-                    <button class="action-btn" onclick="alert('Tạo Nhóm DV')">Tạo Nhóm DV</button>
-                    <button class="action-btn" onclick="alert('Tạo DV')">Tạo DV</button>
+                <!-- Bottom Navigation -->
+                <div class="bottom-nav">
+                    <div class="nav-item" onclick="showSection('overview')">
+                        <div class="nav-icon">🏠</div>
+                        <div>Tổng quan</div>
+                    </div>
+                    <div class="nav-item" onclick="showSection('customers')">
+                        <div class="nav-icon">👥</div>
+                        <div>Khách hàng</div>
+                    </div>
+                    <div class="nav-item active" onclick="showSection('services')">
+                        <div class="nav-icon">💆‍♀️</div>
+                        <div>Dịch vụ</div>
+                    </div>
+                    <div class="nav-item" onclick="showSection('orders')">
+                        <div class="nav-icon">📋</div>
+                        <div>Hóa đơn</div>
+                    </div>
+                    <div class="nav-item" onclick="showSection('more')">
+                        <div class="nav-icon">☰</div>
+                        <div>Nhiều hơn</div>
+                    </div>
                 </div>
             </div>
+        `;
+    }
 
-            <!-- Service Groups Grid -->
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start; margin-top: 20px;">
-                <button class="service-group-btn" onclick="selectGroup('GỘI ĐẦU')">GỘI ĐẦU</button>
-                <button class="service-group-btn" onclick="selectGroup('SỨC KHỎE')">SỨC KHỎE</button>
-                <button class="service-group-btn" onclick="selectGroup('CHĂM SÓC MẶT')">CHĂM SÓC MẶT</button>
-                <button class="service-group-btn" onclick="selectGroup('CHĂM SÓC TÓC')">CHĂM SÓC TÓC</button>
-                <button class="service-group-btn" onclick="selectGroup('COMBO PH SỨC KHỎE')">COMBO PH SỨC KHỎE</button>
-            </div>
-
-            <!-- Description -->
-            <div style="text-align: center; margin-top: 40px; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                <p><strong>Tạo Nhóm DV:</strong> Tạo nhóm dịch vụ mới</p>
-                <p><strong>Tạo DV:</strong> Thêm dịch vụ mới vào hệ thống</p>
-                <p style="margin-top: 10px;"><em>Click vào nhóm dịch vụ để xem chi tiết</em></p>
-            </div>
-        </div>
-
-        <!-- Bottom Navigation -->
-        <div class="bottom-nav">
-            <div class="nav-item" onclick="alert('Tổng quan')">
-                <div class="nav-icon">🏠</div>
-                <div>Tổng quan</div>
-            </div>
-            <div class="nav-item" onclick="alert('Khách hàng')">
-                <div class="nav-icon">👥</div>
-                <div>Khách hàng</div>
-            </div>
-            <div class="nav-item active">
-                <div class="nav-icon">💆‍♀️</div>
-                <div>Dịch vụ</div>
-            </div>
-            <div class="nav-item" onclick="alert('Hóa đơn')">
-                <div class="nav-icon">📋</div>
-                <div>Hóa đơn</div>
-            </div>
-            <div class="nav-item" onclick="alert('Nhiều hơn')">
-                <div class="nav-icon">☰</div>
-                <div>Nhiều hơn</div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function selectGroup(groupName) {
-            alert(`Đã chọn nhóm: ${groupName}`);
-            
-            // Add visual feedback
-            const button = event.target;
-            const originalBg = button.style.background;
-            button.style.background = '#dbeafe';
-            
-            setTimeout(() => {
-                button.style.background = originalBg;
-            }, 200);
+    // ===== SERVICE ACTIONS =====
+    function showCreateGroupModal() {
+        console.log('📋 Tạo Nhóm DV clicked');
+        // Placeholder for future implementation
+        if (typeof showAlert !== 'undefined') {
+            showAlert('Chức năng "Tạo Nhóm DV" đang được phát triển...', 'Tạo Nhóm Dịch vụ', '📋');
+        } else {
+            alert('Chức năng "Tạo Nhóm DV" đang được phát triển...');
         }
-    </script>
-</body>
-</html>
+    }
+
+    function showCreateDV() {
+        console.log('➕ Tạo DV clicked');
+        // Placeholder for future implementation
+        if (typeof showAlert !== 'undefined') {
+            showAlert('Chức năng "Tạo DV" đang được phát triển...', 'Tạo Dịch vụ', '➕');
+        } else {
+            alert('Chức năng "Tạo DV" đang được phát triển...');
+        }
+    }
+
+    function selectServiceGroup(groupId) {
+        const group = serviceGroups.find(g => g.id === groupId);
+        console.log('🎯 Service group selected:', group.name);
+        
+        // Add flash effect
+        const buttonElement = event.target;
+        buttonElement.style.animation = 'flash 0.3s ease-in-out';
+        
+        // Remove animation after it completes
+        setTimeout(() => {
+            buttonElement.style.animation = '';
+        }, 300);
+        
+        // Show group details
+        if (typeof showAlert !== 'undefined') {
+            showAlert(`Đã chọn nhóm dịch vụ: "${group.name}"\n\nChức năng xem chi tiết nhóm đang được phát triển...`, 'Nhóm Dịch vụ', '💆‍♀️');
+        } else {
+            alert(`Đã chọn nhóm: ${group.name}`);
+        }
+    }
+
+    // ===== INITIALIZATION =====
+    function init() {
+        services = []; // Initialize empty services array
+        console.log('🎯 Service Module initialized');
+    }
+
+    // ===== PUBLIC API =====
+    return {
+        // Initialization
+        init: init,
+        
+        // Main functions
+        showServicePage: showServicePage,
+        
+        // Service actions
+        showCreateGroupModal: showCreateGroupModal,
+        showCreateDV: showCreateDV,
+        selectServiceGroup: selectServiceGroup,
+        
+        // Data access (for future use)
+        getServices: () => [...services], // Return copy
+        getServiceCount: () => services.length
+    };
+})();
+
+// ===== AUTO INITIALIZATION =====
+// Initialize module when loaded
+ServiceModule.init();
