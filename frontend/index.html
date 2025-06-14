@@ -3,434 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4F46E5">
-    <title>Spa Software</title>
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiU3BhIFNvZnR3YXJlIiwic2hvcnRfbmFtZSI6IlNwYSIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjZmZmZmZmIiwidGhlbWVfY29sb3IiOiIjNEY0NkU1IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1UQXdJaUJvWldsbmFIUTlJakV3TUNJU2VIQnNibk05SW1oMGRIQTZMeTkzZDNjdWR6TXViM0puTHpJd01EQXZjM1puSWo0OGNtVmpkQ0IzYVdSMGFEMGlNVEF3SWlCb1pXbG5hSFE5SWpFd01DSWdabWxzYkQwaVl6QXdOVEE0TWlJdlBqeDBaWGgwSUhnOUlqVXdJaUI1UFNJMk1DSWdkR1Y0ZEMxaGJtTm9iM0k5SW0xcFpHUnNaU0lnWm1sc2JEMGlJMlptWmlJZ1ptOXVkQzF6YVhwbFBTSXhOQ0lnWm05dWRDMTNaV2xuYUhROUltSnZiR1FpUGxOUVFUd3ZkR1Y0ZEQ0OEwzTjJaejQ9IiwidHlwZSI6ImltYWdlL3N2Zyt4bWwiLCJzaXplcyI6IjEwMHgxMDAifV19">
-    
+    <title>Debug Login</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             box-sizing: border-box;
         }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        button {
             width: 100%;
-            max-width: 400px;
-            text-align: center;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .app-logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #4F46E5, #7C3AED);
-            border-radius: 20px;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 32px;
-            font-weight: bold;
-            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
-        }
-
-        .app-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 8px;
-        }
-
-        .app-subtitle {
-            font-size: 16px;
-            color: #6b7280;
-            margin-bottom: 40px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 8px;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 16px;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #4F46E5;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-        }
-
-        .form-input::placeholder {
-            color: #9ca3af;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            padding: 12px;
+            background: #007bff;
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-            position: relative;
-            overflow: hidden;
+            font-size: 16px;
         }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
-        }
-
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        .login-btn:disabled {
-            opacity: 0.7;
+        button:disabled {
+            background: #ccc;
             cursor: not-allowed;
-            transform: none;
         }
-
-        .btn-loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .spinner {
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .login-container {
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 30px 20px;
-                margin: 10px;
-            }
-            
-            .app-title {
-                font-size: 24px;
-            }
-            
-            .app-logo {
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
-            }
-        }
-
-        .install-hint {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            display: none;
-        }
-
-        .install-hint.show {
-            display: block;
-            animation: fadeInUp 0.3s ease-out;
+        .debug {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <!-- App Logo & Title -->
-        <div class="app-logo">S</div>
-        <h1 class="app-title">Spa Software</h1>
-        <p class="app-subtitle">Quản lý spa chuyên nghiệp</p>
+    <div class="container">
+        <h2>🔍 Debug Login Test</h2>
         
-        <!-- Login Form -->
         <form id="loginForm">
-            <div class="form-group">
-                <label for="userId" class="form-label">ID</label>
-                <input 
-                    type="text" 
-                    id="userId" 
-                    name="userId"
-                    class="form-input" 
-                    placeholder="Nhập ID của bạn"
-                    required
-                    autocomplete="username"
-                >
-            </div>
-            
-            <div class="form-group">
-                <label for="password" class="form-label">Password</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password"
-                    class="form-input" 
-                    placeholder="Nhập mật khẩu"
-                    required
-                    autocomplete="current-password"
-                >
-            </div>
-            
-            <button type="submit" class="login-btn" id="loginButton">
-                <span class="btn-text">Đăng Nhập</span>
-                <span class="btn-loading" style="display: none;">
-                    <span class="spinner"></span>
-                    Đang đăng nhập...
-                </span>
-            </button>
+            <input type="text" id="username" placeholder="Username (thử: testuser)" required>
+            <input type="password" id="password" placeholder="Password (thử: test123)" required>
+            <button type="submit" id="submitBtn">Đăng Nhập</button>
         </form>
-    </div>
-
-    <!-- PWA Installation Hint -->
-    <div class="install-hint" id="installHint">
-        📱 Cài đặt ứng dụng để sử dụng offline!
+        
+        <div class="debug" id="debugLog">
+            🚀 Debug Log sẽ hiển thị ở đây...<br>
+        </div>
+        
+        <div id="result" style="margin-top: 20px;"></div>
     </div>
 
     <script>
-        // Configuration
         const API_BASE_URL = 'https://manager-app-744c.onrender.com/api';
+        const debugLog = document.getElementById('debugLog');
         
-        // PWA Installation
-        let deferredPrompt;
-        const installHint = document.getElementById('installHint');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installHint.classList.add('show');
-            
-            setTimeout(() => {
-                installHint.classList.remove('show');
-            }, 5000);
-        });
-
-        installHint.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`User response to the install prompt: ${outcome}`);
-                deferredPrompt = null;
-                installHint.classList.remove('show');
-            }
-        });
-
-        // ===== GLOBAL FUNCTIONS (PHẢI ĐẶT TRƯỚC) =====
-        // Toggle Menu Function
-        window.toggleMenu = function() {
-            console.log('Toggle menu called');
-            const menu = document.getElementById('dropdownMenu');
-            if (menu) {
-                menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'block' : 'none';
+        function log(message) {
+            const time = new Date().toLocaleTimeString();
+            debugLog.innerHTML += `[${time}] ${message}<br>`;
+            debugLog.scrollTop = debugLog.scrollHeight;
+            console.log(message);
+        }
+        
+        // Test 1: Kiểm tra server có hoạt động không
+        async function testServer() {
+            log('🔍 Testing server connection...');
+            try {
+                const response = await fetch(API_BASE_URL.replace('/api', ''), { 
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                log(`✅ Server response: ${response.status} ${response.statusText}`);
+            } catch (error) {
+                log(`❌ Server connection failed: ${error.message}`);
             }
         }
-
-        // Navigation Function
-        window.navigateTo = function(section) {
-            console.log('Navigate to:', section);
-            const menu = document.getElementById('dropdownMenu');
-            if (menu) {
-                menu.style.display = 'none';
+        
+        // Test 2: Test API endpoint
+        async function testAPI() {
+            log('🔍 Testing API endpoint...');
+            try {
+                const response = await fetch(`${API_BASE_URL}/user/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: 'test',
+                        password: 'test'
+                    })
+                });
+                const data = await response.json();
+                log(`✅ API response: ${response.status} - ${JSON.stringify(data)}`);
+            } catch (error) {
+                log(`❌ API test failed: ${error.message}`);
             }
-            
-            // Update main content based on selection
-            const mainContent = document.querySelector('[style*="padding: 20px"][style*="text-align: center"]');
-            
-            if (!mainContent) {
-                console.error('Main content not found');
-                return;
-            }
-            
-            let content = '';
-            switch(section) {
-                case 'customers':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">👥 Quản Lý Khách Hàng</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Danh sách và thông tin khách hàng</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý khách hàng đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'services':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">💆‍♀️ Quản Lý Dịch Vụ</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Danh sách các dịch vụ spa</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý dịch vụ đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'appointments':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">📅 Quản Lý Lịch Hẹn</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Lịch hẹn và đặt chỗ</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý lịch hẹn đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'staff':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">👨‍💼 Quản Lý Nhân Viên</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Thông tin và lịch làm việc nhân viên</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng quản lý nhân viên đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'reports':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">📊 Báo Cáo & Thống Kê</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Doanh thu và hiệu suất hoạt động</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng báo cáo đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                case 'settings':
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">⚙️ Cài Đặt Hệ Thống</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Cấu hình và tùy chỉnh hệ thống</p>
-                        <div style="background: #f9fafb; padding: 30px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280;">🚧 Chức năng cài đặt đang được phát triển...</p>
-                        </div>
-                    `;
-                    break;
-                default:
-                    content = `
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">Dashboard Chính</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Chào mừng bạn đến với hệ thống quản lý spa!</p>
-                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="color: #6b7280; font-style: italic;">🚧 Các chức năng đang được phát triển. Sử dụng menu để điều hướng!</p>
-                        </div>
-                    `;
-            }
-            
-            mainContent.innerHTML = content;
         }
-
-        // Show Notifications Function
-        window.showNotifications = function() {
-            alert('🔔 Thông báo:\n\n• Bạn có 2 lịch hẹn mới\n• Khách hàng vừa đánh giá 5 sao\n• Nhân viên A đã hoàn thành ca làm');
-        }
-
-        // Logout function
-        window.logout = function() {
-            console.log('Logout called');
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('userInfo');
-            location.reload();
-        }
-
-        // ===== LOGIN LOGIC =====
+        
+        // DOM Ready
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM fully loaded');
+            log('✅ DOM loaded');
             
-            const loginForm = document.getElementById('loginForm');
-            const loginBtn = document.getElementById('loginButton');
-            const btnText = document.querySelector('.btn-text');
-            const btnLoading = document.querySelector('.btn-loading');
-
-            // Kiểm tra các elements có tồn tại không
-            if (!loginForm) {
-                console.error('Login form not found!');
-                return;
-            }
-
-            console.log('Login form found, attaching event listener');
-
-            // Attach event listener
-            loginForm.addEventListener('submit', handleLogin);
+            // Test server ngay khi load
+            testServer();
+            setTimeout(testAPI, 1000);
             
-            // Function xử lý login
-            async function handleLogin(e) {
-                console.log('Login function called');
-                
-                // QUAN TRỌNG: Ngăn form submit truyền thống
+            const form = document.getElementById('loginForm');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            form.addEventListener('submit', async function(e) {
+                log('🎯 Form submit triggered');
                 e.preventDefault();
                 e.stopPropagation();
                 
-                const userId = document.getElementById('userId').value.trim();
-                const password = document.getElementById('password').value.trim();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
                 
-                console.log('Form data:', { userId, password: '***' });
+                log(`📝 Form data: username="${username}", password="${password.replace(/./g, '*')}"`);
                 
-                if (!userId || !password) {
+                if (!username || !password) {
+                    log('❌ Missing username or password');
                     alert('Vui lòng nhập đầy đủ thông tin!');
                     return false;
                 }
                 
-                // Show loading state
-                loginBtn.disabled = true;
-                btnText.style.display = 'none';
-                btnLoading.style.display = 'flex';
+                // Disable button
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Đang đăng nhập...';
                 
                 try {
-                    console.log('Sending request to:', `${API_BASE_URL}/user/login`);
+                    log('🚀 Sending login request...');
                     
                     const response = await fetch(`${API_BASE_URL}/user/login`, {
                         method: 'POST',
@@ -438,299 +155,53 @@
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            username: userId,
+                            username: username,
                             password: password
                         })
                     });
                     
-                    console.log('Response status:', response.status);
+                    log(`📡 Response status: ${response.status}`);
+                    log(`📡 Response headers: ${JSON.stringify([...response.headers.entries()])}`);
                     
                     const data = await response.json();
-                    console.log('Response data:', data);
+                    log(`📦 Response data: ${JSON.stringify(data, null, 2)}`);
                     
                     if (data.success) {
-                        // Save token and user info
-                        localStorage.setItem('accessToken', data.data.access_token);
-                        localStorage.setItem('userInfo', JSON.stringify(data.data.user));
-                        
-                        console.log('Login successful:', data.data.user);
-                        
-                        // Show success message briefly
-                        btnLoading.style.display = 'none';
-                        btnText.style.display = 'block';
-                        btnText.textContent = 'Đăng nhập thành công!';
-                        
-                        // Redirect to main app after short delay
-                        setTimeout(() => {
-                            showMainApp(data.data.user);
-                        }, 1000);
-                        
+                        log('🎉 Login successful!');
+                        document.getElementById('result').innerHTML = `
+                            <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 5px;">
+                                <h3>✅ Đăng nhập thành công!</h3>
+                                <p><strong>User:</strong> ${data.data.user.username}</p>
+                                <p><strong>Email:</strong> ${data.data.user.email}</p>
+                                <p><strong>Token:</strong> ${data.data.access_token.substring(0, 20)}...</p>
+                            </div>
+                        `;
                     } else {
-                        throw new Error(data.message || 'Đăng nhập thất bại');
+                        throw new Error(data.message || 'Login failed');
                     }
                     
                 } catch (error) {
-                    console.error('Login error:', error);
-                    
-                    // Reset button state
-                    loginBtn.disabled = false;
-                    btnLoading.style.display = 'none';
-                    btnText.style.display = 'block';
-                    btnText.textContent = 'Đăng Nhập';
-                    
-                    // Show error message
-                    alert(error.message || 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối!');
+                    log(`❌ Login error: ${error.message}`);
+                    document.getElementById('result').innerHTML = `
+                        <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px;">
+                            <h3>❌ Đăng nhập thất bại!</h3>
+                            <p>${error.message}</p>
+                        </div>
+                    `;
+                } finally {
+                    // Reset button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Đăng Nhập';
                 }
                 
                 return false;
-            }
-        });
-
-        // Show Main App Interface
-        function showMainApp(user) {
-            console.log('Showing main app for user:', user);
-            
-            document.body.innerHTML = `
-                <div style="
-                    min-height: 100vh;
-                    background: #ffffff;
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-                ">
-                    <!-- Header -->
-                    <div style="
-                        background: rgba(255, 255, 255, 0.95);
-                        padding: 15px 20px;
-                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-                        position: relative;
-                    ">
-                        <!-- Menu Button (Left) -->
-                        <div style="position: relative;">
-                            <button id="menuBtn" onclick="toggleMenu()" style="
-                                background: none;
-                                border: none;
-                                font-size: 24px;
-                                cursor: pointer;
-                                padding: 8px;
-                                border-radius: 8px;
-                                transition: background-color 0.2s;
-                            " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">
-                                ☰
-                            </button>
-                            
-                            <!-- Dropdown Menu -->
-                            <div id="dropdownMenu" style="
-                                position: absolute;
-                                top: 100%;
-                                left: 0;
-                                background: white;
-                                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-                                border-radius: 12px;
-                                padding: 8px 0;
-                                min-width: 200px;
-                                z-index: 1000;
-                                display: none;
-                                border: 1px solid rgba(0, 0, 0, 0.1);
-                                margin-top: 5px;
-                            ">
-                                <div onclick="navigateTo('customers')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">👥</span>
-                                    <span>Khách Hàng</span>
-                                </div>
-                                <div onclick="navigateTo('services')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">💆‍♀️</span>
-                                    <span>Dịch Vụ</span>
-                                </div>
-                                <div onclick="navigateTo('appointments')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">📅</span>
-                                    <span>Lịch Hẹn</span>
-                                </div>
-                                <div onclick="navigateTo('staff')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">👨‍💼</span>
-                                    <span>Nhân Viên</span>
-                                </div>
-                                <div onclick="navigateTo('reports')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">📊</span>
-                                    <span>Báo Cáo</span>
-                                </div>
-                                <hr style="margin: 8px 0; border: none; border-top: 1px solid #e5e7eb;">
-                                <div onclick="navigateTo('settings')" style="
-                                    padding: 12px 20px;
-                                    cursor: pointer;
-                                    transition: background-color 0.2s;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 12px;
-                                    color: #374151;
-                                " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-                                    <span style="font-size: 18px;">⚙️</span>
-                                    <span>Cài Đặt</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- App Name (Center) -->
-                        <div style="
-                            position: absolute;
-                            left: 50%;
-                            transform: translateX(-50%);
-                            font-size: 20px;
-                            font-weight: 600;
-                            color: #1f2937;
-                        ">
-                            Spa Software
-                        </div>
-                        
-                        <!-- Right Side (Notification + Logout) -->
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <!-- Notification Bell -->
-                            <button onclick="showNotifications()" style="
-                                background: none;
-                                border: none;
-                                font-size: 20px;
-                                cursor: pointer;
-                                padding: 8px;
-                                border-radius: 8px;
-                                transition: background-color 0.2s;
-                                position: relative;
-                            " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">
-                                🔔
-                                <!-- Notification Badge -->
-                                <span style="
-                                    position: absolute;
-                                    top: 0;
-                                    right: 0;
-                                    background: #ef4444;
-                                    color: white;
-                                    border-radius: 50%;
-                                    width: 18px;
-                                    height: 18px;
-                                    font-size: 11px;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    font-weight: bold;
-                                ">3</span>
-                            </button>
-                            
-                            <!-- Logout Button -->
-                            <button onclick="logout()" style="
-                                background: none;
-                                border: none;
-                                color: #374151;
-                                cursor: pointer;
-                                padding: 8px 12px;
-                                border-radius: 6px;
-                                font-size: 14px;
-                                font-weight: 500;
-                                transition: background-color 0.2s;
-                            " onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='transparent'">
-                                Đăng xuất
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Main Content -->
-                    <div style="
-                        padding: 20px;
-                        text-align: center;
-                    ">
-                        <h2 style="color: #1f2937; margin-bottom: 20px;">Dashboard Chính</h2>
-                        <p style="color: #6b7280; margin-bottom: 30px;">Chào mừng ${user.username} đến với hệ thống quản lý spa!</p>
-                        
-                        <div style="margin-top: 40px; padding: 20px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
-                            <p style="margin: 0; color: #6b7280; font-style: italic;">
-                                🚧 Các chức năng đang được phát triển. Sử dụng menu để điều hướng!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Close menu when clicking outside
-            document.addEventListener('click', function(event) {
-                const menu = document.getElementById('dropdownMenu');
-                const menuBtn = document.getElementById('menuBtn');
-                
-                if (menu && menuBtn && !menuBtn.contains(event.target) && !menu.contains(event.target)) {
-                    menu.style.display = 'none';
-                }
             });
-        }
-
-        // Check if user is already logged in
-        window.addEventListener('load', () => {
-            const token = localStorage.getItem('accessToken');
-            const userInfo = localStorage.getItem('userInfo');
             
-            if (token && userInfo) {
-                try {
-                    const user = JSON.parse(userInfo);
-                    console.log('User already logged in:', user);
-                    showMainApp(user);
-                } catch (error) {
-                    console.error('Invalid stored user data:', error);
-                    // Invalid stored data, clear it
-                    localStorage.removeItem('accessToken');
-                    localStorage.removeItem('userInfo');
-                }
-            } else {
-                console.log('No existing login found');
-            }
+            log('✅ Event listeners attached');
         });
-
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgKGV2ZW50KSA9PiB7CiAgY29uc29sZS5sb2coJ1NlcnZpY2UgV29ya2VyIGluc3RhbGxlZCcpOwp9KTsKCnNlbGYuYWRkRXZlbnRMaXN0ZW5lcignYWN0aXZhdGUnLCAoZXZlbnQpID0+IHsKICBjb25zb2xlLmxvZygnU2VydmljZSBXb3JrZXIgYWN0aXZhdGVkJyk7Cn0pOw==')
-                .then((registration) => {
-                    console.log('SW registered: ', registration);
-                })
-                .catch((registrationError) => {
-                    console.log('SW registration failed: ', registrationError);
-                });
-            });
-        }
+        
+        // Test form prevention
+        log('📄 Script loaded');
+    </script>
+</body>
+</html>
