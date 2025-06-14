@@ -22,20 +22,20 @@ const ServiceModule = (function() {
                 color: #3b82f6;
                 border: 1px solid #3b82f6;
                 border-radius: 6px;
-                padding: 2px 4px;
-                font-size: 8px;
+                padding: 3px 8px;
+                font-size: 10px;
                 font-weight: 600;
                 cursor: pointer;
                 transition: all 0.2s ease;
                 margin: 4px;
-                min-width: 20px;
-                max-width: 60px;
-                height: 18px;
+                height: 20px;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
                 white-space: nowrap;
                 box-shadow: 0 1px 2px rgba(59, 130, 246, 0.1);
+                width: auto;
+                min-width: fit-content;
             " onmouseover="this.style.background='#eff6ff'; this.style.transform='translateY(-1px)'" 
                onmouseout="this.style.background='white'; this.style.transform='translateY(0)'"
                onmousedown="this.style.transform='scale(0.98)'"
