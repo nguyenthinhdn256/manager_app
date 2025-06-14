@@ -363,15 +363,99 @@
             font-size: 18px;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Customer page styles */
+        .customer-page {
+            padding: 20px;
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .add-customer-btn {
+            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+        }
+
+        .add-customer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .customer-list {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .customer-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .customer-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .customer-item:last-child {
+            border-bottom: none;
+        }
+
+        .customer-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .customer-info {
+            flex: 1;
+        }
+
+        .customer-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .customer-phone {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .customer-actions {
+            color: #6b7280;
+            font-size: 18px;
         }
 
         .login-container {
@@ -596,7 +680,27 @@
                 'more': 'Nhiều hơn'
             };
             
-            alert(`Chuyển đến: ${sections[section] || section}`);
+            if (section === 'customers') {
+                showCustomerPage();
+            } else if (section === 'overview') {
+                // Return to main dashboard
+                const token = localStorage.getItem('accessToken');
+                const userInfo = localStorage.getItem('userInfo');
+                if (token && userInfo) {
+                    const user = JSON.parse(userInfo);
+                    showDashboard(user);
+                }
+            } else {
+                alert(`Chuyển đến: ${sections[section] || section}`);
+            }
+        }
+
+        window.addNewCustomer = function() {
+            alert('🆕 Thêm khách hàng mới\n\nChức năng đang được phát triển...');
+        }
+
+        window.viewCustomer = function(customerId) {
+            alert(`👤 Xem thông tin khách hàng ID: ${customerId}\n\nChức năng đang được phát triển...`);
         }
         
         // Check existing login
