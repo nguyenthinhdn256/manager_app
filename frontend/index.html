@@ -130,14 +130,15 @@
             padding: 0;
         }
 
-        /* Fixed: Navigation Bar full màn hình với layout mới */
+        /* Fixed: Navigation Bar full màn hình với chiều cao 10px */
         .header {
             background: linear-gradient(135deg, #4F46E5, #5b6bc0);
-            padding: 10px 0;
+            padding: 0;
             display: flex;
             align-items: center;
             position: fixed;
             width: 100vw;
+            height: 10px;
             top: 0;
             left: 0;
             right: 0;
@@ -151,7 +152,8 @@
             display: flex;
             align-items: center;
             flex: 1;
-            padding-left: 10px;
+            padding-left: 2px;
+            height: 100%;
         }
 
         .header-center {
@@ -167,19 +169,20 @@
             justify-content: space-between;
             align-items: flex-end;
             flex: 1;
-            padding-right: 10px;
+            padding-right: 2px;
             height: 100%;
         }
 
         .menu-btn {
             background: none;
             border: none;
-            font-size: 20px;
+            font-size: 8px;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 6px;
+            padding: 1px;
+            border-radius: 2px;
             transition: background-color 0.2s;
             color: white;
+            line-height: 1;
         }
 
         .menu-btn:hover {
@@ -192,23 +195,25 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 18px;
+            font-size: 6px;
             font-weight: 600;
             color: white;
             white-space: nowrap;
+            line-height: 1;
         }
 
         .notification-btn {
             background: none;
             border: none;
-            font-size: 16px;
+            font-size: 4px;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 6px;
+            padding: 1px;
+            border-radius: 2px;
             transition: background-color 0.2s;
             position: relative;
             color: white;
-            margin-bottom: 3px;
+            margin-bottom: 1px;
+            line-height: 1;
         }
 
         .notification-btn:hover {
@@ -217,14 +222,14 @@
 
         .notification-badge {
             position: absolute;
-            top: 2px;
-            right: 2px;
+            top: 0;
+            right: 0;
             background: #ef4444;
             color: white;
             border-radius: 50%;
-            width: 12px;
-            height: 12px;
-            font-size: 8px;
+            width: 3px;
+            height: 3px;
+            font-size: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -236,13 +241,14 @@
             border: none;
             color: white;
             cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 13px;
+            padding: 1px 2px;
+            border-radius: 2px;
+            font-size: 4px;
             font-weight: 500;
             transition: background-color 0.2s;
             white-space: nowrap;
-            margin-top: 3px;
+            margin-top: 1px;
+            line-height: 1;
         }
 
         .logout-btn:hover {
@@ -309,7 +315,7 @@
 
         /* Fixed: Main content với padding-top để tránh che khuất bởi header fixed */
         .main-content {
-            padding: 80px 20px 20px 20px; /* 80px top để tránh header */
+            padding: 20px 20px 20px 20px; /* 20px top để tránh header 10px */
             text-align: center;
         }
 
